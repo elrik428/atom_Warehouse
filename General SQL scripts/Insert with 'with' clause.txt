@@ -1,0 +1,24 @@
+with trxbins as (
+select   substring(mask,1,6) binsix  from zacreporting.abc096.IMP_TRANSACT_D_monthly
+group by substring(mask,1,6)
+having count(*) > 100
+)
+
+select (cast(ROW_NUMBER() OVER( ORDER BY bank ) AS int)) + 41 'rownumber' ,bank, bin from  zacreporting.dbo.binbase a
+inner join trxbins on binsix = a.bin
+where a.isocountry <> 'greece' and bank <> ' '
+group  by bank, bin
+order by a.isocountry
+
+
+
+with trxbins as (
+select   substring(mask,1,6) binsix  from zacreporting.abc096.IMP_TRANSACT_D_monthly
+group by substring(mask,1,6)
+having count(*) > 100
+)
+insert into zacreporting.dbo.banknbins
+select (cast(ROW_NUMBER() OVER( ORDER BY bank ) AS int)) + 41 'rownumber' ,bank, bin from  zacreporting.dbo.binbase a
+inner join trxbins on binsix = a.bin
+where a.isocountry <> 'greece' and bank <> ' '
+group  by bank, bin
