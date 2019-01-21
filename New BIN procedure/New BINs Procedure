@@ -1,0 +1,5 @@
+1. Run for BIN Insert                                                           H:\Documents\Docs\SQL Scripts\BIN_Procedure#1.sql
+2. Run for RegionEU update                                                      H:\Documents\Docs\SQL Scripts\BIN_Procedure#2
+3. Run for Input to products file                                               H:\Documents\Docs\SQL Scripts\BIN_Procedure#3.txt
+4. Insert Banks IDs to banks_new file and update Products file with bankid      H:\Documents\Docs\SQL Scripts\BIN_Procedure#4
+5. Insert BINs to BINBASE
