@@ -1,0 +1,63 @@
+New files for Automation of Routing Rules
+
+1. [dbo].[ROUTEBANK]
+    CREATE TABLE [dbo].[ROUTEBANK](
+    [ID] [int] IDENTITY(1,1) NOT NULL,
+    [BANKDEscr] [varchar](50) NULL,
+    [uploadhostid] [varchar](3) NOT NULL,
+    [DESTPORT] [varchar](20) NOT NULL)
+
+    ID  BANKDEscr             uploadhostid             destport
+    1	  PIRAEUS	              1	                       NET_ABC
+    2	  ETHNIKI	              6                        NET_NTBN
+    3	  ALPHABANK	          202                        NET_CLBICALPHA
+    4	  EUROBANK	          206                        NET_CLBICEBNK
+    5	  AMEX
+    6	  DINERS
+    9	  ΚΑΡΤΑ ΑΛΛΗΛΕΓΥΗΣ bin 549804
+    10	ΚΑΡΤΑ Meals & More bin: 502259
+    11	ΚΑΡΤΑ Ticket Restaurant bin: 534228
+    12	ΛΟΙΠΕΣ ΣΥΝΑΛΛΑΓΕΣ - "ΚΟΥΒΑΣ"
+    13	DCC
+    14	CUP
+
+2.[dbo].[log_ROUTERules]
+   CREATE TABLE [dbo].[log_ROUTERules](
+   [ID] [int] IDENTITY(1,1) NOT NULL,
+   runtime [varchar](8) NOT NULL,
+   rundate [varchar](8) not null,
+   descr [varchar](200) NOT NULL),
+   execuser [varchar](20) not null)
+
+3. Insert data from Production to Test
+
+  i.delete from [ZACRPT_Test].[dbo].[MERCHBINS_TEST]
+
+   ii. INSERT INTO [ZACRPT_Test].[dbo].[MERCHBINS_TEST]
+           ([TID]
+           ,[MID]
+           ,[DESTPORT]
+           ,[BINLOWER]
+           ,[BINUPPER]
+           ,[INSTMIN]
+           ,[INSTMAX]
+           ,[GRACEMIN]
+           ,[GRACEMAX]
+           ,[ALLOWED]
+           ,[SYNC_ID]
+           ,[AMOUNTMIN]
+           ,[AMOUNTMAX])
+      SELECT [TID]
+           ,[MID]
+           ,[DESTPORT]
+           ,[BINLOWER]
+           ,[BINUPPER]
+           ,[INSTMIN]
+           ,[INSTMAX]
+           ,[GRACEMIN]
+           ,[GRACEMAX]
+           ,[ALLOWED]
+           ,[SYNC_ID]
+           ,[AMOUNTMIN]
+           ,[AMOUNTMAX]
+           from [ZACRPT].[dbo].[MERCHBINS]
