@@ -1,0 +1,351 @@
+-- 1 *NOTE: Ensure that the new app is created first in the target Model using Model/App Manager
+
+
+declare @FromModel varchar(20)
+declare @ToModel varchar(20)
+declare @FromAppnm varchar(10)
+declare @ToAppnm varchar(10)
+declare @FromAppnm1 varchar(10)
+declare @ToAppnm1 varchar(10)
+-- -------- version 2.0
+ declare @FromCLA varchar(10)
+ declare @ToCLA varchar(10)
+ declare @FromCTLS varchar(10)
+ declare @ToCTLS varchar(10)
+ declare @FromOS varchar(10)
+ declare @ToOS varchar(10)
+ declare @FromEOS varchar(10)
+ declare @ToEOS varchar(10)
+-- -------- version 2.0
+
+--**
+--SET @FromModel='Vx-520'
+--SET @ToModel='Vx-520'
+  SET @FromModel='Vx-675'
+  SET @ToModel='Vx-675'
+--**
+--SET @FromAppnm='EPOS01B7P'
+--SET @ToAppnm='EPOS01D0P'
+--SET @FromAppnm1='EPOS01B7'
+--SET @ToAppnm1='EPOS01D0'
+
+ SET @FromAppnm='EPOS01B5P'
+ SET @ToAppnm='EPOS0201P'
+ SET @FromAppnm1='EPOS01B5'
+ SET @ToAppnm1='EPOS0201'
+--
+-- -------- version 2.0
+ SET @FromCLA='CLA013645'
+ SET @ToCLA='CLA013646'
+ SET @FromCTLS='CTLS11114'
+ SET @ToCTLS='CTLS20116'
+ -- 0QT5G0111/QT650240/QT5G240/QT650240/QT520112
+ SET @FromOS='QT650240'
+ SET @ToOS='QT000520'
+-- -- EOS010802/EOS011103/EOS020101
+ SET @FromEOS='EOS011103'
+ SET @ToEOS='EOS020816'
+-- --------
+--
+-- -------- version 2.0 EMV
+ insert into vc30.RELATION
+ (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+ FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+ select @ToModel,'EMV800',TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+ 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+ from vc30.relation
+ where famnm = @FromModel and appnm = @FromOS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+ --('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+
+ -------- version 2.0 EOS
+ insert into vc30.RELATION
+ (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+ FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+ select @ToModel,@ToEOS,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+ 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+ from vc30.relation
+ where famnm = @FromModel and appnm = @FromEOS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+ --('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+
+ --------
+
+ -------- version 2.0 OS
+ insert into vc30.RELATION
+ (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+ FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+ select @ToModel,@ToOS,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+ 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+ from vc30.relation
+ where famnm = @FromModel and appnm = @FromOS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+--
+-- --------
+--
+-- -------- version 2.0 CTLS
+ insert into vc30.RELATION
+ (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+ FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+ select @ToModel,@ToCTLS,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+ 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+ from vc30.relation
+ where famnm = @FromModel and appnm = @FromCTLS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+--
+-- --------
+--
+-- -------- version 2.0 CLA
+ insert into vc30.RELATION
+ (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+ FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+ select @ToModel,@ToCLA,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+ 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+ from vc30.relation
+ where famnm = @FromModel and appnm = @FromCLA
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+--
+-- --------
+--
+
+insert into vc30.RELATION
+(FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+select @ToModel,@ToAppnm,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+from vc30.relation
+where famnm = @FromModel and appnm = @FromAppnm
+-- for specific terminal
+and TERMID in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+-- 4 Create new parameters app on all TIDs in the target model based on the TIDs found in the source model and app name combination.
+
+insert into vc30.RELATION
+(FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
+ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
+FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
+select @ToModel,@ToAppnm1,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
+'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
+from vc30.relation
+where famnm = @FromModel and appnm = @FromAppnm1
+-- for specific terminal
+and TERMID in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+-- 5 Copy parameters from source app to target app
+insert into vc30.PARAMETER (FAMNM, APPNM, PARTID, PARNAMELOC, SEQINFO, DLDTYPE,PARINFO, VALUE,PSIZE,FLAG)
+select @ToModel model,@ToAppnm, PARTID, PARNAMELOC, SEQINFO, DLDTYPE,PARINFO, VALUE,PSIZE,FLAG
+from vc30.parameter
+where famnm = @FromModel and appnm in (@FromAppnm, @FromAppnm1)
+-- for specific terminal
+and PARTID in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+-- Copy Parameters from one app to another app
+-- 1 *NOTE: Ensure that the new app is created first in the target Model using Model/App Manager
+
+
+-- update the file paths
+-- update vc30.term_dld_files
+-- set appnm = @ToAppnm, serfilenm = replace(serfilenm,'\\HUBP1-POS-MG1P.commonpr.eeft.com\VCApps\LiveEvoApps\EPOS\EPOS_01A5','\\HUBP1-POS-MG1P.commonpr.eeft.com\VCApps\LiveEvoApps\EPOS\EPOS_01A6')
+-- where serfilenm like '\\HUBP1-POS-MG1P.commonpr.eeft.com\VCApps\LiveEvoApps\EPOS\EPOS_01A5%'
+-- and famnm = @FromModel and appnm = @FromAppnm
+-- -- -- for specific terminal
+-- AND termid in
+--
+-- ('73000010','73000011','73000012','73000251','73000252','73000253','73000255','73000256','73000257','73000258','73000259','73000260','73000261','73000262','73000263','73000264','73000265','73000267','73000268','73000269','73000270','73000271','73000272','73000273','73000274','73000275','73000276','73000277','73000278','73000279','73000280','73000281','73000282','73000283','73000284','73000285','73001399','73001457','73002541','73002542','73002550','73002967','73002968','73002969','73003099','73003100','73003101','73003102','73003103','73003104','73003105','73003106','73003107','73003341','73003342')
+update vc30.term_dld_files
+set appnm = @ToAppnm
+where famnm = @FromModel and appnm = @FromAppnm
+AND termid in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+--------------------------------------------------
+
+-- 6.1 Delete old parameters
+delete from vc30.RELATION
+where famnm = @FromModel and appnm = @FromAppnm
+-- for specific terminal
+and TERMID in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+-- 6.2 Delete old parameters
+delete from vc30.RELATION
+where famnm = @FromModel and appnm = @FromAppnm1
+-- for specific terminal
+and TERMID in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+--
+-- -------- version 2.0 EOS
+-- -- 6.2 Delete old parameters
+ delete from vc30.RELATION
+ where famnm = @FromModel and appnm = @FromEOS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+-- --------
+--
+-- -------- version 2.0 OS
+-- -- 6.2 Delete old parameters
+ delete from vc30.RELATION
+ where famnm = @FromModel and appnm = @FromOS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+-- --------
+--
+-- -------- version 2.0 CTLS
+-- -- 6.2 Delete old parameters
+ delete from vc30.RELATION
+ where famnm = @FromModel and appnm = @FromCTLS
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+-- --------
+--
+--
+-- -------- version 2.0 CLA
+-- -- 6.2 Delete old parameters
+ delete from vc30.RELATION
+ where famnm = @FromModel and appnm = @FromCLA
+ -- for specific terminal
+ and TERMID in
+('675VERO')
+-- ('73000904','73000905','73000906','73000907','73000908','73004787','73004788','73007343','73004836','73006005','73006006','73006007','73006008','73006009','73006010','73006011','73006012','73006013','73006014','73006015','73006016')
+-- ------
+--
+
+GO
+
+
+Print 'Update USES Parm'
+update vc30.PARAMETER set value = 'TEPOS0201P' where parnameloc = 'USES' and partid in
+('675VERO')
+
+--Version 2.0 and VX-675 ONLY!!!
+Print 'Update TEMA Parm'
+update vc30.term_dld_files set drive = 'I' where termid in
+('675VERO')
+and
+ terfilenm = 'tema.zip'
+
+Print 'Delete UNZIP parm'
+delete vc30.PARAMETER where parnameloc = '*unzip' and partid in
+('675VERO')
+
+
+-------------change port from 8501 to 8508 ***************************
+select * from vc30.PARAMETER where value = '8501' and partid in
+('675VERO')
+--('73003004','73003007','73005420')
+Print 'UPDATE 8501 --> 8508'
+update vc30.PARAMETER set value = '8508' where value = '8501' and partid in
+('675VERO')
+--('73003004','73003007','73005420')
+select * from vc30.PARAMETER where value = '8508' and partid in
+('675VERO')
+--('73003004','73003007','73005420')
+
+
+-- qUERY FOR check
+select * from vc30.PARAMETER where PARTID in
+('675VERO')
+and (PARNAMELOC = 'MENUPREAUTH'
+--OR PARNAMELOC = 'DBLHEIGHT_UPPER'
+--OR PARNAMELOC = 'COMPACTEELS'
+OR PARNAMELOC = 'SENDOFFL')
+ORDER BY PARNAMELOC
+
+--Procedure for insert
+declare @tid varchar(15)
+declare @FromModel varchar(20)
+declare @FromAppnm varchar(10)
+
+ SET @FromModel='Vx-675'
+ --SET @FromModel='Vx-520'
+--SET @FromModel='Vx-820'
+SET @FromAppnm='EPOS0201P'
+--SET @FromAppnm='PIRA01A9P'
+
+declare merch_cursor cursor for
+
+select DISTINCT TERMID from vc30.relation
+where
+
+TERMID in
+
+('675VERO')
+
+and FAMNM = @FromModel
+
+open merch_cursor
+if @@ERROR > 0
+  return
+
+fetch next from merch_cursor
+into @tid
+
+while @@FETCH_STATUS = 0
+begin
+--  delete from vc30.PARAMETER where PARTID = @tid
+
+        insert into vc30.PARAMETER
+        (FAMNM, APPNM, PARTID, PARNAMELOC, SEQINFO, DLDTYPE,PARINFO, VALUE,PSIZE,FLAG)
+        (
+        select @FromModel, @FromAppnm, @TID, PARNAMELOC, (select  max(seqinfo) + 1 from vc30.PARAMETER where PARTID = @TID), DLDTYPE,PARINFO,
+        --VALUE,
+        --'FALSE',
+        --'NO_PP1000',
+        --'TRUE',
+		--'0',
+        --'3',
+        '1',
+        --'*',
+        PSIZE,FLAG
+        from vc30.parameter where PARTID = 'TEPOS0201P' and PARNAMELOC = 'SENDOFFL' and
+		--famnm = 'Vx-520'
+		famnm = 'Vx-675'
+        )
+
+  fetch next from merch_cursor
+  into @tid
+end
+
+CLOSE merch_cursor
+deallocate merch_cursor
