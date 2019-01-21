@@ -1,0 +1,237 @@
+
+1. Upload TIDs / MIDs, if there are any
+2. Delete TIDs, if there are any
+2.i) Run SQLs for TID comparison between 10.7.17.11 & ZACREPORTING
+
+ZACRPT
+select tid from dbo.merchants
+where tid >= '73000000' and tid <= '73099999'
+group by tid
+order by tid
+
+ZacReporting
+select * from abc096.tids
+where tid >= '73000000' and tid <= '73099999'
+order by tid
+
+In order to compare TIDs, use table zacreporting.abc096.temp_tid and import data from flat file that will be extracted from 10.7.17.11 sql described above
+
+-- Exist in ZACRPT but not in Zacreporting
+select b.TID  from abc096.temp_tid b
+where  not exists (select a.tid from abc096.tids a
+where tid >= '73000000' and tid <= '73099999' and a.tid = b.TID)
+
+-- Exist in Zacreporting but not in ZACRPT
+select a.TID from abc096.tids a
+where not exists (select b.TID from abc096.Temp_TID b
+where a.tid  = b.TID ) and  tid >= '73000000' and tid <= '73099999'
+
+
+-- Xtra SQLs
+-- Check for duplicate
+select tid from abc096.tids
+--where tid = '73007597'
+group by tid
+having count(*) > 1
+
+
+3. Before inserting previous months to 2017 files, check for max date in all files    +   COSMOTE invoice /  Check + RUN  Monthly_To_Annual.sql
+    i) Insert previous month from abc096.IMP_TRANSACT_D_monthly to abc096.IMP_TRANSACT_D_2017
+   ii) Insert previous month from dbo.TRANSLOG_TRANSACT to dbo.TRANSLOG_TRANSACT_2017
+  iii) Insert previous month from abc096.LIFECARD to abc096.LIFECARD_2017
+   iv) Insert previous month from dbo.EasyPayAgent to dbo.EasyPayAgent_2017
+4. Copy files from \\10.7.17.11\Storage\TransactRerport\Monthly    (4 files with creation date 1st of month)     +   COSMOTE invoice
+    i)2017-10_monthly.zip
+    ii)2017-10_monthly_lifecard.zip
+    iii)2017-10_monthlynew.zip
+    iv)report11_20180201.zip
+    to D:\Reporting\Import
+5. Unzip 2017-10_monthly.zip, rename to report.csv and run "MONTHLY Import_csv_to_TRANSLOG_TRANSACT.exe"   +   COSMOTE invoice
+6. Unzip 2017-10_monthlynew.zip, rename to report.csv and run "MONTHLY Import_csv_to_IMP_TRANSACT_D_monthly.exe"    +   COSMOTE invoice
+7. Unzip 2017-10_monthly_lifecard.zip, rename to report.csv , delete data from abc096.IMP_TRANSACT_D and run "Shortcut to Import_csv_to_IMP_TRANSACT_D.exe" and then insert data from IMP_TRANSACT_D to abc096.LIFECARD
+
+INSERT INTO [abc096].[LIFECARD]
+           ([TBL]
+           ,[TCODE]
+           ,[MID]
+           ,[TID]
+           ,[MASK]
+           ,[AMOUNT]
+           ,[CURR]
+           ,[INST]
+           ,[GRACE]
+           ,[ORIGINATOR]
+           ,[DESTCOMID]
+           ,[PROCCODE]
+           ,[MSGID]
+           ,[RESPKIND]
+           ,[REVERSED]
+           ,[BTBL]
+           ,[BTCODE]
+           ,[PROCBATCH]
+           ,[ePOSBATCH]
+           ,[POSDATA]
+           ,[BPOSDATA]
+           ,[DTSTAMP]
+           ,[BDTSTAMP]
+           ,[ORGSYSTAN]
+           ,[DTSTAMP_INSERT]
+           ,[ProductID]
+           ,[USERDATA]
+           ,[BORGSYSTAN]
+           ,[AUTHCODE]
+           ,[CASHIERINFO]
+           ,[DMID]
+           ,[DTID]
+           ,[CASHBACK]
+           ,[BONUSRED]
+           ,[PBGAMOUNT]
+           ,[RRN])
+      SELECT  [TBL]
+      ,[TCODE]
+      ,[MID]
+      ,[TID]
+      ,[MASK]
+      ,[AMOUNT]
+      ,[CURR]
+      ,[INST]
+      ,[GRACE]
+      ,[ORIGINATOR]
+      ,[DESTCOMID]
+      ,[PROCCODE]
+      ,[MSGID]
+      ,[RESPKIND]
+      ,[REVERSED]
+      ,[BTBL]
+      ,[BTCODE]
+      ,[PROCBATCH]
+      ,[ePOSBATCH]
+      ,[POSDATA]
+      ,[BPOSDATA]
+      ,[DTSTAMP]
+      ,[BDTSTAMP]
+      ,[ORGSYSTAN]
+      ,[DTSTAMP_INSERT]
+      ,[ProductID]
+      ,[USERDATA]
+      ,[BORGSYSTAN]
+      ,[AUTHCODE]
+      ,[CASHIERINFO]
+      ,[DMID]
+      ,[DTID]
+      ,[CASHBACK]
+      ,[BONUSRED]
+      ,[PBGAMOUNT]
+      ,[RRN]
+  FROM [ZacReporting].[abc096].[IMP_TRANSACT_D]
+
+-- Below should be done in ACCESS    +   COSMOTE invoice
+8. i)  ALPHABANK_LOYAL_TRX (query name)
+          SELECT dbo_VAlphaLty.DTSTAMP, dbo_VAlphaLty.MDCMID AS MID, dbo_VAlphaLty.DESTTID AS TID, dbo_VAlphaLty.MSGID, dbo_VAlphaLty.PROCCODE, dbo_VAlphaLty.PAN AS MASK, dbo_VAlphaLty.TAMOUNT, dbo_VAlphaLty.TAUTHCODE
+          FROM dbo_VAlphaLty
+          WHERE (((dbo_VAlphaLty.DTSTAMP) Between #1/1/2017# And #2/1/2017#))   <----CHANGE DATE  ----->   MM/DD/YYYY  !!!!!!!
+          ORDER BY dbo_VAlphaLty.DTSTAMP;
+  ii)  GEORGEBYBANK (query name)
+  iii) NOTOSNETMONTH (query name)
+
+9. From UPDATE PPC  +   COSMOTE invoice
+    UPDATE
+    [ZacReporting].[dbo].[TRANSLOG_TRANSACT] SET MID=LEFT(MID,12)+'PPC'
+    where left(mid,8)='00000017' and right(mid,4)<>'0000'
+    and dtid not in (
+    '79300010',
+    '07778608',
+    '70006135',
+    '79300011',
+    '07778614',
+    '70006136',
+    '79300012',
+    '07778609',
+    '70006137'
+    )
+
+    update [ZacReporting].[dbo].[TRANSLOG_TRANSACT]  SET MID=
+    (select left(mid,12)+ right(left([CASHIERINFO],4),3)
+    from [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly]
+    where [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly].tcode=dbo.TRANSLOG_TRANSACT.tcode and right(left([CASHIERINFO],4),3) in ('PPC','SRS'))
+    where dbo.TRANSLOG_TRANSACT.mid in ('000000170000000','000000170010000','000000170020000')
+    and dbo.TRANSLOG_TRANSACT.destcomid not in ('NET_EBLY1','NET_NTBNLTY','NET_PBGLTY')
+
+
+    update [ZacReporting].[dbo].[TRANSLOG_TRANSACT]  SET MID=
+    (select left(mid,12)+ 'SRS'
+    from [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly]
+    where [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly].tcode=dbo.TRANSLOG_TRANSACT.tcode)
+    where dbo.TRANSLOG_TRANSACT.mid in ('000000170000000','000000170010000','000000170020000')
+    and dbo.TRANSLOG_TRANSACT.destcomid  in ('NET_EBLY1','NET_NTBNLTY','NET_PBGLTY')
+
+10. Run whole USINGTEMP.SQL(AP1T\INVOICE QUERIES)
+
+11. Run EPOS.sln so to be able to proceed with F5   +   COSMOTE invoice
+    i)  Choose month(1/10/2017 - 31/10/2017) from below tab ONLY
+    ii) UNTICK box for EMAIL and RUN
+    iii)Continue with F5 to every break
+    iv) Check periodically the export folder
+
+12. Run Import monthly.SQL from AP1T\INVOICE QUERIES
+  i)  First run DUTY FREE
+  ii) Run EPOS.exe
+  iii)Choose DAILY to upper box for required month
+  iv) Choose DutyFree
+  v)  UNTICK MAIL
+  vi) TICK Duty Free Month trxs and RUN
+  vii) Same procedure for FFGROUP from steps i->iv. Instead of DutyFree choose FFGROUP
+  viii)TICK ELMEC Month Trxs & Untick MAIL
+  ix) Same procedure for ELLINIKES DIANOMES from steps i->iv  Instead of DF choose Ellinikes Dianomes for both Runs
+  x)  Tick Foliefolie & untick email
+  xi) RENAME files in export folder so not to be overwritten and then RUN
+  xii)Same procedure for NOTOS from steps i->iv. Instead of DF choose NOTOSMONTH
+  xiii)NO ticks needs to be selected. Just untick email and RUN
+  xiv) Run  AUTOTECHNICA SQL and follow instructions for report creation - Run daily for the whole month
+  xv)Run INTERSPORT SQL and follow instructions for report creation -  Run month (Uper box) for INTERSPORTmonthly for required month
+
+13. i) Unzip \\10.7.17.11\TransactReports\Monthly\"report11_20171001.zip" and rename it to report.csv
+    ii) Run Shortcut to "Import_csv_to_IMP_TRANSACT_D.exe"
+    iii)Run EPOS.exe
+    iv) Untick EMAIL
+    v)  Choose NOTOSMONTHTICKETREST
+    vi) Choose DAILY to upper box for required month and RUN
+
+15. Run queries for   /  ZacReporting
+  i) LEROY              Leroy Merlin - Monthly transactions report_Nov_2017 (Select Data to display [Summary])   +   Installments report  +  ZaC - Leroy Transaction Report_Detail V1.0
+  ii)VEROPOULOS         Ver_Montly_Transactions Report_201711
+  iii)DUTYFREE          DF Monthly Transaction Report_Nov_2017 (Select Data to display [Summary])
+  iv) LIDL              Lidl Monthly Transaction Report_Nov_2017
+  v)  KOTSOVOLOS        Kotsovolos_Data_Per_Issuing_Bank November 2017
+  vi) MYMARKET- METRO   Metro_Monthly_Transactions Report_201711
+  vii) OTE/Comsote(PPC,Loyalty)     OTE_Comsote_Germanos_PPC_LTY_PREP_201802
+  viii) MEALS & MORE        MEALS&MOREInvoice_201802c
+
+16. i) Run EPOS.exe
+    ii)Choose DAILY to upper box for required month
+    iii) Run LTY_COUNT
+    iv)  Run RAXMONTHTRX
+
+17. EASYPAY_Monthly_ report 2017.xls  /  ZacReporting / EasyPay report.sql file
+  i) DELETE   FROM [ZacReporting].[dbo].[BP_Transactions], dbo.EasyPay also delete only import, no fix to columns
+  ii)  Right click ZACREPORTING
+  iii) TASKS --> IMPORT DATA
+  iv)DATA SOURCE --> FLAT FILE SOURCE
+  v) Choose file from \\10.7.17.11\TransactRerports\AGTReports\AGTReport_monthly_20171007-20171031.CSV
+  vi)  Tick box "Column names in the first data row"
+  vii) Check for correct data. proceed with NEXT, NEXT
+  viii)Choose destination, Edit Mapping, NEXT, FINISH
+  ix) Above steps should be done for both tables BP_Transactions & dbo.EasyPayAgent
+  ix) Run last SELECT
+
+18. EasyPay terminals Nov 2017.xlsx
+  i) Run "VC_EASYPAYAgent terminals.sql"  in VC30
+  ii) Run "SHARP_EASYPAYAgent terminals.sql"  in SHARP
+  iii) Both fill same xls, for 2 different sheets
+
+19. Run reports for EUROBANK TIDs, ALPHA TIDs  /  10.7.17.11 / ZACRPT
+  i) ZaC -EFG BANK POS MONTORING NSP_as of 20141209.sql           Eurobank MID & TID Monthly Reporting_20170303.xlsx
+  ii) ZaC - ALPHA BANK POS MONTORING NSP_as of 20141209.sql       POS MONTORING NSP_as of 20171130.xlsx
+
+
+20. Find mail from local mail account so to request file upload to ftp server for "DUTYFree_171001_171031.zip"
