@@ -1,0 +1,1142 @@
+-- CREATE TABLE [dbo].[DutyFreeW](
+--      [datum] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [tid] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [vispan] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [cardtyp] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [STAN] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [merchant_amount] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [merchant_currency] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [dcc_currency] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [dcc_amount] [nvarchar](100) COLLATE Greek_CI_AS NULL ,
+--      [DCCCHOSEN_DCCELIGIBLE] [nvarchar](100) COLLATE Greek_CI_AS NULL 
+-- ) ON [PRIMARY]
+-- 
+-- go
+
+
+--YTD Report
+select left(datum,10),
+count(*) as ALL_TRN,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then 1 else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then 1 else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then 1 else 0 end) as DCC_Not_Accepted,
+sum(cast((merchant_amount/100) as dec(15,2))) as ALL_AMNT,
+--sum(cast(merchant_amount as dec(15,2))) as ALL_AMNT3,
+--sum(merchant_amount/100) as ALL_AMNT4,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Not_Accepted
+from dutyfreew
+-- where 
+-- (TID = 'GR73003163' and datum >= '2015-06-10 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003184' and datum >= '2015-06-10 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73000010' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000251' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000252' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000253' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000255' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000256' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000257' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000260' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000261' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000262' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000265' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000267' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000268' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000269' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000270' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000271' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000272' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000278' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000279' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000280' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000282' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000283' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000284' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000285' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73001399' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002968' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002969' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003099' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003100' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003101' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003102' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003104' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003105' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003106' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003107' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003341' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003342' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003425' and datum >= '2015-07-23 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003137' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003138' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003139' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003140' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003141' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003142' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003143' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003144' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003145' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003146' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003147' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003148' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003149' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003150' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003152' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003153' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003154' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003155' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003156' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003157' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003158' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003159' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003160' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003161' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003162' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003164' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003165' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003166' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003167' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003487' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003488' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005210' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005212' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005513' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005514' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003168' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003169' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003170' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003171' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003385' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003386' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003428' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003441' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003442' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003443' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003444' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003445' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003446' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003447' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003448' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003449' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003450' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003172' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003173' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003174' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003175' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003176' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003177' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003178' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003179' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003180' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003181' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003182' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003183' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003185' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003186' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003188' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003189' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003190' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003191' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003192' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003193' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003194' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003195' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003196' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003429' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003430' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003438' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003439' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003461' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003462' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003463' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003464' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003466' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003467' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003468' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003469' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003470' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003465' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003472' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003473' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003474' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003475' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003476' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003477' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003481' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003482' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003483' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003484' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003485' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003486' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003389' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003390' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003399' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003400' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003401' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003402' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003403' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003420' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003421' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003422' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003423' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003435' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003436' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003437' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003458' and datum >= '2015-09-30 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73003394' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003395' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003431' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003432' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003433' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003405' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS                                                      
+-- (TID = 'GR73003406' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS, THESI MOURAGIO                                      
+-- (TID = 'GR73000296' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000297' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000298' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000301' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73000302' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73005211' and datum >= '2016-01-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005512' and datum >= '2016-03-31 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005792' and datum >= '2016-05-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003387' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003388' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003396' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003397' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003478' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003479' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003480' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003343' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003344' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003345' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003346' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003381' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003382' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003383' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003384' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003452' and datum >= '2016-06-29 00:00:01') or --KRAT.AEROL/NAS MYTIL                                             	
+-- (TID = 'GR73003454' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003455' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003457' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003398' and datum >= '2016-07-01 00:00:01') or --LIMANI KASTELORIZOU                                              	
+-- (TID = 'GR73003391' and datum >= '2016-07-04 00:00:01') or --KRAT.AER/NAS LIMNOU                                              	
+-- (TID = 'GR73005401' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73005402' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73003493' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003494' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003392' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73003393' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73006350' and datum >= '2017-01-24 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73006717' and datum >= '2017-02-23 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73000012' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000258' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000259' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000263' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000264' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000281' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002542' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002550' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003424' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006819' and datum >= '2017-04-03 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73006820' and datum >= '2017-04-03 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73006821' and datum >= '2017-04-03 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003063' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003066' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003413' and datum >= '2017-05-30 00:00:01') or --M.STATHMOS NIKIS                                                 	
+-- (TID = 'GR73003471' and datum >= '2017-05-30 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73006908' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006909' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006912' and datum >= '2017-05-30 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73007217' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007218' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007219' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007220' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007221' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007222' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003371' and datum >= '2017-06-29 00:00:01') or --METH. STATH. EVZONON, 61200 KILKIS                               	
+-- (TID = 'GR73000005' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000038' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73003368' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003374' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007482' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007483' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007484' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007485' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007486' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003059' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003060' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003061' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003062' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003064' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003065' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003067' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003108' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003109' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003110' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73000022' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000093' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000097' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000171' and datum >= '2017-11-20 00:00:01') or --KIFISIAS 37A (GOLDEN HALL)                                       	
+-- (TID = 'GR73000217' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73002538' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73007520' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73007521' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73003369' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003370' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003373' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003375' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007422' and datum >= '2017-12-08 00:00:01')    --METH. STATHMOS EVZONON                                         	
+-- 
+-- new pad to be inserted
+group by left(datum,10)
+order by left(datum,10)
+
+
+--Per TID-Day-Currency
+select right(tid,8),left(datum,10),dcc_currency,
+count(*) as ALL_TRN,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then 1 else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then 1 else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then 1 else 0 end) as DCC_Not_Accepted,
+sum(cast((merchant_amount/100) as dec(15,2))) as ALL_AMNT,
+--sum(cast(merchant_amount as dec(15,2))) as ALL_AMNT3,
+--sum(merchant_amount/100) as ALL_AMNT4,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Not_Accepted
+from dutyfreew
+where 
+--===========================================================================================================================================================================
+datum > '2018-02-01 00:00:00' --and
+--===========================================================================================================================================================================
+-- (TID = 'GR73003163' and datum >= '2015-06-10 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003184' and datum >= '2015-06-10 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73000010' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000251' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000252' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000253' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000255' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000256' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000257' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000260' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000261' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000262' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000265' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000267' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000268' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000269' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000270' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000271' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000272' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000278' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000279' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000280' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000282' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000283' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000284' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000285' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73001399' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002968' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002969' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003099' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003100' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003101' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003102' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003104' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003105' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003106' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003107' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003341' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003342' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003425' and datum >= '2015-07-23 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003137' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003138' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003139' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003140' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003141' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003142' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003143' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003144' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003145' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003146' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003147' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003148' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003149' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003150' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003152' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003153' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003154' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003155' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003156' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003157' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003158' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003159' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003160' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003161' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003162' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003164' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003165' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003166' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003167' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003487' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003488' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005210' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005212' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005513' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005514' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003168' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003169' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003170' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003171' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003385' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003386' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003428' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003441' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003442' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003443' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003444' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003445' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003446' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003447' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003448' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003449' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003450' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003172' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003173' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003174' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003175' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003176' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003177' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003178' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003179' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003180' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003181' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003182' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003183' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003185' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003186' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003188' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003189' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003190' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003191' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003192' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003193' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003194' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003195' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003196' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003429' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003430' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003438' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003439' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003461' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003462' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003463' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003464' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003466' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003467' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003468' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003469' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003470' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003465' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003472' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003473' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003474' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003475' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003476' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003477' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003481' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003482' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003483' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003484' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003485' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003486' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003389' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003390' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003399' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003400' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003401' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003402' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003403' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003420' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003421' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003422' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003423' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003435' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003436' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003437' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003458' and datum >= '2015-09-30 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73003394' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003395' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003431' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003432' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003433' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003405' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS                                                      
+-- (TID = 'GR73003406' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS, THESI MOURAGIO                                      
+-- (TID = 'GR73000296' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000297' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000298' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000301' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73000302' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73005211' and datum >= '2016-01-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005512' and datum >= '2016-03-31 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005792' and datum >= '2016-05-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003387' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003388' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003396' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003397' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003478' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003479' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003480' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003343' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003344' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003345' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003346' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003381' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003382' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003383' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003384' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003452' and datum >= '2016-06-29 00:00:01') or --KRAT.AEROL/NAS MYTIL                                             	
+-- (TID = 'GR73003454' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003455' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003457' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003398' and datum >= '2016-07-01 00:00:01') or --LIMANI KASTELORIZOU                                              	
+-- (TID = 'GR73003391' and datum >= '2016-07-04 00:00:01') or --KRAT.AER/NAS LIMNOU                                              	
+-- (TID = 'GR73005401' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73005402' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73003493' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003494' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003392' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73003393' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73006350' and datum >= '2017-01-24 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73006717' and datum >= '2017-02-23 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73000012' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000258' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000259' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000263' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000264' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000281' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002542' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002550' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003424' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006819' and datum >= '2017-04-03 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73006820' and datum >= '2017-04-03 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73006821' and datum >= '2017-04-03 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003063' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003066' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003413' and datum >= '2017-05-30 00:00:01') or --M.STATHMOS NIKIS                                                 	
+-- (TID = 'GR73003471' and datum >= '2017-05-30 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73006908' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006909' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006912' and datum >= '2017-05-30 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73007217' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007218' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007219' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007220' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007221' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007222' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003371' and datum >= '2017-06-29 00:00:01') or --METH. STATH. EVZONON, 61200 KILKIS                               	
+-- (TID = 'GR73000005' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000038' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73003368' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003374' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007482' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007483' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007484' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007485' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007486' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003059' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003060' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003061' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003062' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003064' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003065' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003067' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003108' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003109' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003110' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73000022' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000093' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000097' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000171' and datum >= '2017-11-20 00:00:01') or --KIFISIAS 37A (GOLDEN HALL)                                       	
+-- (TID = 'GR73000217' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73002538' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73007520' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73007521' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73003369' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003370' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003373' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003375' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007422' and datum >= '2017-12-08 00:00:01')    --METH. STATHMOS EVZONON 
+-- -- new pad to be inserted
+group by  right(tid,8),left(datum,10),dcc_currency
+order by  right(tid,8),left(datum,10),dcc_currency
+;
+
+
+--Details
+select left(datum,10) as Transaction_Date, Datum As Transaction_TimeStamp, right(TID,8) as TID_, vispan as PAN,
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) as Original_Amount,
+(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then dcc_currency else ' ' end) dcc__currency ,
+(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_AMOUNT,
+(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then 'Y' else 'N' end) as Eligible_YN,
+left(DCCCHOSEN_DCCELIGIBLE,1) DCC_Accepted_YN
+ from dutyfreew
+ where 
+ --===========================================================================================================================================================================
+datum > '2018-02-01 00:00:00' --and
+--===========================================================================================================================================================================
+-- (TID = 'GR73003163' and datum >= '2015-06-10 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003184' and datum >= '2015-06-10 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73000010' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000251' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000252' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000253' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000255' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000256' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000257' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000260' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000261' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000262' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000265' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000267' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000268' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000269' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000270' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000271' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000272' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000278' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000279' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000280' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000282' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000283' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000284' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000285' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73001399' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002968' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002969' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003099' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003100' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003101' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003102' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003104' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003105' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003106' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003107' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003341' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003342' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003425' and datum >= '2015-07-23 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003137' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003138' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003139' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003140' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003141' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003142' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003143' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003144' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003145' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003146' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003147' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003148' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003149' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003150' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003152' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003153' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003154' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003155' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003156' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (TID = 'GR73003157' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003158' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003159' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003160' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003161' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003162' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003164' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003165' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003166' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003167' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73003487' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003488' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005210' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005212' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005513' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005514' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003168' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003169' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003170' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003171' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (TID = 'GR73003385' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003386' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003428' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (TID = 'GR73003441' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003442' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003443' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003444' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003445' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003446' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003447' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003448' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003449' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003450' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (TID = 'GR73003172' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003173' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003174' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003175' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003176' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003177' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003178' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003179' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003180' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003181' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003182' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003183' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003185' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003186' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003188' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003189' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003190' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003191' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003192' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003193' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003194' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003195' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003196' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (TID = 'GR73003429' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003430' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (TID = 'GR73003438' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003439' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (TID = 'GR73003461' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003462' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (TID = 'GR73003463' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003464' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003466' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003467' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003468' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003469' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003470' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003465' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73003472' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003473' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003474' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003475' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003476' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003477' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (TID = 'GR73003481' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003482' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003483' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003484' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (TID = 'GR73003485' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003486' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (TID = 'GR73003389' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003390' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (TID = 'GR73003399' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003400' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003401' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003402' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003403' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (TID = 'GR73003420' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003421' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003422' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003423' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (TID = 'GR73003435' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003436' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003437' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (TID = 'GR73003458' and datum >= '2015-09-30 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73003394' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003395' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (TID = 'GR73003431' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003432' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003433' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (TID = 'GR73003405' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS                                                      
+-- (TID = 'GR73003406' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS, THESI MOURAGIO                                      
+-- (TID = 'GR73000296' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000297' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000298' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (TID = 'GR73000301' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73000302' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (TID = 'GR73005211' and datum >= '2016-01-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005512' and datum >= '2016-03-31 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73005792' and datum >= '2016-05-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003387' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003388' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (TID = 'GR73003396' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003397' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73003478' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003479' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003480' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (TID = 'GR73003343' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003344' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (TID = 'GR73003345' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003346' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (TID = 'GR73003381' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003382' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003383' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003384' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73003452' and datum >= '2016-06-29 00:00:01') or --KRAT.AEROL/NAS MYTIL                                             	
+-- (TID = 'GR73003454' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003455' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003457' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (TID = 'GR73003398' and datum >= '2016-07-01 00:00:01') or --LIMANI KASTELORIZOU                                              	
+-- (TID = 'GR73003391' and datum >= '2016-07-04 00:00:01') or --KRAT.AER/NAS LIMNOU                                              	
+-- (TID = 'GR73005401' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73005402' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (TID = 'GR73003493' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003494' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (TID = 'GR73003392' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73003393' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (TID = 'GR73006350' and datum >= '2017-01-24 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (TID = 'GR73006717' and datum >= '2017-02-23 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (TID = 'GR73000012' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000258' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000259' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000263' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000264' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73000281' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002542' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73002550' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003424' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006819' and datum >= '2017-04-03 00:00:01') or --LIMANI SAMOU                                                     	
+-- (TID = 'GR73006820' and datum >= '2017-04-03 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73006821' and datum >= '2017-04-03 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003063' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003066' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003413' and datum >= '2017-05-30 00:00:01') or --M.STATHMOS NIKIS                                                 	
+-- (TID = 'GR73003471' and datum >= '2017-05-30 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (TID = 'GR73006908' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006909' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73006912' and datum >= '2017-05-30 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (TID = 'GR73007217' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007218' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007219' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007220' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007221' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007222' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003371' and datum >= '2017-06-29 00:00:01') or --METH. STATH. EVZONON, 61200 KILKIS                               	
+-- (TID = 'GR73000005' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000038' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73003368' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003374' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007482' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007483' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007484' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007485' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73007486' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (TID = 'GR73003059' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003060' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003061' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003062' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003064' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003065' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003067' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003108' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003109' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73003110' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (TID = 'GR73000022' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000093' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000097' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (TID = 'GR73000171' and datum >= '2017-11-20 00:00:01') or --KIFISIAS 37A (GOLDEN HALL)                                       	
+-- (TID = 'GR73000217' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73002538' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73007520' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (TID = 'GR73007521' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (TID = 'GR73003369' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003370' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003373' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73003375' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (TID = 'GR73007422' and datum >= '2017-12-08 00:00:01')    --METH. STATHMOS EVZONON 
+--and datepart(year, datum) >2015 and datepart(week, datum) >= (select max(datepart(week, datum))-5 from dutyfreew where datepart(year, datum) >2015)
+ order by left(datum,10),Datum,TID
+ ;
+
+
+--Per AREA-Day
+select merchaddress, count(distinct right(a.TID,8)) As Number_Of_Active_Terminals, left(datum,10) as Date,
+count(*) as ALL_TRN,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then 1 else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then 1 else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then 1 else 0 end) as DCC_Not_Accepted,
+sum(cast((merchant_amount/100) as dec(15,2))) as ALL_AMNT,
+--sum(cast(merchant_amount as dec(15,2))) as ALL_AMNT3,
+--sum(merchant_amount/100) as ALL_AMNT4,
+sum(case when right(DCCCHOSEN_DCCELIGIBLE,2)='EG' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as Eligible,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='Y' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Accepted,
+sum(case when left(DCCCHOSEN_DCCELIGIBLE,1)='N' then
+cast((Cast(merchant_amount as dec(15,0))/100) as dec(15,2)) else 0 end) as DCC_Not_Accepted
+from dutyfreew a, abc096.merchants b
+where
+--===========================================================================================================================================================================
+datum > '2018-02-01 00:00:00' and
+--===========================================================================================================================================================================
+right(a.TID,8)=b.TID and b.uploadhostname='NET_ABC' --and
+-- (a.TID = 'GR73003163' and datum >= '2015-06-10 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003184' and datum >= '2015-06-10 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73000010' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000251' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000252' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000253' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000255' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000256' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000257' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000260' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000261' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000262' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000265' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000267' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000268' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000269' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000270' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000271' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000272' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000278' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000279' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000280' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000282' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000283' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000284' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000285' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73001399' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73002968' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73002969' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003099' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003100' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003101' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003102' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003104' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003105' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003106' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003107' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003341' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003342' and datum >= '2015-06-24 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003425' and datum >= '2015-07-23 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003137' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003138' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003139' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003140' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003141' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003142' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003143' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003144' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003145' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003146' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003147' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003148' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003149' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003150' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003152' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003153' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003154' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003155' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003156' and datum >= '2015-08-11 00:00:01') or --IRAKLEIO AIRPORT                                                 	
+-- (a.TID = 'GR73003157' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003158' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003159' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003160' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003161' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003162' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003164' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003165' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003166' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003167' and datum >= '2015-08-12 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73003487' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003488' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005210' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005212' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005513' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005514' and datum >= '2015-08-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003168' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (a.TID = 'GR73003169' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (a.TID = 'GR73003170' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (a.TID = 'GR73003171' and datum >= '2015-08-31 00:00:01') or --LIMANI RODOU                                                     	
+-- (a.TID = 'GR73003385' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (a.TID = 'GR73003386' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (a.TID = 'GR73003428' and datum >= '2015-08-31 00:00:01') or --LIMANI KOS                                                       	
+-- (a.TID = 'GR73003441' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003442' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003443' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003444' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003445' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003446' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003447' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003448' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003449' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003450' and datum >= '2015-08-31 00:00:01') or --KRAT.AEROL/NAS KO                                                	
+-- (a.TID = 'GR73003172' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003173' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003174' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003175' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003176' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003177' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003178' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003179' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003180' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003181' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003182' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003183' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003185' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003186' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003188' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003189' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003190' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003191' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003192' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003193' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003194' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003195' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003196' and datum >= '2015-09-01 00:00:01') or --RODOS AIRPORT                                                    	
+-- (a.TID = 'GR73003429' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (a.TID = 'GR73003430' and datum >= '2015-09-09 00:00:01') or --SANTORINI AIRPORT, 84700 SANTORINI                               	
+-- (a.TID = 'GR73003438' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (a.TID = 'GR73003439' and datum >= '2015-09-09 00:00:01') or --MYKONOS AIRPORT, 84600 MYKONOS                                   	
+-- (a.TID = 'GR73003461' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (a.TID = 'GR73003462' and datum >= '2015-09-09 00:00:01') or --SANTORINI PORT, 84700 SANTORINI                                  	
+-- (a.TID = 'GR73003463' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003464' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003466' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003467' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003468' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003469' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003470' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003465' and datum >= '2015-09-17 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73003472' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003473' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003474' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003475' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003476' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003477' and datum >= '2015-09-17 00:00:01') or --KRAT.AER/NAS ZAKINTH                                             	
+-- (a.TID = 'GR73003481' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (a.TID = 'GR73003482' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (a.TID = 'GR73003483' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (a.TID = 'GR73003484' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS B                                                	
+-- (a.TID = 'GR73003485' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (a.TID = 'GR73003486' and datum >= '2015-09-17 00:00:01') or --LIMANI KERKYRAS Α                                                	
+-- (a.TID = 'GR73003389' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (a.TID = 'GR73003390' and datum >= '2015-09-23 00:00:01') or --KRAT.AER/NAS ARAXOU                                              	
+-- (a.TID = 'GR73003399' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (a.TID = 'GR73003400' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (a.TID = 'GR73003401' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (a.TID = 'GR73003402' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (a.TID = 'GR73003403' and datum >= '2015-09-23 00:00:01') or --LIMANI KATAKOLOU                                                 	
+-- (a.TID = 'GR73003420' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (a.TID = 'GR73003421' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (a.TID = 'GR73003422' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (a.TID = 'GR73003423' and datum >= '2015-09-23 00:00:01') or --NEO LIMANI PATRON, AKTI DYMAION                                  	
+-- (a.TID = 'GR73003435' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (a.TID = 'GR73003436' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (a.TID = 'GR73003437' and datum >= '2015-09-30 00:00:01') or --KRAT.AER/NAS SAMOU                                               	
+-- (a.TID = 'GR73003458' and datum >= '2015-09-30 00:00:01') or --LIMANI SAMOU                                                     	
+-- (a.TID = 'GR73003394' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (a.TID = 'GR73003395' and datum >= '2015-10-08 00:00:01') or --KRAT.AER/NAS ΚΑLAMAT                                             	
+-- (a.TID = 'GR73003431' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (a.TID = 'GR73003432' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (a.TID = 'GR73003433' and datum >= '2015-/1- 1 00:00:01') or --KR.AER/NAS SKIATHOS                                               
+-- (a.TID = 'GR73003405' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS                                                      
+-- (a.TID = 'GR73003406' and datum >= '2015-/1- 1 00:00:01') or --LIMANI SIMIS, THESI MOURAGIO                                      
+-- (a.TID = 'GR73000296' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (a.TID = 'GR73000297' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (a.TID = 'GR73000298' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA Α'                                                 
+-- (a.TID = 'GR73000301' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (a.TID = 'GR73000302' and datum >= '2015-/1- 1 00:00:01') or --LIMANI PEIRAIA                                                    
+-- (a.TID = 'GR73005211' and datum >= '2016-01-18 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005512' and datum >= '2016-03-31 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73005792' and datum >= '2016-05-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003387' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (a.TID = 'GR73003388' and datum >= '2016-05-23 00:00:01') or --KRAT.AER/NAS AKTIOU                                              	
+-- (a.TID = 'GR73003396' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (a.TID = 'GR73003397' and datum >= '2016-05-23 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (a.TID = 'GR73003478' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (a.TID = 'GR73003479' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (a.TID = 'GR73003480' and datum >= '2016-05-25 00:00:01') or --KRAT.AER/NAS ΚΕFALONIAS                                          	
+-- (a.TID = 'GR73003343' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (a.TID = 'GR73003344' and datum >= '2016-06-08 00:00:01') or --ALEXANDROUPOLI AIRPORT                                           	
+-- (a.TID = 'GR73003345' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (a.TID = 'GR73003346' and datum >= '2016-06-08 00:00:01') or --KAVALA AIRPORT                                                   	
+-- (a.TID = 'GR73003381' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (a.TID = 'GR73003382' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (a.TID = 'GR73003383' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (a.TID = 'GR73003384' and datum >= '2016-06-21 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (a.TID = 'GR73003452' and datum >= '2016-06-29 00:00:01') or --KRAT.AEROL/NAS MYTIL                                             	
+-- (a.TID = 'GR73003454' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (a.TID = 'GR73003455' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (a.TID = 'GR73003457' and datum >= '2016-06-29 00:00:01') or --LIMANI MITILINIS                                                 	
+-- (a.TID = 'GR73003398' and datum >= '2016-07-01 00:00:01') or --LIMANI KASTELORIZOU                                              	
+-- (a.TID = 'GR73003391' and datum >= '2016-07-04 00:00:01') or --KRAT.AER/NAS LIMNOU                                              	
+-- (a.TID = 'GR73005401' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (a.TID = 'GR73005402' and datum >= '2016-07-06 00:00:01') or --K.AERO/NAS KARPATHOU                                             	
+-- (a.TID = 'GR73003493' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (a.TID = 'GR73003494' and datum >= '2016-07-13 00:00:01') or --LIMANI                                                           	
+-- (a.TID = 'GR73003392' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (a.TID = 'GR73003393' and datum >= '2016-09-08 00:00:01') or --KRAT.AER/NAS NEAS AGCHIALOU                                      	
+-- (a.TID = 'GR73006350' and datum >= '2017-01-24 00:00:01') or --M.STATHMOS PROMACHON                                             	
+-- (a.TID = 'GR73006717' and datum >= '2017-02-23 00:00:01') or --K.AERO/NAS CHANION                                               	
+-- (a.TID = 'GR73000012' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000258' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000259' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000263' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000264' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73000281' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73002542' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73002550' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003424' and datum >= '2017-02-28 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73006819' and datum >= '2017-04-03 00:00:01') or --LIMANI SAMOU                                                     	
+-- (a.TID = 'GR73006820' and datum >= '2017-04-03 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (a.TID = 'GR73006821' and datum >= '2017-04-03 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003063' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003066' and datum >= '2017-05-30 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003413' and datum >= '2017-05-30 00:00:01') or --M.STATHMOS NIKIS                                                 	
+-- (a.TID = 'GR73003471' and datum >= '2017-05-30 00:00:01') or --K.AERO/NAS KERKYRAS                                              	
+-- (a.TID = 'GR73006908' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73006909' and datum >= '2017-05-30 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73006912' and datum >= '2017-05-30 00:00:01') or --LIMANI IGOUMENITSAS                                              	
+-- (a.TID = 'GR73007217' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007218' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007219' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007220' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007221' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007222' and datum >= '2017-06-16 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003371' and datum >= '2017-06-29 00:00:01') or --METH. STATH. EVZONON, 61200 KILKIS                               	
+-- (a.TID = 'GR73000005' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (a.TID = 'GR73000038' and datum >= '2017-10-13 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (a.TID = 'GR73003368' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73003374' and datum >= '2017-10-20 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73007482' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007483' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007484' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007485' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73007486' and datum >= '2017-10-25 00:00:01') or --5KL LEOF. SPATON-LOUTSAS, DAA EL. VENIZELOS                      	
+-- (a.TID = 'GR73003059' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003060' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003061' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003062' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003064' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003065' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003067' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003108' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003109' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73003110' and datum >= '2017-11-17 00:00:01') or --K.AER/NAS THES/KIS                                               	
+-- (a.TID = 'GR73000022' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (a.TID = 'GR73000093' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (a.TID = 'GR73000097' and datum >= '2017-11-20 00:00:01') or --PANEPISTIMIOU 9                                                  	
+-- (a.TID = 'GR73000171' and datum >= '2017-11-20 00:00:01') or --KIFISIAS 37A (GOLDEN HALL)                                       	
+-- (a.TID = 'GR73000217' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (a.TID = 'GR73002538' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (a.TID = 'GR73007520' and datum >= '2017-11-20 00:00:01') or --11O KLM E.O THES/KIS - MOUDANION                                 	
+-- (a.TID = 'GR73007521' and datum >= '2017-11-20 00:00:01') or --TSIMISKI 48-50                                                   	
+-- (a.TID = 'GR73003369' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73003370' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73003373' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73003375' and datum >= '2017-12-08 00:00:01') or --METH. STATHMOS EVZONON                                           	
+-- (a.TID = 'GR73007422' and datum >= '2017-12-08 00:00:01')    --METH. STATHMOS EVZONON  
+group by  merchaddress,left(datum,10)
+order by  merchaddress,left(datum,10)
+;
+
+
+--select distinct tid from merchants where mid = '000000120002800' and tid not in 
+--('73003163','73003184','73000010','73000251','73000252','73000253','73000255','73000256','73000257','73000260','73000261','73000262','73000265','73000267','73000268','73000269','73000270','73000271','73000272','73000278','73000279','73000280','73000282','73000283','73000284','73000285','73001399','73002968','73002969','73003099','73003100','73003101','73003102','73003104','73003105','73003106','73003107','73003341','73003342','73003425','73003137','73003138','73003139','73003140','73003141','73003142','73003143','73003144','73003145','73003146','73003147','73003148','73003149','73003150','73003152','73003153','73003154','73003155','73003156','73003157','73003158','73003159','73003160','73003161','73003162','73003164','73003165','73003166','73003167','73003487','73003488','73005210','73005212','73005513','73005514','73003168','73003169','73003170','73003171','73003385','73003386','73003428','73003441','73003442','73003443','73003444','73003445','73003446','73003447','73003448','73003449','73003450','73003172','73003173','73003174','73003175','73003176','73003177','73003178','73003179','73003180','73003181','73003182','73003183','73003185','73003186','73003188','73003189','73003190','73003191','73003192','73003193','73003194','73003195','73003196','73003429','73003430','73003438','73003439','73003461','73003462','73003463','73003464','73003466','73003467','73003468','73003469','73003470','73003465','73003472','73003473','73003474','73003475','73003476','73003477','73003481','73003482','73003483','73003484','73003485','73003486','73003389','73003390','73003399','73003400','73003401','73003402','73003403','73003420','73003421','73003422','73003423','73003435','73003436','73003437','73003458','73003394','73003395','73003431','73003432','73003433','73003405','73003406','73000296','73000297','73000298','73000301','73000302','73005211','73005512','73005792','73003387','73003388','73003396','73003397','73003478','73003479','73003480','73003343','73003344','73003345','73003346','73003381','73003382','73003383','73003384','73003452','73003454','73003455','73003457','73003398','73003391','73005401','73005402','73003493','73003494','73003392','73003393','73006350','73006717','73000012','73000258','73000259','73000263','73000264','73000281','73002542','73002550','73003424','73006819','73006820','73006821','73003063','73003066','73003413','73003471','73006908','73006909','73006912','73007217','73007218','73007219','73007220','73007221','73007222','73003371','73000005','73000038','73003368','73003374','73007482','73007483','73007484','73007485','73007486','73003059','73003060','73003061','73003062','73003064','73003065','73003067','73003108','73003109','73003110','73000022','73000093','73000097','73000171','73000217','73002538','73007520','73007521','73003369','73003370','73003373','73003375','73007422')
