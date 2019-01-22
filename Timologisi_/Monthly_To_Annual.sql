@@ -292,4 +292,4 @@ INSERT INTO [abc096].[LIFECARD_2018]
                         ,[RRN financial]
              		   from dbo.EasyPayAgent
 
-             		   delete from dbo.EasyPayAgent             
+             		   delete from dbo.EasyPayAgent
