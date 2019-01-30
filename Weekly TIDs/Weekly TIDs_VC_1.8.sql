@@ -60,11 +60,11 @@ from (vc30.relation
       left join vc30.PARAMETER u on vc30.relation.TERMID=u.PARTID and u.PARNAMELOC = 'TIP_ENABLED'
       left join vc30.PARAMETER v on vc30.relation.TERMID=v.PARTID and v.PARNAMELOC = 'EXTPINPAD'
       left join vc30.PARAMETER w on vc30.relation.TERMID=w.PARTID and w.PARNAMELOC = 'LOYALTY_PBG'
-	  left join vc30.PARAMETER y on vc30.relation.TERMID=w.PARTID and y.PARNAMELOC = 'MCC'
-	  left join vc30.PARAMETER z on vc30.relation.TERMID=w.PARTID and z.PARNAMELOC = 'ETH.DHCP'
-	  left join vc30.PARAMETER aa on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD01'
-	  left join vc30.PARAMETER ab on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD03'
-	  left join vc30.PARAMETER ac on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD04'
+	    left join vc30.PARAMETER y on vc30.relation.TERMID=w.PARTID and y.PARNAMELOC = 'MCC'
+	    left join vc30.PARAMETER z on vc30.relation.TERMID=w.PARTID and z.PARNAMELOC = 'ETH.DHCP'
+	    left join vc30.PARAMETER aa on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD01'
+	    left join vc30.PARAMETER ab on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD03'
+	    left join vc30.PARAMETER ac on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD04'
       left join vc30.TERMINFO    on vc30.relation.TERMID=termid_term
       join  (select e.*,
 case (substring(e.vers_pir,9,1)) when ',' then substring(e.vers_pir,1,8) + 'P' when 'P' then (e.vers_pir) end as late_versio
