@@ -1,14 +1,14 @@
 --1.Check for max date in
 
 --Annually files
-select 'IMP_TRANSACT 2018', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2018]
-select 'IMP_TRANSACT 2018 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2018_B]
+select 'IMP_TRANSACT 2019', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019]
+select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
 
-select 'LIFECARD 2018',max(DTSTAMP) from [abc096].[LIFECARD_2018]
+select 'LIFECARD 2019',max(DTSTAMP) from [abc096].[LIFECARD_2019]
 
-select 'TRANSLOG 2018', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT_2018]
+select 'TRANSLOG 2019', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT_2019]
 
-select 'EASYPAY 2018', max(TrxDate) from [dbo].[EasyPayAgent_2018]
+select 'EASYPAY 2019', max(TrxDate) from [dbo].[EasyPayAgent_2019]
 
 --Monthly files
 select 'IMP_TRANSACT', max(DTSTAMP) from [abc096].IMP_TRANSACT_D_monthly
@@ -20,17 +20,17 @@ select 'TRANSLOG', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT]
 select 'EASYPAY', max(TrxDate) from [dbo].[EasyPayAgent]
 
 -- Alternate View - yearly / temp
-select 'IMP_TRANSACT 2018', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2018]
-select 'IMP_TRANSACT 2018 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2018_B]
+select 'IMP_TRANSACT 2019', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019]
+select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
 select 'IMP_TRANSACT', max(DTSTAMP) from [abc096].IMP_TRANSACT_D_monthly
 
-select 'LIFECARD 2018',max(DTSTAMP) from [abc096].[LIFECARD_2018]
+select 'LIFECARD 2019',max(DTSTAMP) from [abc096].[LIFECARD_2019]
 select 'LIFECARD',max(DTSTAMP) from [abc096].[LIFECARD]
 
-select 'TRANSLOG 2018', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT_2018]
+select 'TRANSLOG 2019', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT_2019]
 select 'TRANSLOG', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT]
 
-select 'EASYPAY 2018', max(TrxDate) from [dbo].[EasyPayAgent_2018]
+select 'EASYPAY 2019', max(TrxDate) from [dbo].[EasyPayAgent_2019]
 select 'EASYPAY', max(TrxDate) from [dbo].[EasyPayAgent]
 
 
@@ -38,7 +38,7 @@ select 'EASYPAY', max(TrxDate) from [dbo].[EasyPayAgent]
 
 --2. Insert monthly records to annual files
 
-INSERT INTO [abc096].[IMP_TRANSACT_D_2018] with (TABLOCK)
+INSERT INTO [abc096].[IMP_TRANSACT_D_2019] with (TABLOCK)
            ([TBL]
            ,[TCODE]
            ,[MID]
@@ -116,7 +116,7 @@ INSERT INTO [abc096].[IMP_TRANSACT_D_2018] with (TABLOCK)
 
 		   truncate table abc096.IMP_TRANSACT_D_monthly
 
-INSERT INTO [abc096].[LIFECARD_2018]
+INSERT INTO [abc096].[LIFECARD_2019]
            ([TBL]
            ,[TCODE]
            ,[MID]
@@ -196,7 +196,7 @@ INSERT INTO [abc096].[LIFECARD_2018]
 		   delete from abc096.LIFECARD
 
 
-       INSERT INTO [dbo].[TRANSLOG_TRANSACT_2018] with (TABLOCK)
+       INSERT INTO [dbo].[TRANSLOG_TRANSACT_2019] with (TABLOCK)
                   ([MID]
                   ,[TID]
                   ,[DESTCOMID]
@@ -241,7 +241,7 @@ INSERT INTO [abc096].[LIFECARD_2018]
        		   truncate table dbo.TRANSLOG_TRANSACT
 
 
-             INSERT INTO [dbo].[EasyPayAgent_2018]
+             INSERT INTO [dbo].[EasyPayAgent_2019]
                         ([Customer]
                         ,[TerminalID]
                         ,[StoreNo]
@@ -292,4 +292,4 @@ INSERT INTO [abc096].[LIFECARD_2018]
                         ,[RRN financial]
              		   from dbo.EasyPayAgent
 
-             		   delete from dbo.EasyPayAgent             
+             		   delete from dbo.EasyPayAgent
