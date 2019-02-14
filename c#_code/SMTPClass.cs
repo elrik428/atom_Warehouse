@@ -22,8 +22,7 @@ namespace SMTPClass
             // Command line argument must the the SMTP host.
             SmtpClient client = new SmtpClient(SMTPServer, 25);
 
-            MailAddress from = new MailAddress("epos_support@euronetworldwide.com",
-               "EPOS SUPPORT SERVICES", System.Text.Encoding.UTF8);
+            MailAddress from = new MailAddress("epos_support@euronetworldwide.com","EPOS SUPPORT SERVICES", System.Text.Encoding.UTF8);
             // Set destinations for the e-mail message.
             string[] toList = GetAddresses(toEmailList);
             MailAddress to = new MailAddress(toList[0]);
@@ -88,8 +87,7 @@ namespace SMTPClass
             // Command line argument must the the SMTP host.
             SmtpClient client = new SmtpClient(SMTPServer, 25);
 
-            MailAddress from = new MailAddress("epos_support@euronetworldwide.com",
-               "EPOS SUPPORT SERVICES", System.Text.Encoding.UTF8);
+            MailAddress from = new MailAddress("epos_support@euronetworldwide.com","EPOS SUPPORT SERVICES", System.Text.Encoding.UTF8);
             // Set destinations for the e-mail message.
             string[] toList = GetAddresses(toEmailList);
             MailAddress to = new MailAddress(toList[0]);
