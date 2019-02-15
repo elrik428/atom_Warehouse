@@ -148,120 +148,49 @@ update zacreporting.[abc096].[IMP_TRANSACT_D]
              where productid = 0   ;
 
 
+-- Insert data to dbo.Transactions table
+Delete from [abc096].[Transactions]
+Insert into [abc096].[Transactions] (TBL, TCODE, MID, TID, MASK, AMOUNT, CURR,
+                INST, GRACE, ORIGINATOR, DESTCOMID, PROCCODE, 
+                MSGID, RESPKIND, REVERSED, BTBL, BTCODE, PROCBATCH, 
+                ePOSBATCH, POSDATA, BPOSDATA, DTSTAMP, BDTSTAMP, 
+                ORGSYSTAN, DTSTAMP_INSERT, ProductID, 
+                USERDATA,BORGSYSTAN,AUTHCODE,CASHIERINFO,DMID,DTID, 
+                [CASHBACK],[BONUSRED],[PBGAMOUNT],[RRN], [DCC_CURRENCY],[DCC_AMOUNT],[DCCCHOSEN_DCCELIGIBLE],
+                [REDAMOUNT]) 
+select TBL, TCODE, MID, TID, MASK, AMOUNT, CURR,
+                INST, GRACE, ORIGINATOR, DESTCOMID, PROCCODE, 
+                MSGID, RESPKIND, REVERSED, BTBL, BTCODE, PROCBATCH, 
+                ePOSBATCH, POSDATA, BPOSDATA, DTSTAMP, BDTSTAMP, 
+                ORGSYSTAN, DTSTAMP_INSERT, ProductID, 
+                USERDATA,BORGSYSTAN,AUTHCODE,CASHIERINFO,DMID,DTID, 
+                [CASHBACK],[BONUSRED],[PBGAMOUNT],[RRN], [DCC_CURRENCY],[DCC_AMOUNT],[DCCCHOSEN_DCCELIGIBLE],
+                [REDAMOUNT]
+from [abc096].[IMP_TRANSACT_D]
+
 -- SQL for report NOTOSMonthTicketRest export
 SELECT 
- QePOSBatchReports.[Group],
- QePOSBatchReports.Ημερομηνία,
- QePOSBatchReports.Κατηγορία,
- QePOSBatchReports.ΠακέτοePOS,
- QePOSBatchReports.Πακέτο, 
- QePOSBatchReports.Κάρτα, 
- QePOSBatchReports.Brand, 
- QePOSBatchReports.Πληκτρ, 
- QePOSBatchReports.Τύπος, 
- QePOSBatchReports.Ποσό, 
- QePOSBatchReports.Δόσεις, 
- QePOSBatchReports.Συναλλαγή, 
- QePOSBatchReports.Απόκριση, 
- QePOSBatchReports.Αντιλογισμός, 
- QePOSBatchReports.PROCESSED, 
- QePOSBatchReports.Shop, 
- QePOSBatchReports.Mid, 
- QePOSBatchReports.TID, 
- QePOSBatchReports.DMID, 
- QePOSBatchReports.DTID, 
- QePOSBatchReports.ePOSBATCH, 
- QePOSBatchReports.PROCBATCH
-FROM
-(SELECT dataentry,[Group], dtstamp  Ημερομηνία,PROCBATCH,
-   case
-    when reversed = 'A' or reversed = 'F'
-    then 'Εκτός Πακέτου'
-    else (case
-     when ePOSBATCH IS null
-           then
-               (case when PROCBATCH is Null
-               then'Εκτός Πακέτου'
-               else 'Εντός Πακέτου'
-         end)
-           else 'Εντός Πακέτου' end
-  ) end as Κατηγορία,
- case
- when reversed ='A' or reversed ='F'
- then 'Εκτός Πακέτου EURONET'
- else
-  (case
-    when (ePOSBATCH IS NULL)
-    then
-        (case
-          when (PROCBATCH  IS NULL)
-          then 'Εκτός Πακέτου EURONET'
-          else 'Εντός Πακέτου EURONET'
-          end)
-      else  'Εντός Πακέτου EURONET' end)
-           + (
-		   case when ePOSBATCH IS NULL then ' ' else cast(ePOSBATCH as char) end)
-
-      end as PacakageePOS ,
-   dmid + ' / ' + dtid + case
-            when reversed = 'A' or reversed ='F'
-                         then ' '
-                         else
-                           (case
-               when procbatch is Null
-                             then ' '
-                             else
-                             ' / ' + cast(procbatch as char)  end
-                           ) end as   Πακέτο,
-
-   case when dataentry = 'True'
-   then 'T' + cast(MASK as char)
-   else
-   'D' + cast(MASK as char)
-   end as  Κάρτα,
-
-   case when cast(dataentry as char) = 'ΠΛΗΚΤΡ'
-   then ' '
-   end  as Πληκτρ,
-
-   case when bank is Null
-   then Brand
-   else bank + '/' + product
-   end  as Τύπος,
-
-   Amount   Ποσό,
-    INST   Δόσεις,
-   rtrim (msg + ' ' + act) Συναλλαγή,
-    RESPKIND   Απόκριση,
-    REVERSED   Αντιλογισμός,
-     dtstamp Ώρα,
-     TID, PBank  PROCESSED,
-      Shop, MID, DMID, DTID, ePOSBATCH, Brand, BTCODE,
-
-      ORGSYSTAN, DTSTAMP_INSERT, BORGSYSTAN, AUTHCODE, CASHIERINFO, TrDMID, TrDTID,
-       trdmid + ' / ' + TrDTID + case when reversed ='A' or reversed = 'F'
-                              then ' '
-                              else (case when procbatch is Null
-                                          then ' '
-                                        else
-                                        ' / ' + cast(procbatch as char)  end  )
-                                        end as TrΠακέτο,
-  case
-        when LEFT(PEM,2)='01' then 'MANUAL ENTRY'
-        when LEFT(PEM,2)='02' then 'MAGNETIC STRIPE'
-        when LEFT(PEM,2)='80' then 'MAGNETIC STRIPE'
-        when LEFT(PEM,2)='05' then 'CHIP CONTACT'
-        when LEFT(PEM,2)='07' then 'CONTACTLESS'
-        when LEFT(PEM,2)='91' then 'CONTACTLESS'
-      end as  PEM_DESC,
-
-      case
-        when   BONUSRED > 0 then BONUSRED
-        end as BONUS_Redemption
-
- FROM dbo.VTransactions
- --where [Group] = 'NOTOSMonthTicketRest'
- --ORDER BY dtstamp, PBank
- ) QePOSBatchReports
-WHERE QePOSBatchReports.[Group] like "NOTOSMonthTicketRest%"
-ORDER BY QePOSBatchReports.Ημερομηνία, QePOSBatchReports.Ώρα
+   [dbo].[ePOSBatchRep].[Group],
+   [dbo].[ePOSBatchRep].Ημερομηνία,
+   [dbo].[ePOSBatchRep].Κατηγορία,
+   [dbo].[ePOSBatchRep].ΠακέτοePOS,
+   [dbo].[ePOSBatchRep].Πακέτο, 
+   [dbo].[ePOSBatchRep].Κάρτα, 
+   [dbo].[ePOSBatchRep].Brand, 
+   [dbo].[ePOSBatchRep].Πληκτρ, 
+   [dbo].[ePOSBatchRep].Τύπος, 
+   [dbo].[ePOSBatchRep].Ποσό, 
+   [dbo].[ePOSBatchRep].Δόσεις, 
+   [dbo].[ePOSBatchRep].Συναλλαγή, 
+   [dbo].[ePOSBatchRep].Απόκριση, 
+   [dbo].[ePOSBatchRep].Αντιλογισμός, 
+   [dbo].[ePOSBatchRep].PROCESSED, 
+   [dbo].[ePOSBatchRep].Shop, 
+   [dbo].[ePOSBatchRep].Mid, 
+   [dbo].[ePOSBatchRep].TID, 
+   [dbo].[ePOSBatchRep].DMID, 
+   [dbo].[ePOSBatchRep].DTID, 
+   [dbo].[ePOSBatchRep].ePOSBATCH, 
+   [dbo].[ePOSBatchRep].PROCBATCH
+FROM [dbo].[ePOSBatchRep]
+WHERE [dbo].[ePOSBatchRep].[Group] like "NOTOSMonthTicketRest%"
