@@ -131,8 +131,8 @@ INSERT INTO [abc096].[LIFECARD]
           FROM dbo_VAlphaLty
           WHERE (((dbo_VAlphaLty.DTSTAMP) Between #1/1/2017# And #2/1/2017#))   <----CHANGE DATE  ----->   MM/DD/YYYY  !!!!!!!
           ORDER BY dbo_VAlphaLty.DTSTAMP;
-  ii)  GEORGEBYBANK (query name)
-  iii) NOTOSNETMONTH (query name)
+  ii)  GEORGEBYBANK (query name) used for NOTOSInvoiceDetails pdf
+  iii) NOTOSNETMONTH (query name) used for NOTOSNETMONTH pdf 
 
 9. From UPDATE PPC  +   COSMOTE invoice
     UPDATE
