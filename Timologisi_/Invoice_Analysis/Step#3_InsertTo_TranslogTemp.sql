@@ -1,3 +1,5 @@
+-- Used for AUTOTECHNICAInvoiceQuery, COUNT_ALPHA_LTY, COUNT_EUROBANK_LTY, COUNT_GO4MORE_LTY, COUNT_PBG_LTYcsv,HERTZInvoiceQuery, VIVAInvoiceQuerycsv
+
 -- Insert into TRANSLOG_TRANSACT_temp
 
 DELETE fROM [ZacReporting].[dbo].[TRANSLOG_TRANSACT_temp]

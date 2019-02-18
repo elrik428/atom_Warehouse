@@ -66,6 +66,9 @@ UPDATE [ZacReporting].[dbo].[TRANSLOG_TRANSACT] SET [DESTCOMID]='NET_ALPHA' wher
 UPDATE [ZacReporting].[dbo].[TRANSLOG_TRANSACT] SET [DESTCOMID]='NET_EBNK' where [DESTCOMID]='NET_CLBICEBNK'
 
 
+-------     ********       --------
+
+
 -- Import IMP_MONTHLY
 -- Clear file
 Delete from [abc096].[IMP_TRANSACT_D_monthly]
@@ -211,6 +214,10 @@ update zacreporting.[abc096].[IMP_TRANSACT_D_monthly]
                  end     
              where productid = 0   ;
 
+
+
+
+-------     ********       --------
 
 
 -- Import LIFECARD 
