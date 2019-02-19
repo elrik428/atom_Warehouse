@@ -187,8 +187,8 @@ INSERT INTO [abc096].[LIFECARD]
   xi) RENAME files in export folder so not to be overwritten and then RUN
   xii)Same procedure for NOTOS from steps i->iv. Instead of DF choose NOTOSMONTH
   xiii)NO ticks needs to be selected. Just untick email and RUN
-  xiv) Run  AUTOTECHNICA SQL and follow instructions for report creation - Run daily for the whole month
-  xv)Run INTERSPORT SQL and follow instructions for report creation -  Run month (Uper box) for INTERSPORTmonthly for required month
+  xiv) Run  AUTOTECHNICA SQL and follow instructions for report creation - Run daily for required month
+  xv)Run INTERSPORT SQL and follow instructions for report creation -  Run daily (Uper box) for INTERSPORTmonthly for required month
 
 13. i) Unzip \\10.7.17.11\TransactReports\Monthly\"report11_20171001.zip" and rename it to report.csv
     ii) Run Shortcut to "Import_csv_to_IMP_TRANSACT_D.exe"
