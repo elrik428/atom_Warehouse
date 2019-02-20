@@ -1,8 +1,22 @@
--- IMPORT Pgms
+-- Part A
+--- Clear tables
+Delete from [dbo].TRANSLOG_TRANSACT
+Delete from [abc096].IMP_TRANSACT_D_monthly
+Delete from [abc096].IMP_TRANSACT_D
+Delete from [abc096].LIFECARD
 
--- Import Translog Transact
---Clear files
-Delete from [dbo].[TRANSLOG_TRANSACT]
+-- Part B
+-- IMPORT Flat files
+-- i.   2019-01_monthlynew.csv       ---->  [abc096].[IMP_TRANSACT_D_monthly]
+-- ii.  2019-01_monthly.csv          ---->  [dbo].[TRANSLOG_TRANSACT]
+-- iii. 2019-01_monthlylifecard.csv  ---->  [abc096].[IMP_TRANSACT_D] 
+
+-- Part C
+-- Update tables
+
+-- Translog Transact
+-- Clear files
+
 Delete from [dbo].[VASILOPOULOS_CITYLTY_TEMP]
 Delete from [dbo].[VEROPOULOS_EBNKLTY_TEMP]
 Delete from [dbo].[VASILOPOULOS_MEALS_TEMP]
@@ -69,9 +83,8 @@ UPDATE [ZacReporting].[dbo].[TRANSLOG_TRANSACT] SET [DESTCOMID]='NET_EBNK' where
 -------     ********       --------
 
 
--- Import IMP_MONTHLY
--- Clear file
-Delete from [abc096].[IMP_TRANSACT_D_monthly]
+-- Update IMP_MONTHLY
+
 
 --Updated reversed and deleted reversals from IMP_TRANSACT_D.
 update [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly] 
@@ -220,10 +233,7 @@ update zacreporting.[abc096].[IMP_TRANSACT_D_monthly]
 -------     ********       --------
 
 
--- Import LIFECARD 
-
--- Clear file
-Delete from [abc096].[IMP_TRANSACT_D]
+-- Update LIFECARD 
 
 --Updated reversed and deleted reversals from IMP_TRANSACT_D
 update [ZacReporting].[abc096].[IMP_TRANSACT_D] 
