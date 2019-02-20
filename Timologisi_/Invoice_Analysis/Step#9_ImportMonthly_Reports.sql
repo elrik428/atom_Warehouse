@@ -27,10 +27,36 @@ from [abc096].[IMP_TRANSACT_D]
 
 Delete from [abc096].[IMP_TRANSACT_D]
 
-SELECT   [Group], Ημερομηνία, Ώρα,   Κατηγορία,   ΠακέτοePOS,   Πακέτο,   Κάρτα,   Brand,   Πληκτρ,   Τύπος,   Ποσό,   Δόσεις,   Συναλλαγή,  Απόκριση,   Αντιλογισμός,   PROCESSED,   Shop,   Mid,   TID,   DMID,   DTID,   ePOSBATCH,   PROCBATCH,   ORGSYSTAN AS SYSTAN,   DTSTAMP_INSERT AS BATCHCLOSEDTSTAMP,   AUTHCODE
-FROM ePOSBatchRep
+
+SELECT  [Group]
+      ,[Date]
+      ,[PROCBATCH]
+      ,[Category]
+      ,[BatchePOS]
+      ,[Batch]
+      ,[Card]
+      ,[ManEntry]
+      ,[Type]
+      ,[Amount]
+      ,[Installments]
+      ,[Transaction]
+      ,[Response]
+      ,[Reversed]
+      ,[Time]
+      ,[TID]
+      ,[PROCESSED]
+      ,[Shop]
+      ,[MID]
+      ,[DMID]
+      ,[DTID]
+      ,[ePOSBATCH]
+      ,[Brand]
+      ,[BTCODE]
+      ,[ORGSYSTAN]
+      ,[DTSTAMP_INSERT]      
+FROM [ZacReporting].[dbo].[ePOSBatchRep_En]
 WHERE [Group]='DutyFree'
-ORDER BY   Ημερομηνία,   Ώρα;
+ORDER BY [Date],[Time]
 
 -------         ***    //////    ****
 
@@ -60,10 +86,35 @@ from [abc096].[IMP_TRANSACT_D]
 
 Delete from [abc096].[IMP_TRANSACT_D]
 
-SELECT ePOSBatchRep.[Group], ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα, ePOSBatchRep.Κατηγορία, ePOSBatchRep.ΠακέτοePOS, ePOSBatchRep.Πακέτο, ePOSBatchRep.Κάρτα, ePOSBatchRep.Brand, ePOSBatchRep.Πληκτρ, ePOSBatchRep.Τύπος, ePOSBatchRep.Ποσό, ePOSBatchRep.Δόσεις, ePOSBatchRep.Συναλλαγή, ePOSBatchRep.Απόκριση, ePOSBatchRep.Αντιλογισμός, ePOSBatchRep.PROCESSED, ePOSBatchRep.Shop, ePOSBatchRep.Mid, ePOSBatchRep.TID, ePOSBatchRep.DMID, ePOSBatchRep.DTID, ePOSBatchRep.ePOSBATCH, ePOSBatchRep.PROCBATCH, ePOSBatchRep.ORGSYSTAN AS SYSTAN, ePOSBatchRep.DTSTAMP_INSERT AS BATCHCLOSEDTSTAMP
-FROM ePOSBatchRep
-WHERE (((ePOSBatchRep.[Group])='FFGROUP'))
-ORDER BY ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα;
+SELECT  [Group]
+      ,[Date]
+      ,[PROCBATCH]
+      ,[Category]
+      ,[BatchePOS]
+      ,[Batch]
+      ,[Card]
+      ,[ManEntry]
+      ,[Type]
+      ,[Amount]
+      ,[Installments]
+      ,[Transaction]
+      ,[Response]
+      ,[Reversed]
+      ,[Time]
+      ,[TID]
+      ,[PROCESSED]
+      ,[Shop]
+      ,[MID]
+      ,[DMID]
+      ,[DTID]
+      ,[ePOSBATCH]
+      ,[Brand]
+      ,[BTCODE]
+      ,[ORGSYSTAN]
+      ,[DTSTAMP_INSERT]      
+  FROM [ZacReporting].[dbo].[ePOSBatchRep_En]
+  WHERE [Group] = 'FFGROUP' 
+  ORDER BY [Date],[Time]
 
 -------         ***    //////    ****
 
@@ -93,11 +144,35 @@ from [abc096].[IMP_TRANSACT_D]
 
 Delete from [abc096].[IMP_TRANSACT_D]
 
-SELECT ePOSBatchRep.[Group], ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα, ePOSBatchRep.Κατηγορία, ePOSBatchRep.ΠακέτοePOS, ePOSBatchRep.Πακέτο, ePOSBatchRep.Κάρτα, ePOSBatchRep.Brand, ePOSBatchRep.Πληκτρ, ePOSBatchRep.Τύπος, ePOSBatchRep.Ποσό, ePOSBatchRep.Δόσεις, ePOSBatchRep.Συναλλαγή, ePOSBatchRep.Απόκριση, ePOSBatchRep.Αντιλογισμός, ePOSBatchRep.PROCESSED, ePOSBatchRep.Shop, ePOSBatchRep.Mid, ePOSBatchRep.TID, ePOSBatchRep.DMID, ePOSBatchRep.DTID, ePOSBatchRep.ePOSBATCH, ePOSBatchRep.PROCBATCH, ePOSBatchRep.ORGSYSTAN AS SYSTAN, ePOSBatchRep.DTSTAMP_INSERT AS BATCHCLOSEDTSTAMP
-FROM ePOSBatchRep
-WHERE (((ePOSBatchRep.[Group])='Ellinikes_Dianomes'))
-ORDER BY ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα;
-
+SELECT  [Group]
+      ,[Date]
+      ,[PROCBATCH]
+      ,[Category]
+      ,[BatchePOS]
+      ,[Batch]
+      ,[Card]
+      ,[ManEntry]
+      ,[Type]
+      ,[Amount]
+      ,[Installments]
+      ,[Transaction]
+      ,[Response]
+      ,[Reversed]
+      ,[Time]
+      ,[TID]
+      ,[PROCESSED]
+      ,[Shop]
+      ,[MID]
+      ,[DMID]
+      ,[DTID]
+      ,[ePOSBATCH]
+      ,[Brand]
+      ,[BTCODE]
+      ,[ORGSYSTAN]
+      ,[DTSTAMP_INSERT]      
+FROM [ZacReporting].[dbo].[ePOSBatchRep_En]
+WHERE [Group]='Ellinikes_Dianomes'
+ORDER BY [Date],[Time]
 
 -------         ***    //////    ****
 
@@ -127,11 +202,35 @@ from [abc096].[IMP_TRANSACT_D]
 
 Delete from [abc096].[IMP_TRANSACT_D]
 
-SELECT ePOSBatchRep.[Group], ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα, ePOSBatchRep.Κατηγορία, ePOSBatchRep.ΠακέτοePOS, ePOSBatchRep.Πακέτο, ePOSBatchRep.Κάρτα, ePOSBatchRep.Brand, ePOSBatchRep.Πληκτρ, ePOSBatchRep.Τύπος, ePOSBatchRep.Ποσό, ePOSBatchRep.Δόσεις, ePOSBatchRep.Συναλλαγή, ePOSBatchRep.Απόκριση, ePOSBatchRep.Αντιλογισμός, ePOSBatchRep.PROCESSED, ePOSBatchRep.Shop, ePOSBatchRep.Mid, ePOSBatchRep.TID, ePOSBatchRep.DMID, ePOSBatchRep.DTID, ePOSBatchRep.ePOSBATCH, ePOSBatchRep.PROCBATCH, ePOSBatchRep.ORGSYSTAN AS SYSTAN, ePOSBatchRep.DTSTAMP_INSERT AS BATCHCLOSEDTSTAMP
-FROM ePOSBatchRep
-WHERE (((ePOSBatchRep.[Group])='Ellinikes_Dianomes'))
-ORDER BY ePOSBatchRep.Ημερομηνία, ePOSBatchRep.Ώρα;
-
+SELECT  [Group]
+      ,[Date]
+      ,[PROCBATCH]
+      ,[Category]
+      ,[BatchePOS]
+      ,[Batch]
+      ,[Card]
+      ,[ManEntry]
+      ,[Type]
+      ,[Amount]
+      ,[Installments]
+      ,[Transaction]
+      ,[Response]
+      ,[Reversed]
+      ,[Time]
+      ,[TID]
+      ,[PROCESSED]
+      ,[Shop]
+      ,[MID]
+      ,[DMID]
+      ,[DTID]
+      ,[ePOSBATCH]
+      ,[Brand]
+      ,[BTCODE]
+      ,[ORGSYSTAN]
+      ,[DTSTAMP_INSERT]      
+FROM [ZacReporting].[dbo].[ePOSBatchRep_En]
+WHERE [Group]='Ellinikes_Dianomes'
+ORDER BY [Date],[Time]
 
 -------         ***    //////    ****
 
