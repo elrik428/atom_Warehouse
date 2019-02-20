@@ -99,40 +99,7 @@ update  [abc096].[LM_Transactions_Month] set  [GREEK_ISSUER]='   '
 print 'Set ON_US= *Blanks';
 update [abc096].[LM_Transactions_Month] set
 [ON_US]='   '
-/*
---Update Acquirer id
-print '--Update Acquirer id';
-update [abc096].[LM_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[LM_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id - 1
-print '--Update Issuer id - 1';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,6) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 2
-print '--Update Issuer id - 2';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,3) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 3
-print '--Update Issuer id - 3';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,4) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 4
-print '--Update Issuer id - 4';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,5) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
 
-*/
-
--- New code for replacement    LN 20171003
 --Update Acquirer id
 print '--Update Acquirer id';
 update a
@@ -192,17 +159,7 @@ print '--Update GREEK_ISSUER FLAG-1';
 update [abc096].[LM_Transactions_Month] set
 [GREEK_ISSUER]='Yes' where  [ISSUER_BANK_ID]< 42 and [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
-/*
-print '--Update GREEK_ISSUER FLAG-2';
-update [abc096].[LM_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[LM_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-print '--Update GREEK_ISSUER FLAG-3';
-update [abc096].[LM_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[LM_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;*/
+
 
 print '--Update GREEK_ISSUER FLAG-4';
 update [abc096].[LM_Transactions_Month] set

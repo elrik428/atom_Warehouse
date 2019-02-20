@@ -1,0 +1,52 @@
+Run queries for xtra reports. 
+For steps i --> ix all executions are done in ZACREPORTING
+For step x execution is done in VC30 & SHARP DBs
+For step xi execution is done in ZACRPT DB
+
+i) LEROY              
+   a. Leroy Merlin - Monthly transactions report.sql  -->  Leroy Merlin - Monthly transactions report_Nov_2017.xlsx 
+   b. Leroy Merlin - Installments Report.sql          -->  Leroy Merlin - Installments report_January_2019.xlsx  
+   c. LeroyMerlin_Detail_Trxs.sql                     -->  Leroy Merlin_Detail_Trxs_January_2019.xlsx
+
+ii) VEROPOULOS         
+   a.  Ver_Montly_Transactions Report.sql --> Ver_Montly_Transactions Report_201711.xlsx
+
+iii) DUTYFREE          
+   a.  DF Monthly Transaction Report.sql --> DF Monthly Transaction Report_Nov_2017.xlsx
+
+iv) LIDL              
+   a. Lidl Monthly Transaction Report.sql --> Lidl Monthly Transaction Report_Nov_2017
+
+v) KOTSOVOLOS   (2 different sheets!!!!!)     
+   a. Kotsovolos_Data_Per_Issuing_Bank.sql --> Kotsovolos_Data_Per_Issuing_Bank November 2017.xlsx
+      i)Sheet Summary  (Specific form)
+     ii)Sheet Detail
+
+vi) MYMARKET- METRO  
+   a. Metro_Monthly_Transactions Report.sql --> Metro_Monthly_Transactions Report_201711.xlsx
+
+vii) OTE/Comsote(PPC,Loyalty)  (4 different sheets!!)
+   a.  --> OTE_Comsote_Germanos_PPC_LTY_PREP_201802.xlsx
+      i)Sheet Summary
+     ii)Sheet Loyalty
+    iii)Sheet Prepaid mastercard-PPC 
+     iv)Sheet Protergia
+
+viii) MEALS & MORE        
+   a. MEALS&MORE_Invoice.sql --> MEALS&MOREInvoice_201802.xlsx
+
+ix) EASYPAY
+   a. Import flat file from \\10.7.17.11\TransactRerports\AGTReports\AGTReport_monthly_20171007-20171031.CSV to tables  dbo.BP_Transactions  &  dbo.EasyPay
+   b. Check box "Column names in the first data row"
+   c. EASYPAY_Monthly_ report.sql --> EASYPAY_Monthly_ report 2017.xls    
+
+x) EASYPAY terminals (2 sheets)
+  a. VC_EASYPAYAgent terminals.sql \ VC30 DB     --> sheet Verifone
+  b. SHARP_EASYPAYAgent terminals.sql \ SHARP DB --> sheet Ingenico
+  c. EasyPay terminals Nov 2017.xlsx
+
+xi) EUROBANK TIDs
+  a. Eurobank MID & TID Monthly Reporting.sql --> Eurobank MID & TID Monthly Reporting_20170303.xlsx
+
+xii) ALPHA TIDs (Specific form)
+  a. POS MONTORING NSP.sql --> POS MONTORING NSP_as of 20171130.xlsx

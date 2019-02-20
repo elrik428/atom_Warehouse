@@ -1,43 +1,39 @@
--- Create Table
---drop table [abc096].[VER_Transactions_Month]
--- CREATE TABLE [abc096].[VER_Transactions_Month](
-     -- [MID] [varchar](15) COLLATE Greek_CI_AS NULL ,
-     -- [TID] [varchar](16) COLLATE Greek_CI_AS NULL ,
-     -- [DESTCOMID] [varchar](16) COLLATE Greek_CI_AS NULL ,
-     -- [TCODE] [int] NULL ,
-     -- [ORIGINATOR] [varchar](16) COLLATE Greek_CI_AS NULL ,
-     -- [INTERFACE] [varchar](8) COLLATE Greek_CI_AS NULL ,
-     -- [DTSTAMP] [datetime] NULL ,
-     -- [MSGID] [varchar](8) COLLATE Greek_CI_AS NULL ,
-     -- [TAMOUNT] [float] NULL ,
-     -- [TAUTHCODE] [varchar](8) COLLATE Greek_CI_AS NULL ,
-     -- [MASK] [varchar](20) COLLATE Greek_CI_AS NULL ,
-     -- [PROCCODE] [varchar](20) COLLATE Greek_CI_AS NULL ,
-     -- [INST] [int] NULL ,
-     -- [RESPKIND] [varchar](3) COLLATE Greek_CI_AS NULL ,
-     -- [TRESPONSE] [varchar](4) COLLATE Greek_CI_AS NULL ,
-     -- [USERDATA] [varchar](256) COLLATE Greek_CI_AS NULL ,
-     -- [DMID] [varchar](15) COLLATE Greek_CI_AS NULL ,
-     -- [DTID] [varchar](16) COLLATE Greek_CI_AS NULL,
-     -- [PEM] [varchar](5),--20150804
-     -- [MERCHANT_NAME] [varchar](30),
-     -- [ACQUIRING_BANK] [varchar](30),
-     -- [ISSUING_BANK] [nvarchar](50) NULL,
-     -- [BRAND] [varchar](20),--20150629
-     -- [CARD_TYPE] [varchar](100),--20150629
-     -- [GREEK_ISSUER] [varchar](3),
-     -- [ON_US] [varchar](3),
-     -- [ISSUER_BANK_ID] [integer],
-     -- [ACQUIRER_BANK_ID] [integer],
-     -- [STORE_CODE] [varchar](20)
-     -- ) ON [PRIMARY]
+/* 
+--Create Table
+drop table [abc096].[VER_Transactions_Month]
+CREATE TABLE [abc096].[VER_Transactions_Month](
+     [MID] [varchar](15) COLLATE Greek_CI_AS NULL ,
+     [TID] [varchar](16) COLLATE Greek_CI_AS NULL ,
+     [DESTCOMID] [varchar](16) COLLATE Greek_CI_AS NULL ,
+     [TCODE] [int] NULL ,
+     [ORIGINATOR] [varchar](16) COLLATE Greek_CI_AS NULL ,
+     [INTERFACE] [varchar](8) COLLATE Greek_CI_AS NULL ,
+     [DTSTAMP] [datetime] NULL ,
+     [MSGID] [varchar](8) COLLATE Greek_CI_AS NULL ,
+     [TAMOUNT] [float] NULL ,
+     [TAUTHCODE] [varchar](8) COLLATE Greek_CI_AS NULL ,
+     [MASK] [varchar](20) COLLATE Greek_CI_AS NULL ,
+     [PROCCODE] [varchar](20) COLLATE Greek_CI_AS NULL ,
+     [INST] [int] NULL ,
+     [RESPKIND] [varchar](3) COLLATE Greek_CI_AS NULL ,
+     [TRESPONSE] [varchar](4) COLLATE Greek_CI_AS NULL ,
+     [USERDATA] [varchar](256) COLLATE Greek_CI_AS NULL ,
+     [DMID] [varchar](15) COLLATE Greek_CI_AS NULL ,
+     [DTID] [varchar](16) COLLATE Greek_CI_AS NULL,
+     [PEM] [varchar](5),--20150804
+     [MERCHANT_NAME] [varchar](30),
+     [ACQUIRING_BANK] [varchar](30),
+     [ISSUING_BANK] [nvarchar](50) NULL,
+     [BRAND] [varchar](20),--20150629
+     [CARD_TYPE] [varchar](100),--20150629
+     [GREEK_ISSUER] [varchar](3),
+     [ON_US] [varchar](3),
+     [ISSUER_BANK_ID] [integer],
+     [ACQUIRER_BANK_ID] [integer],
+     [STORE_CODE] [varchar](20)
+     ) ON [PRIMARY]
+*/
 
---select * from abc096.merchants where tid='71003104'
---select distinct tid from [abc096].[VER_Transactions_Month] where [STORE_CODE]='' or [STORE_CODE] is null
---select * from [abc096].merchants where CARD_TYPE like '%UNKNOWN%'
---select * from [abc096].merchants where merchtitle like 'VERO%' CARD_TYPE like '%UNKNOWN%'
-;
---select top 10  *  from  dbo.TRANSLOG_TRANSACT a order by dtstamp
 
 Print '------------------';
 print '--   S T A R T  --';
@@ -54,7 +50,7 @@ from
 dbo.TRANSLOG_TRANSACT a
 --dbo.TRANSLOG_TRANSACT_2013 a
 WHERE
-MID IN ('000000120003800','000000120003810','000000120003830')
+MID IN ('000000120001700', '000000120001710','000000120001720')
 --and PROCCODE<>'5W0000'
 --and dtstamp>='2013-01-01 00:00:00.001' and
 --dtstamp<='2013-12-31 23:59:59.999'
@@ -65,10 +61,10 @@ update [abc096].[VER_Transactions_Month] set
 MERCHANT_NAME=
 --CASE WHEN MID='000000120002800'
 case mid
-when '000000120003800' THEN 'VEROPOULOS'
-when '000000120003810' THEN 'VEROPOULOS-GAS'
-when '000000120003830' THEN 'VEROPOULOS-ACHAIKA'
-ELSE 'VEROPOULOS'
+when '000000120001700' THEN 'METRO-MYMARKET-CASH_CARRY'
+when '000000120001710' THEN 'METRO-MYMARKET'
+when '000000120001720' THEN 'METRO_GAZ'
+ELSE 'MYMARKET'
 END
 ;
 --Update Store Code
@@ -111,38 +107,6 @@ print 'Set ON_US= *Blanks';
 update [abc096].[VER_Transactions_Month] set
 [ON_US]='   '
 
-/*--Update Acquirer id
-print '--Update Acquirer id';
-update [abc096].[VER_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[VER_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id - 1
-print '--Update Issuer id - 1';
-update [abc096].[VER_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,6) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 2
-print '--Update Issuer id - 2';
-update [abc096].[VER_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,5) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 3
-print '--Update Issuer id - 3';
-update [abc096].[VER_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,4) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 4
-print '--Update Issuer id - 4';
-update [abc096].[VER_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,3) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
-
-*/
--- New code for replacement    LN 20171003
 --Update Acquirer id
 print '--Update Acquirer id';
 update a
@@ -202,18 +166,6 @@ print '--Update GREEK_ISSUER FLAG-1';
 update [abc096].[VER_Transactions_Month] set
 [GREEK_ISSUER]='Yes' where  [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
-/*
-print '--Update GREEK_ISSUER FLAG-2';
-update [abc096].[VER_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[VER_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-print '--Update GREEK_ISSUER FLAG-3';
-update [abc096].[VER_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[VER_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-*/
 
 print '--Update GREEK_ISSUER FLAG-4';
 update [abc096].[VER_Transactions_Month] set
@@ -329,7 +281,7 @@ where [BRAND]='Maestro'
 ;
 
 
-print '---Select Data to display [Summary]';
+--- Select Data to display 
 SELECT
 MERCHANT_NAME,
 MID,
@@ -348,7 +300,6 @@ when '2T' then 'LOYALTY VOID-SALE'
 when '3W' then 'LOYALTY BALANCE INQUIRY'
 when '2U' then 'LOYALTY VOID-REDEMPTION'
 when '1S' then 'LOYALTY REFUND'
-
 else PROCCODE
 end,
 ACQUIRING_BANK,

@@ -1,5 +1,3 @@
-
-
 --------------------------
 --      START           --
 --------------------------
@@ -105,34 +103,6 @@ update  [abc096].[Lidl_Transactions_Month] set  [GREEK_ISSUER]='   '
 update [abc096].[Lidl_Transactions_Month] set
 [ON_US]='   '
 
-/*  --Old code
---Update Acquirer id
-update [abc096].[Lidl_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[Lidl_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id
-update [abc096].[Lidl_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[Lidl_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[Lidl_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[Lidl_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[Lidl_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[Lidl_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[Lidl_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[Lidl_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
-*/
-
--- New code for replacement    LN 20171003
 --Update Acquirer id
 print '--Update Acquirer id';
 update a
@@ -189,18 +159,6 @@ set [GREEK_ISSUER]='Yes'
 where  [ISSUER_BANK_ID]< 42 and  [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 
-/*
--- Removed as all BINs are uploaded in Products table      LN20171003
-update [abc096].[Lidl_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[Lidl_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-update [abc096].[Lidl_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[Lidl_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-*/
-
 update [abc096].[Lidl_Transactions_Month] set
 [GREEK_ISSUER]='No' where  [GREEK_ISSUER]<>'Yes' or [GREEK_ISSUER] is null
 ;
@@ -213,12 +171,6 @@ update [abc096].[Lidl_Transactions_Month] set
 [ON_US]='No' where  [ISSUER_BANK_ID]<>[ACQUIRER_BANK_ID]
 ;
 
-/*--Update ISSUING BANK  LN 20171003  OLD WAY
-update [abc096].[Lidl_Transactions_Month] set
- [ISSUING_BANK] = (select ApprovalsTel from abc096.banks where [abc096].[Lidl_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id)
-where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
-;*/
--- LN 20171003  NEW WAY
 --Update ISSUING BANK
 update [abc096].[Lidl_Transactions_Month] set
  [ISSUING_BANK] = cast((select bank from abc096.banks where [abc096].[lidl_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id) as nvarchar(50))
@@ -282,19 +234,7 @@ update [abc096].[Lidl_Transactions_Month] set
 where  substring([abc096].[Lidl_Transactions_Month].mask,1,6) in (select visa_BINS_201311.bin from visa_BINS_201311)
 ;
 
---check nulls
-SELECT
-[ISSUING_BANK],card_Type as Brand, USERDATA as [Card Type], left(mask,6) as BIN ,
-count(*) as [Total Transactions],SUM(TAMOUNT) as [Total Amount]
-from
- [abc096].[lidl_Transactions_Month] a
-where issuing_bank is null
-GROUP BY
-[ISSUING_BANK],card_Type,USERDATA, left(mask,6)
-order by
-count(*) desc
-;
---Correct
+
 --Select data to display
 SELECT
 [ISSUING_BANK],card_Type as Brand, USERDATA as [Card Type], left(mask,6) as BIN ,

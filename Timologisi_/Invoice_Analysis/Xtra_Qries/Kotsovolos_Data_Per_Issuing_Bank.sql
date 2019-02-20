@@ -1,39 +1,36 @@
+/*
 -- Create Table
---drop table [abc096].[KOTS_Transactions_Month]
---CREATE TABLE [abc096].[KOTS_Transactions_Month](
---     [MID] [varchar](15) COLLATE Greek_CI_AS NULL ,
---     [TID] [varchar](16) COLLATE Greek_CI_AS NULL ,
---     [DESTCOMID] [varchar](16) COLLATE Greek_CI_AS NULL ,
---     [TCODE] [int] NULL ,
---     [ORIGINATOR] [varchar](16) COLLATE Greek_CI_AS NULL ,
---     [INTERFACE] [varchar](8) COLLATE Greek_CI_AS NULL ,
---     [DTSTAMP] [datetime] NULL ,
---     [MSGID] [varchar](8) COLLATE Greek_CI_AS NULL ,
---     [TAMOUNT] [float] NULL ,
---     [TAUTHCODE] [varchar](8) COLLATE Greek_CI_AS NULL ,
---     [MASK] [varchar](20) COLLATE Greek_CI_AS NULL ,
---     [PROCCODE] [varchar](20) COLLATE Greek_CI_AS NULL ,
---     [INST] [int] NULL ,
---     [RESPKIND] [varchar](3) COLLATE Greek_CI_AS NULL ,
---     [TRESPONSE] [varchar](4) COLLATE Greek_CI_AS NULL ,
---     [USERDATA] [varchar](256) COLLATE Greek_CI_AS NULL ,
---     [DMID] [varchar](15) COLLATE Greek_CI_AS NULL ,
---     [DTID] [varchar](16) COLLATE Greek_CI_AS NULL,
---     [PEM] [varchar](5),
---     [MERCHANT_NAME] [varchar](30),
---     [ACQUIRING_BANK] [varchar](30),
---     [ISSUING_BANK] [nvarchar](50) NULL,
---     [CARD_TYPE] [varchar](15),
---     [GREEK_ISSUER] [varchar](3),
---     [ON_US] [varchar](3),
---     [ISSUER_BANK_ID] [integer],
---     [ACQUIRER_BANK_ID] [integer]
---     ) ON [PRIMARY]
-
---select Max(dtstamp),min(Dtstamp) from  dbo.TRANSLOG_TRANSACT a
---select * from [abc096].[KOTS_Transactions_Month] where proccode in ('200000','020000')
--- select * from [abc096].[KOTS_Transactions_Month] order by dtstamp where destcomid='NET_CMBN'
-
+drop table [abc096].[KOTS_Transactions_Month]
+CREATE TABLE [abc096].[KOTS_Transactions_Month](
+    [MID] [varchar](15) COLLATE Greek_CI_AS NULL ,
+    [TID] [varchar](16) COLLATE Greek_CI_AS NULL ,
+    [DESTCOMID] [varchar](16) COLLATE Greek_CI_AS NULL ,
+    [TCODE] [int] NULL ,
+    [ORIGINATOR] [varchar](16) COLLATE Greek_CI_AS NULL ,
+    [INTERFACE] [varchar](8) COLLATE Greek_CI_AS NULL ,
+    [DTSTAMP] [datetime] NULL ,
+    [MSGID] [varchar](8) COLLATE Greek_CI_AS NULL ,
+    [TAMOUNT] [float] NULL ,
+    [TAUTHCODE] [varchar](8) COLLATE Greek_CI_AS NULL ,
+    [MASK] [varchar](20) COLLATE Greek_CI_AS NULL ,
+    [PROCCODE] [varchar](20) COLLATE Greek_CI_AS NULL ,
+    [INST] [int] NULL ,
+    [RESPKIND] [varchar](3) COLLATE Greek_CI_AS NULL ,
+    [TRESPONSE] [varchar](4) COLLATE Greek_CI_AS NULL ,
+    [USERDATA] [varchar](256) COLLATE Greek_CI_AS NULL ,
+    [DMID] [varchar](15) COLLATE Greek_CI_AS NULL ,
+    [DTID] [varchar](16) COLLATE Greek_CI_AS NULL,
+    [PEM] [varchar](5),
+    [MERCHANT_NAME] [varchar](30),
+    [ACQUIRING_BANK] [varchar](30),
+    [ISSUING_BANK] [nvarchar](50) NULL,
+    [CARD_TYPE] [varchar](15),
+    [GREEK_ISSUER] [varchar](3),
+    [ON_US] [varchar](3),
+    [ISSUER_BANK_ID] [integer],
+    [ACQUIRER_BANK_ID] [integer]
+    ) ON [PRIMARY]
+*/
 --------------------------
 --      START           --
 --------------------------
@@ -134,32 +131,6 @@ update  [abc096].[KOTS_Transactions_Month] set  [GREEK_ISSUER]='   '
 update [abc096].[KOTS_Transactions_Month] set
 [ON_US]='   '
 
-/* --Old code
---Update Acquirer id
-update [abc096].[KOTS_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[KOTS_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id
-update [abc096].[KOTS_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[KOTS_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[KOTS_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[KOTS_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[KOTS_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[KOTS_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id
-update [abc096].[KOTS_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[KOTS_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;*/
--- New code for replacement    LN 20171003
 --Update Acquirer id
 print '--Update Acquirer id';
 update a
@@ -216,17 +187,6 @@ update [abc096].[KOTS_Transactions_Month] set
 where [ISSUER_BANK_ID]< 42 and  [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 
-/*
--- Removed as all BINs are uploaded in Products table      LN20171003
-update [abc096].[KOTS_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[KOTS_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-update [abc096].[KOTS_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[KOTS_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-*/
 update [abc096].[KOTS_Transactions_Month] set
 [GREEK_ISSUER]='No' where  [GREEK_ISSUER]<>'Yes' or [GREEK_ISSUER] is null
 ;
@@ -239,13 +199,6 @@ update [abc096].[KOTS_Transactions_Month] set
 [ON_US]='No' where  [ISSUER_BANK_ID]<>[ACQUIRER_BANK_ID]
 ;
 
-/*--Update ISSUING BANK  LN 20171003  OLD WAY
-update [abc096].[KOTS_Transactions_Month] set
- [ISSUING_BANK] = (select bank from abc096.banks where [abc096].[KOTS_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id)
-where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
-;
-*/
--- LN 20171003  NEW WAY
 --Update ISSUING BANK
 update [abc096].[KOTS_Transactions_Month] set
  [ISSUING_BANK] = cast((select bank from abc096.banks where [abc096].[KOTS_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id) as nvarchar(50))
@@ -299,51 +252,9 @@ update [abc096].[KOTS_Transactions_Month] set
  [UserData] = (select ACCT_FUNDG_SRCE_NM from visa_BINS_201311 where substring([abc096].[KOTS_Transactions_Month].mask,1,6)=visa_BINS_201311.bin)
 where  substring([abc096].[KOTS_Transactions_Month].mask,1,6) in (select visa_BINS_201311.bin from visa_BINS_201311)
 ;
----Select Data to display [Summary]
-SELECT
-MERCHANT_NAME,
-month(dtstamp),
-[GREEK_ISSUER],
-[ISSUING_BANK],
-CARD_TYPE,
-UserData,
-SUM(TAMOUNT) as TOTAL_AMOUNT,COUNT(*) TOTAL_TRANSACTIONS
-from
- [abc096].[KOTS_Transactions_Month] a
-GROUP BY
-MERCHANT_NAME,
-month(dtstamp),
-[GREEK_ISSUER],
-[ISSUING_BANK],
-CARD_TYPE,
-UserData
-order by
-MERCHANT_NAME,
-month(dtstamp),
-[GREEK_ISSUER],
-[ISSUING_BANK],
-CARD_TYPE,
-UserData
 
---Details
-select
-DTSTAMP as Transaction_Date,
-TID,
-TAMOUNT as AMOUNT,
-TAUTHCODE as AUTH_CODE,
-INST AS Installment_Number,
-MASK as MASKED_PAN,
-USERDATA as Card_Type,
-CARD_TYPE As Card_Brand,
-ISSUING_BANK,
-GREEK_ISSUER,
-ACQUIRING_BANK,
-ON_US
-from
- [abc096].[KOTS_Transactions_Month] a
- order by dtstamp,TID
 
----Select Data to display [Summary] -- to be used
+---Summary SHEET
 SELECT
 (case month(dtstamp)
 when '01' then 'January'
@@ -415,3 +326,22 @@ END),
 Year(dtstamp),
 [GREEK_ISSUER],
 [ISSUING_BANK]
+
+
+--Detail SHEET
+select
+DTSTAMP as Transaction_Date,
+TID,
+TAMOUNT as AMOUNT,
+TAUTHCODE as AUTH_CODE,
+INST AS Installment_Number,
+MASK as MASKED_PAN,
+USERDATA as Card_Type,
+CARD_TYPE As Card_Brand,
+ISSUING_BANK,
+GREEK_ISSUER,
+ACQUIRING_BANK,
+ON_US
+from
+ [abc096].[KOTS_Transactions_Month] a
+ order by dtstamp,TID

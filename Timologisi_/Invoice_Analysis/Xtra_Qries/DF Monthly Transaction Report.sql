@@ -1,11 +1,7 @@
---V1.1 Change the priority of mask-product check based on number of digits
---V1.3 Add UNIONPAY
---v1.4 Add Region EU, ISOCOUNTRY in DF_Transactions_Month. Also added REGIONEU as result in --Select Data to display [Details Per Store]--
-       changed abc096 --> dbo for products and banks --> banks_new sto use the xtra bins and banks		
 	
 /*-- Create Table
---drop table [abc096].[DF_Transactions_Month]*/
-/*CREATE TABLE [abc096].[DF_Transactions_Month_tmp](
+DROP TABLE [abc096].[DF_Transactions_Month]
+CREATE TABLE [abc096].[DF_Transactions_Month_tmp](
      [MID] [varchar](15) COLLATE Greek_CI_AS NULL ,
      [TID] [varchar](16) COLLATE Greek_CI_AS NULL ,
      [DESTCOMID] [varchar](16) COLLATE Greek_CI_AS NULL ,
@@ -35,14 +31,13 @@
      [ACQUIRER_BANK_ID] [integer],
 	 [ISOCNTRY] [varchar] (64), --20170929
 	 [REGIONEUFL] [varchar] (1)	--20170929
-     ) ON [PRIMARY]*/
+     ) ON [PRIMARY]
+*/
 
 Print 'Clear File';
 delete from [abc096].[DF_Transactions_Month]
 ;
-
 --insert data
--- LN 20170929  Added 2 xtra null for new fields
 print '-- Insert Data into DF_Transactions_Month';
 insert into [abc096].[DF_Transactions_Month]
 select  a.*,null,null,null,null,null,null,null,null, null, null
@@ -63,8 +58,8 @@ MERCHANT_NAME=
 --CASE WHEN MID='000000120002800'
 case mid
 when '000000120002800' THEN 'Duty Free         '
-when '000000120003500' THEN 'еккгмийес диамолес'
-ELSE 'еккгмийес диамолес-пкоиа'
+when '000000120003500' THEN 'О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫'
+ELSE 'О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫-О©╫О©╫О©╫О©╫О©╫'
 END
 ;
 
@@ -202,40 +197,6 @@ update [abc096].[DF_Transactions_Month] set
 [ON_US]='   '
 ;
 
-/*
--- Replaced with new code below    LN 20170929
---Update Acquirer id
-print '--Update Acquirer id';
-update [abc096].[DF_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[DF_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id - 1
-print '--Update Issuer id - 1';
-update [abc096].[DF_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[DF_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 2
-print '--Update Issuer id - 2';
-update [abc096].[DF_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[DF_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 3
-print '--Update Issuer id - 3';
-update [abc096].[DF_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[DF_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 4
-print '--Update Issuer id - 4';
-update [abc096].[DF_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products where substring([abc096].[DF_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
-*/
-
--- New code for replacement    LN 20170929
 --Update Acquirer id
 print '--Update Acquirer id';update a
 set  [ACQUIRER_BANK_ID] = id
@@ -295,19 +256,7 @@ print '--Update GREEK_ISSUER FLAG-1';
 update [abc096].[DF_Transactions_Month] set
 [GREEK_ISSUER]='Yes' where [ISSUER_BANK_ID]< 42 and   [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
-/*
--- Removed as all BINs are uploaded in Products table      LN20170929
-print '--Update GREEK_ISSUER FLAG-2';
-update [abc096].[DF_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[DF_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-print '--Update GREEK_ISSUER FLAG-3';
-update [abc096].[DF_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[DF_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-*/
+
 
 print '--Update GREEK_ISSUER FLAG-4';
 update [abc096].[DF_Transactions_Month] set
@@ -399,87 +348,3 @@ MID,
 ACQUIRING_BANK,[GREEK_ISSUER],
 ON_US,
 CARD_TYPE
-
-
-  ---Select Data to display [Details Per Store]
-  -- LN 20170929   Added new field for Region EU
-  print '--Select Data to display [Details Per Store]';
-  SELECT
-  MERCHANT_NAME,
-  MID,
-  abc096.tids.shop as Store_Name,
-  --dbo.VTIDsPeriod.shop as Store_Name, 20150804
-  ACQUIRING_BANK,[GREEK_ISSUER],
-  REGIONEUFL,
-  DMID,
-  ON_US,
-  CARD_TYPE,
-  SUM(CASE PROCCODE
-  WHEN '200000' THEN -TAMOUNT
-  WHEN '020000' THEN -TAMOUNT
-  ELSE TAMOUNT
-  END) as TOTAL_AMOUNT,
-  --SUM(TAMOUNT) as TOTAL_AMOUNT,
-  COUNT(*) TOTAL_TRANSACTIONS
-  from  [abc096].[DF_Transactions_Month]
-  --LEFT JOIN dbo.VTIDsPeriod ON  [abc096].[DF_Transactions_Month].TID = dbo.VTIDsPeriod.TID 20150804
-  LEFT JOIN abc096.tids ON  [abc096].[DF_Transactions_Month].TID = abc096.tids.TID
-  GROUP BY
-  MERCHANT_NAME,
-  MID,
-  --dbo.VTIDsPeriod.shop, 20150804
-  abc096.tids.shop,
-  ACQUIRING_BANK,[GREEK_ISSUER],
-  REGIONEUFL,
-  DMID,
-  ON_US,
-  CARD_TYPE
-  order by
-  MERCHANT_NAME,
-  MID,
-  --dbo.VTIDsPeriod.shop, 20150804
-  abc096.tids.shop,
-  ACQUIRING_BANK,[GREEK_ISSUER],
-  DMID,
-  ON_US,
-  CARD_TYPE
-  
-
---Select Data to display [Details Per Store]
-print '--Select Data to display [Details Per Store]';
-SELECT
-     [MERCHANT_NAME] ,
-     [MID]  ,
-     [abc096].[DF_Transactions_Month].[TID]  ,
-     --dbo.VTIDsPeriod.shop as Store_Name, 20150804
-     abc096.tids.shop as Store_Name,
-     [MSGID],
-     [TAMOUNT],
-     [DTSTAMP],
-     [TAUTHCODE],
-     [MASK] ,
-     [CARD_TYPE],
-     [ISSUING_BANK],
-     [PROCCODE],
-     [INST] ,
-     [RESPKIND],
-     [TRESPONSE],
-     [ACQUIRING_BANK],
-     [DMID],
-     [DTID] ,
-     [ON_US]
-from  [abc096].[DF_Transactions_Month]
---LEFT JOIN dbo.VTIDsPeriod ON  [abc096].[DF_Transactions_Month].TID = dbo.VTIDsPeriod.TID 20150804
-LEFT JOIN abc096.tids ON  [abc096].[DF_Transactions_Month].TID = abc096.tids.TID
-where
-[GREEK_ISSUER]='Yes'
-order by
-    [MERCHANT_NAME] ,
-     [MID]  ,
-     [abc096].[DF_Transactions_Month].[TID]  ,
-     --dbo.VTIDsPeriod.shop , 20150804
-	 abc096.tids.shop,
-     [ACQUIRING_BANK],
-     [ISSUING_BANK]
-
-

@@ -1,8 +1,4 @@
---SELECT      *      from [abc096].[LM_Transactions_Month] where  [ACQUIRING_BANK]='CitiBank' and card_type='Maestro'
---select * from [abc096].[LM_Transactions_Month] where CARD_TYPE like '%UNKNOWN%'
-;
---select max(dtstamp), min(dtstamp) from dbo.TRANSLOG_TRANSACT aselect top 10  *  from  dbo.TRANSLOG_TRANSACT a order by dtstamp
---select * from abc096.merchants
+
 Print '------------------';
 print '--   S T A R T  --';
 Print '------------------';
@@ -107,40 +103,7 @@ update  [abc096].[LM_Transactions_Month] set  [GREEK_ISSUER]='   '
 print 'Set ON_US= *Blanks';
 update [abc096].[LM_Transactions_Month] set
 [ON_US]='   '
-/*
---Update Acquirer id
-print '--Update Acquirer id';
-update [abc096].[LM_Transactions_Month] set
- [ACQUIRER_BANK_ID] = (select id from abc096.banks where [abc096].[LM_Transactions_Month].destcomid=abc096.banks.destcomid)
-;
---Update Issuer id - 1
-print '--Update Issuer id - 1';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,6) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 2
-print '--Update Issuer id - 2';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,3) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 3
-print '--Update Issuer id - 3';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,4) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
---Update Issuer id - 4
-print '--Update Issuer id - 4';
-update [abc096].[LM_Transactions_Month] set
- [ISSUER_BANK_ID] = (select bankid from abc096.products_old where substring([abc096].[LM_Transactions_Month].mask,1,5) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
-where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
-;
 
-*/
-
--- New code for replacement    LN 20171003
 --Update Acquirer id
 print '--Update Acquirer id';
 update a
@@ -200,17 +163,6 @@ print '--Update GREEK_ISSUER FLAG-1';
 update [abc096].[LM_Transactions_Month] set
 [GREEK_ISSUER]='Yes' where  [ISSUER_BANK_ID]< 42 and [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
-/*
-print '--Update GREEK_ISSUER FLAG-2';
-update [abc096].[LM_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[LM_Transactions_Month].mask,1,6) in (select BIN from visa_BINS_201311 where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;
-print '--Update GREEK_ISSUER FLAG-3';
-update [abc096].[LM_Transactions_Month] set
-[GREEK_ISSUER]='Yes' where substring([abc096].[LM_Transactions_Month].mask,1,6) in (select BIN from [dbo].[MC_GREEK_BINS] where country ='Greece')
-and [GREEK_ISSUER]='' or [GREEK_ISSUER] is null
-;*/
 
 print '--Update GREEK_ISSUER FLAG-4';
 update [abc096].[LM_Transactions_Month] set
@@ -235,7 +187,7 @@ where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 --   END
 
 ---Select Data to display [Summary]
-print '---Select Data to display [Summary]';
+
 SELECT
 MERCHANT_NAME,
 MID,
@@ -264,68 +216,3 @@ ACQUIRING_BANK,[GREEK_ISSUER],
 ON_US,
 CARD_TYPE
 
-
----Select Data to display [Details Per Store]
-print '--Select Data to display [Details Per Store]';
-SELECT
-MERCHANT_NAME,
-MID,
-dbo.VTIDsPeriod.shop as Store_Name,
-ACQUIRING_BANK,[GREEK_ISSUER],
-DMID,
-ON_US,
-CARD_TYPE,
-SUM(TAMOUNT) as TOTAL_AMOUNT,COUNT(*) TOTAL_TRANSACTIONS
-from  [abc096].[LM_Transactions_Month]
-LEFT JOIN dbo.VTIDsPeriod ON  [abc096].[LM_Transactions_Month].TID = dbo.VTIDsPeriod.TID
-GROUP BY
-MERCHANT_NAME,
-MID,
-dbo.VTIDsPeriod.shop,
-ACQUIRING_BANK,[GREEK_ISSUER],
-DMID,
-ON_US,
-CARD_TYPE
-order by
-MERCHANT_NAME,
-MID,
-dbo.VTIDsPeriod.shop,
-ACQUIRING_BANK,[GREEK_ISSUER],
-DMID,
-ON_US,
-CARD_TYPE
-
-
---Select Data to display [Details Per Store]
-print '--Select Data to display [Details Per Store]';
-SELECT
-     [MERCHANT_NAME] ,
-     [MID]  ,
-     [abc096].[LM_Transactions_Month].[TID]  ,
-     dbo.VTIDsPeriod.shop as Store_Name,
-     [MSGID],
-     [TAMOUNT],
-     [DTSTAMP],
-     [TAUTHCODE],
-     [MASK] ,
-     [CARD_TYPE],
-     [ISSUING_BANK],
-     [PROCCODE],
-     [INST] ,
-     [RESPKIND],
-     [TRESPONSE],
-     [ACQUIRING_BANK],
-     [DMID],
-     [DTID] ,
-     [ON_US]
-from  [abc096].[LM_Transactions_Month]
-LEFT JOIN dbo.VTIDsPeriod ON  [abc096].[LM_Transactions_Month].TID = dbo.VTIDsPeriod.TID
-where
-[GREEK_ISSUER]='Yes'
-order by
-    [MERCHANT_NAME] ,
-     [MID]  ,
-     [abc096].[LM_Transactions_Month].[TID]  ,
-     dbo.VTIDsPeriod.shop ,
-     [ACQUIRING_BANK],
-     [ISSUING_BANK]
