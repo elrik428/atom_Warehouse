@@ -3,6 +3,8 @@
 -- Clear file
 Delete from [abc096].[IMP_TRANSACT_D]
 
+-- Insert flat file to table [abc096].[IMP_TRANSACT_D]
+
 --Updated reversed and deleted reversals from IMP_TRANSACT_D
 update [ZacReporting].[abc096].[IMP_TRANSACT_D] 
 set amount =0 where msgid='0200'  

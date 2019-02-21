@@ -1,4 +1,8 @@
 
+CHANGE COLUMN TCODE + BTCODE
+ALTER TABLE [abc096].[IMP_TRANSACT_D_monthly]
+ALTER COLUMN btcode bigint;
+
 1. Upload TIDs / MIDs, if there are any
 2. Delete TIDs, if there are any
 2.i) Run SQLs for TID comparison between 10.7.17.11 & ZACREPORTING
@@ -132,7 +136,7 @@ INSERT INTO [abc096].[LIFECARD]
           WHERE (((dbo_VAlphaLty.DTSTAMP) Between #1/1/2017# And #2/1/2017#))   <----CHANGE DATE  ----->   MM/DD/YYYY  !!!!!!!
           ORDER BY dbo_VAlphaLty.DTSTAMP;
   ii)  GEORGEBYBANK (query name) used for NOTOSInvoiceDetails pdf
-  iii) NOTOSNETMONTH (query name) used for NOTOSNETMONTH pdf 
+  iii) NOTOSNETMONTH (query name) used for NOTOSNETMONTH pdf
 
 9. From UPDATE PPC  +   COSMOTE invoice
     UPDATE

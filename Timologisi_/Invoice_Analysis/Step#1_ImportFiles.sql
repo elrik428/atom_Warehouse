@@ -379,4 +379,4 @@ update zacreporting.[abc096].[IMP_TRANSACT_D]
                  end     
              where productid = 0   ;
 
--- Insert table to abc096.LIFECARD after above steps
+-- Insert table [abc096].IMP_TRANSACT_D to abc096.LIFECARD 
