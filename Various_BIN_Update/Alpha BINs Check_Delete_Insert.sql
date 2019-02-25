@@ -1,5 +1,6 @@
 -- A
 --Backup table
+drop table dbo.INSTALLMENTBINS_BUP
 select * into dbo.INSTALLMENTBINS_BUP from dbo.INSTALLMENTBINS
 
 
