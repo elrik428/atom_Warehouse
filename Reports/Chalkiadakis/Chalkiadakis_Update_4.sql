@@ -21,8 +21,8 @@ and a.DMID = v.DMID
 where a.MID = '000000120004000' and 
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
-and a.PROCESSED = 'EUROBANK' and a.Brand = 'VISA'
- --and a.PROCESSED = 'EUROBANK'
+and a.PROCESSED = 'PIRAEUS' and a.Brand = 'VISA'
+ --and a.PROCESSED = 'PIRAEUS'
 GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
@@ -53,8 +53,8 @@ and a.DMID = v.DMID
 where a.MID = '000000120004000' and 
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
-and a.PROCESSED = 'EUROBANK' and a.Brand = 'MASTER'
- --and a.PROCESSED = 'EUROBANK'
+and a.PROCESSED = 'PIRAEUS' and a.Brand = 'MASTER'
+ --and a.PROCESSED = 'PIRAEUS'
 GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
@@ -85,8 +85,8 @@ and a.DMID = v.DMID
 where a.MID = '000000120004000' and 
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
-and a.PROCESSED = 'EUROBANK' and a.Brand = 'MAESTRO'
- --and a.PROCESSED = 'EUROBANK'
+and a.PROCESSED = 'PIRAEUS' and a.Brand = 'MAESTRO'
+ --and a.PROCESSED = 'PIRAEUS'
 GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
@@ -117,8 +117,8 @@ and a.DMID = v.DMID
 where a.MID = '000000120004000' and 
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
-and a.PROCESSED = 'EUROBANK' and a.Brand = 'CHINA UNION PAY'
- --and a.PROCESSED = 'EUROBANK'
+and a.PROCESSED = 'PIRAEUS' and a.Brand = 'CHINA UNION PAY'
+ --and a.PROCESSED = 'PIRAEUS'
 GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
@@ -149,10 +149,10 @@ and a.DMID = v.DMID
 where a.MID = '000000120004000' and 
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
-and a.PROCESSED = 'EUROBANK' and a.Brand not in ('MASTER','VISA','MAESTRO','CHINA UNION PAY')
- --and a.PROCESSED = 'EUROBANK'
+and a.PROCESSED = 'PIRAEUS' and a.Brand not in ('MASTER','VISA','MAESTRO','CHINA UNION PAY')
+ --and a.PROCESSED = 'PIRAEUS'
 GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
 on
-q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSEDs
+q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSED

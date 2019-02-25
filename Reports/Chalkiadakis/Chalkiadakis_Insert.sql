@@ -21,10 +21,13 @@ order by PROCESSED
 
 ---- Insert data to amounts table
 insert into dbo.Chalkiadakis_dailyValues
-SELECT v.MERCHTITLE,v.MERCHADDRESS,a.Shop,v.DMID,v.BANK,
+SELECT v.MERCHTITLE,v.MERCHADDRESS,a.Shop,v.STORE_CODE,v.BANK,v.DMID,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,
+0,0,0,0,0,
+--'','','','','','','','','','','','','','','','','','','','',
+--'','','','','','','','','','','','','','','','','','','','',
+--'','','','','','','',
 sum(a.Ποσό) Summary_Amount,
 count(*) Totals
 FROM [ZacReporting].[dbo].[ePOSBatchRep] a
@@ -35,8 +38,7 @@ where a.MID = '000000120004000' and
 --shop like ('%KALOKAIRI%') and 
 a.Κατηγορία= 'Εντός Πακέτου' 
 --and a.PROCESSED = 'ALPHA'
- --and a.PROCESSED = 'ETHNIKI'
-GROUP BY v.STORE_CODE, a.Shop,v.MERCHTITLE,v.MERCHADDRESS,v.DMID,v.BANK
+ GROUP BY v.STORE_CODE, a.Shop,v.STORE_CODE,v.MERCHTITLE,v.MERCHADDRESS,v.DMID,v.BANK
 
 
 

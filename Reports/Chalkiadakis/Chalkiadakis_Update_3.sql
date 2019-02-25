@@ -155,4 +155,4 @@ GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
 on
-q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSEDs
+q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSED

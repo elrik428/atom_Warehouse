@@ -128,10 +128,10 @@ q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSED
 --- DINERS
 update dbo.Chalkiadakis_dailyValues
 set
-       NetValue_AMEX=b.net_Value
-      ,ComValue_AMEX=b.commis_
-      ,TotValue_AMEX=b.Summary_Amount
-      ,CountTrxs_AMEX=b.Totals
+       NetValue_DINERS=b.net_Value
+      ,ComValue_DINERS=b.commis_
+      ,TotValue_DINERS=b.Summary_Amount
+      ,CountTrxs_DINERS=b.Totals
       
 from
 dbo.Chalkiadakis_dailyValues q
@@ -192,10 +192,10 @@ q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSED
 --- STORE
 update dbo.Chalkiadakis_dailyValues
 set
-       NetValue_AMEX=b.net_Value
-      ,ComValue_AMEX=b.commis_
-      ,TotValue_AMEX=b.Summary_Amount
-      ,CountTrxs_AMEX=b.Totals
+       NetValue_MILES=b.net_Value
+      ,ComValue_MILES=b.commis_
+      ,TotValue_MILES=b.Summary_Amount
+      ,CountTrxs_MILES=b.Totals
       
 from
 dbo.Chalkiadakis_dailyValues q
@@ -250,4 +250,4 @@ GROUP BY v.STORE_CODE, a.Shop, a.Brand,a.PROCESSED,v.COMMISION
 --order by PROCESSED
 ) b
 on
-q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSEDs
+q.Store_Code = b.STORE_CODE   and q.Bank = b.PROCESSED
