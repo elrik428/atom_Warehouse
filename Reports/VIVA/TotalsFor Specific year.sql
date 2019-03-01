@@ -1,4 +1,15 @@
 ---------  USED
+select 
+b.[Group],count(*) as TRXS,
+sum(TAMOUNT) SUMAMNT
+from dbo.TRANSLOG_TRANSACT_2017 a
+join abc096.MIDs b on a.MID = b.MID
+where 
+(a.MID like '%0000838%' or a.MID = '000000160000001')  and a.MID <> '000000083890000' 
+group by  b.[Group]
+
+
+
 -----    eCommerce
 ---- 2016
  select  '2016 VIVA Stats',
