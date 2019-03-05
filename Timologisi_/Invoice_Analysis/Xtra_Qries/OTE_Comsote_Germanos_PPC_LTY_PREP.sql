@@ -235,3 +235,31 @@ from dbo.IMP_TRANSACT_D_month
 where  reversed not in ('F','A') and respkind = 'OK' and substring(cashierinfo,2,3) = 'PPC' and substring(cashierinfo,5,1) = '2'
 group by substring(mid,11,2),Merchant_DESCR, destcomid, card_type,ISSUER_BANK_ID,ISSUING_BANK
 order by substring(mid,11,2), destcomid, card_type,ISSUER_BANK_ID;
+
+
+-- Protergia Sheet
+select
+Merchant_DESCR,
+--DESTCOMID,
+(case DESTCOMID
+when 'NET_ALPHA' then 'ALPHA BANK'
+when 'NET_EBNK' then 'EUROBANK'
+when 'NET_NTBN' then 'ETHNIKI'
+else 'UNKNOWN'
+end) DestinationBank,
+card_type,
+--ISSUER_BANK_ID,
+case ISSUING_BANK
+when ' ' then 'UNKNOWN'
+else ISSUING_BANK
+end,
+SUM(CASE PROCCODE
+WHEN '200000' THEN -AMOUNT
+WHEN '020000' THEN -AMOUNT
+ELSE AMOUNT
+END) as TOTAL_AMOUNT,
+COUNT(*) TOTAL_TRANSACTIONS
+from dbo.IMP_TRANSACT_D_month
+where  reversed not in ('F','A') and respkind = 'OK' and substring(cashierinfo,2,3) = 'PPC' and substring(cashierinfo,5,1) = '3'
+group by substring(mid,11,2),Merchant_DESCR, destcomid, card_type,ISSUER_BANK_ID,ISSUING_BANK
+order by substring(mid,11,2), destcomid, card_type,ISSUER_BANK_ID;

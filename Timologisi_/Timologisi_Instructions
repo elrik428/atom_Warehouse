@@ -217,7 +217,7 @@ INSERT INTO [abc096].[LIFECARD]
     iv)  Run RAXMONTHTRX
 
 17. EASYPAY_Monthly_ report 2017.xls  /  ZacReporting / EasyPay report.sql file
-  i) DELETE   FROM [ZacReporting].[dbo].[BP_Transactions], dbo.EasyPay also delete only import, no fix to columns
+  i) DELETE   FROM [ZacReporting].[dbo].[BP_Transactions], [dbo].[EasyPayAgent] also delete only import, no fix to columns
   ii)  Right click ZACREPORTING
   iii) TASKS --> IMPORT DATA
   iv)DATA SOURCE --> FLAT FILE SOURCE
