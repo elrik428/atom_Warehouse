@@ -37,21 +37,6 @@ SET @ToAppnm1='EPOS0217'
  --SET @ToEMV='EMV8002'
 -- --------
 --
---
----- -------- version 2.0 CLA
--- insert into vc30.RELATION
--- (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
--- ISAUTODOWNLOAD,LAST_ATTEMPTED_DLD_DATE,VERSION,LASTPARAM_DLD_DATE,LASTFILE_DLD_DATE,FORUSES,FORMVIEWTYPE,SERVERID,TERM_FILE_UPDATES,
--- FORCEFILEDLD,FORCEPARAMDLD,FORCETERMFILEDLD)
--- select @ToModel,@ToCLA,TERMID,CLUSTERID,ACCCNT,NULL,NULL,ACCCODE,0,LOCKED,getdate(),
--- 'SCRIPT1',NULL,NULL,DESCRIPTION,NULL,'N',NULL,NULL,NULL,NULL,FORUSES,FORMVIEWTYPE,NULL,TERM_FILE_UPDATES,'D','D','D'
--- from vc30.relation
--- where famnm = @FromModel and appnm = @FromCLA
--- -- for specific terminal
--- and TERMID in
---('00033333')
-
---
 -- --------
 
 insert into vc30.RELATION
@@ -117,16 +102,6 @@ where famnm = @FromModel and appnm = @FromAppnm1
 -- for specific terminal
 and TERMID in
 ('00033333')
-
-
--- -------- version 2.0 CLA
--- -- 6.2 Delete old parameters
--- delete from vc30.RELATION
--- where famnm = @FromModel and appnm = @FromCLA
--- -- for specific terminal
--- and TERMID in
---('00033333')
-
 
 --
 Print 'Update USES'

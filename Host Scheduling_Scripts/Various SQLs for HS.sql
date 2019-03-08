@@ -132,7 +132,7 @@ and not  exists (select termid from vc30.RELATION b where termid in ('675CTLSCAR
 ------- Piraeus MAsks
 select distinct CLUSTERID,termid, appnm, famnm   from vc30.relation where
 --termid like 'COMBO%'
-(TERMID like '675%' or termid like '520G%' or termid like 'COMBO%' or termid like '520INSTA%')
+(TERMID like '675%' or termid like '520G%' or termid like 'COMBO%' or termid like '520INSTA%' or termid like '690%' )
 AND substring(appnm,1,4) = ('PIRA')
  and substring(appnm,9,1) = ('P')
 AND acccnt = -1

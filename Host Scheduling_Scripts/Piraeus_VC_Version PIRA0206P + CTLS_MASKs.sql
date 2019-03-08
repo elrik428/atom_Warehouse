@@ -15,10 +15,10 @@ declare @ToAppnm1 varchar(10)
  SET @ToModel='Vx-675'
 -- SET @FromModel='Vx-675WiFi'
 -- SET @ToModel='Vx-675WiFi'
-SET @FromAppnm='PIRA0205P'
-SET @ToAppnm='PIRA0206P'
-SET @FromAppnm1='PIRA0205'
-SET @ToAppnm1='PIRA0206'
+SET @FromAppnm='PIRA0207P'
+SET @ToAppnm='PIRA0208P'
+SET @FromAppnm1='PIRA0207'
+SET @ToAppnm1='PIRA0208'
 
 
 -- 1 Create new app on all TIDs in the target model based on the TIDs found in the source model and app name combination.
