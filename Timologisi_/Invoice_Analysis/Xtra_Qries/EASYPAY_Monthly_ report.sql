@@ -17,7 +17,8 @@ SELECT [Customer] as 'Κατάστημα'
       ,[ErrorCode] as 'Κωδικός Απόρριψης'
 	  ,(CASE [Status] WHEN 'VOI' THEN 'Reversed' ELSE '' END)	as 'Κατάσταση'
 	    ,[SecondaryPaymentCode] as '2ος Κωδικός Πληρωμής'
-	    ,[Reference] as 'Reference'
+	    ,[Reference] as 'Reference',
+      (case  when [PAN financial] <> '' then 'CARD'  when [PAN financial] = '' then  'CASH' end)
 
 
 FROM ([ZacReporting].[dbo].[BP_Transactions] LEFT JOIN [ZacReporting].[abc096].[MERCHANTS]
