@@ -46,7 +46,7 @@ declare @tid varchar(16)
 
 declare merch_cursor cursor for
 select DISTINCT TID from MERCHBINS
-where (binlower = '589242' and binupper = '589242')
+where (binlower = '406101' and binupper = '406101')
 and tid <> '1111    '
 
 open merch_cursor
@@ -66,8 +66,20 @@ begin
   insert into MERCHBINS
   (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)
   (
-  select @TID, DESTPORT, '416596', '416596', INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from MERCHBINS
-  where TID = @TID and (binlower = '589242' and binupper = '589242')
+  select @TID, DESTPORT, '421587', '421587', INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from MERCHBINS
+  where TID = @TID and (binlower = '406101' and binupper = '406101')
+  )
+  insert into MERCHBINS
+  (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)
+  (
+  select @TID, DESTPORT, '434930', '434930', INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from MERCHBINS
+  where TID = @TID and (binlower = '406101' and binupper = '406101')
+  )
+  insert into MERCHBINS
+  (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)
+  (
+  select @TID, DESTPORT, '538851', '538851', INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from MERCHBINS
+  where TID = @TID and (binlower = '406101' and binupper = '406101')
   )
 
   -- insert into MERCHBINS
