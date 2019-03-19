@@ -29,7 +29,7 @@ where not  exists
 -- Delete
 --i. Very small number of BINs
 delete from [dbo].[INSTALLMENTBINS]
-where destport in('NET_CLBICALPHA','NET_ALPMOR') and binlower in ('379528',
+where destport in('NET_BICALPHA','NET_ALPMOR') and binlower in ('379528',
 '467108',
 '483687',
 '541871')
