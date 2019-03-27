@@ -226,7 +226,8 @@ INSERT INTO [abc096].[LIFECARD]
   vii) Check for correct data. proceed with NEXT, NEXT
   viii)Choose destination, Edit Mapping, NEXT, FINISH
   ix) Above steps should be done for both tables BP_Transactions & dbo.EasyPayAgent
-  ix) Run last SELECT
+  x) Run multiple Updates
+  xi) Run last SELECT
 
 18. EasyPay terminals Nov 2017.xlsx
   i) Run "VC_EASYPAYAgent terminals.sql"  in VC30
