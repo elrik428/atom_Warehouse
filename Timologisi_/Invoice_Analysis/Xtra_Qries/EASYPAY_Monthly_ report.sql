@@ -1,3 +1,15 @@
+UPDATE [dbo].[BP_TRANSACTIONS] set [TerminalID]=right([TerminalID],8)
+UPDATE [dbo].[BP_TRANSACTIONS] set [Status]='' WHERE [Type]='V'
+UPDATE [dbo].[BP_TRANSACTIONS] set [Response]='DECLINE'
+UPDATE [dbo].[BP_TRANSACTIONS] set [Response]='APPROVAL' WHERE [Result]='0'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='OK' WHERE [Result]='0'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='Terminal unknown / setup issue' WHERE [Result]='03'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='Provider not available or article not allowed' WHERE [Result]='91'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='Format error' WHERE [Result]='12'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='Transaction not found' WHERE [Result]='21'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='Declined from Host' WHERE [Result]='85'
+UPDATE [dbo].[BP_TRANSACTIONS] set [RC Descr]='No answer' WHERE [Result]='200'
+
 SELECT [Customer] as 'Κατάστημα'
       ,right([TerminalID],8) as 'Κωδικός τερματικού'
 	  ,[ZacReporting].[abc096].[MERCHANTS].[MID] as 'Κωδικός Εμπόρου'
