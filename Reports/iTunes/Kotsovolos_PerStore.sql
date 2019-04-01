@@ -1,9 +1,11 @@
 -- Latest request
 -- Totals per store with totals for Activation + Cancellations
-SELECT   storeno,b.[Name],a.EAN,
-sum(case when [Type] ='A' then +(cast(([Amount]) as dec(15,2))) else 0 end ) as Activation_Totals,
-sum(case when [Type] ='A' then +1 else 0 end ) as Activation_Sum,
-sum(case when [Type] ='D' then +1 else 0 end ) as Cancelled_Sum
+SELECT   storeno as 'Store'
+,b.[Name] as 'Product'
+,a.EAN 'EAN'
+,sum(case when [Type] ='A' then +(cast(([Amount]) as dec(15,2))) else 0 end ) as 'Amount'
+,sum(case when [Type] ='A' then +1 else 0 end ) as 'Totals'
+,sum(case when [Type] ='D' then +1 else 0 end ) as 'Canceled in Units' 
       -- , sum(cast(([Amount]) as dec(15,2))) as 'Amount', count(*) as 'Totals'
 FROM [iTunes].[dbo].[TRANSACTIONS_ALL] a
 join [dbo].[PRODUCTS] b on a.[EAN] = b.[EAN]
