@@ -1,10 +1,10 @@
 SELECT distinct 
 TER_TID as "Sharp TID",
 tsa_serial as "S/N",
-TER_MER_NAME as "диайя. титкос",
-TER_MER_NAME2 as "диеухумсг",
-TER_MER_ADDRESS as "покг",
-TER_MER_CITY as "тгкежымо",
+TER_MER_NAME as "н■н≥н▒н н║. н╓н≥н╓н⌡н÷нё",
+TER_MER_NAME2 as "н■н≥н∙н╔н≤н╔н²нён≈",
+TER_MER_ADDRESS as "н═н÷н⌡н≈",
+TER_MER_CITY as "н╓н≈н⌡н∙н╕н╘н²н÷",
 TER_MID as "Merchant ID",
 TER_TID as "Terminal ID",
 substr(tsa_serial,6,2) as "Terminal_Type",
@@ -19,6 +19,3 @@ FROM TERM_EASYPAYSERVICES
 where EPA_EPA_ENABLED=1)
 order by ter_tid
 ;
-
-
-
