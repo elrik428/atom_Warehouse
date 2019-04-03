@@ -34,7 +34,7 @@ INSERT INTO [ZacReporting].[abc096].[IMP_TRANSACT_D]
 
 
 ------Insert report11 in [IMP_TRANSACT_D]
-Run NOTOSMonthTicketRest for monthly
+--  Run NOTOSMonthTicketRest for monthly
 
 
 --autotechnica
@@ -44,7 +44,7 @@ insert into [ZacReporting].[abc096].[IMP_TRANSACT_D]
 select * from abc096.IMP_TRANSACT_D_monthly
 where MID in ('000000120004700','000000120004800','000000120004750')
 
-Run daily for the whole month
+--  Run daily for the whole month
 
 --intersport
 DELETE FROM [ZacReporting].[abc096].[IMP_TRANSACT_D]
@@ -53,4 +53,4 @@ insert into [ZacReporting].[abc096].[IMP_TRANSACT_D]
 select * from abc096.IMP_TRANSACT_D_monthly
 where MID like '0000001200019%'
 
-Run INTERSPORTmonthly for monthly
+--  Run INTERSPORTmonthly for monthly
