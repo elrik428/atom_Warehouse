@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 NEW LEORY MERLIN MAIL Recipients!!!!!
+=======
+CHECK mail for LEROY MERLIN new recipients!!!!!
+
+>>>>>>> 1a15e56b4e42a6c82e12fa09ef42ca47170a8468
 
 CHANGE COLUMN TCODE + BTCODE
 ALTER TABLE [abc096].[IMP_TRANSACT_D_monthly]
