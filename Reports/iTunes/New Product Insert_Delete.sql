@@ -1,3 +1,4 @@
+--- A. INSERT new Product
 -- 1. Inserto to itunes.Products
 -- 2. Insert to ZACPRT.dbo.SERVICES
 -- Copy from a relevant ProductType
@@ -30,3 +31,13 @@ SELECT  [MID]
       ,[DiasCode]
   FROM [ZACRPT].[dbo].[SERVICES_MERCHANTS]
   where serviceid = '3069'
+
+--- B. DELETE  Product
+-- 1.
+Delete
+From [ZACRPT].[dbo].[SERVICES_MERCHANTS]
+Where serviceid = '3012'
+-- 2.
+Update [ZACRPT].[dbo].[SERVICES]
+Set servicestatus = 'N'
+Where  servicename  = 'QTEL 10'
