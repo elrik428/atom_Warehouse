@@ -6,6 +6,7 @@
 --3. Insert to ZACPRT.dbo.SERVICES_MERCHANTS
 
 -- Backup table
+drop table [dbo].[SERVICES_MERCHANTS_bupLN]
 select * into [dbo].[SERVICES_MERCHANTS_bupLN] FROM [ZACRPT].[dbo].[SERVICES_MERCHANTS]
 
 -- Insert to table
