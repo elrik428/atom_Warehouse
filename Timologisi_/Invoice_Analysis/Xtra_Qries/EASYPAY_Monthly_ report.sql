@@ -1,3 +1,5 @@
+DELETE from [dbo].[BP_TRANSACTIONS]
+
 UPDATE [dbo].[BP_TRANSACTIONS] set [TerminalID]=right([TerminalID],8)
 UPDATE [dbo].[BP_TRANSACTIONS] set [Status]='' WHERE [Type]='V'
 UPDATE [dbo].[BP_TRANSACTIONS] set [Response]='DECLINE'
