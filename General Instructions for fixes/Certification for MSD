@@ -1,0 +1,12 @@
+1. Run BTT 3.0
+2. Create project
+3. Choose  Build 240 --> tick
+4. TIck --> Link M-TIP to TSE .... (Import)
+5. Choose TSE file + Apply
+6. Start Scenarios test
+7. Follow test instructions for certain Scenarios
+8. After tests are complete request log file from FD
+9. Unzip and upload file and check if it's ok for all cases
+10. If all case are ok , green tick will be shown
+11. check export M-TIP TSEX
+12. Mail TSEZfile to Kantzos

@@ -1,0 +1,25 @@
+1. TEST VC application
+2. Legacy export
+3. Choose Cluster
+4. Choose current appnm
+5. Choose TID
+6. Export location
+7. Export button
+8. Open .exp file with txt editor
+9. Change version manual
+10. Delete *UNZIP
+11. Save
+12. Legacy Import
+13. Tick .exp
+14. Open .exp file
+15. Next --> Next --> Import
+16. Close
+17. Terminal manager
+18. Add application like in production
+19. Rename application as needed
+ * Check files for older versions * 
+20. OPen TID --> APPNM --> File(s) --> Attended and Add
+21. Change port to 9508 for  
+    i. GPRS 
+    ii. ETH 
+    iii. SERVICES 

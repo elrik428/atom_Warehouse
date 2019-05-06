@@ -1,0 +1,5 @@
+1.  Storage --> AGT Reports --> Find Report
+2.  MerchantsBPAutoreports.sln open
+2a. Change Date in line 75
+2b. Calculate days from requested Date
+3.  In case of differetnt hour check project properties
