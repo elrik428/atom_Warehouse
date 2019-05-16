@@ -13,6 +13,21 @@ TERMID in
 group by CLUSTERID,famnm,appnm
 ORDER BY CLUSTERID,famnm,appnm
 
+select CLUSTERID,famnm,appnm,count(*) from vc30.relation where
+TERMID in
+(select distinct termid from vc30.relation where
+CLUSTERID = 'EPOS_VEROPOULOS'
+AND substring(appnm,1,4) = ('EPOS')and
+substring(appnm,9,1) = ('P') and
+acccnt = -1
+--and appnm  in ('EPOS01C6P')
+--and appnm   in ('EPOS0201P')X
+--and appnm = 'EOS011103' and
+--and appnm = 'EOS010802'
+--and famnm = 'Vx-675'
+)
+group by CLUSTERID,famnm,appnm
+ORDER BY CLUSTERID,famnm,appnm
 
 select distinct CLUSTERID,termid, appnm, famnm   from vc30.relation where
 TERMID IN
