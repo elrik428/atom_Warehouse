@@ -1,5 +1,22 @@
-------------------    Production machine       --------------
+SELECT *
+FROM   TERMINAL
+ORDER BY TER_TID
+OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY;
 
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+select   TER_TID, TER_DL_TIME, substr(TER_TID,6,3) from TERMINAL where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9')
+/*csv*/
+select   TER_TID from TERMINAL where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9')
+select   count(*) from TERMINAL                                  where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9')
+select   TER_DL_TIME, count(*) from TERMINAL                                  where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9') group by TER_DL_TIME
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+------------     In progress work      (START)  Test server
+--------------------------------------------------------------
 DECLARE
  Modems number(6,0) := 150;
  FromTM char(5) := '23:00';
@@ -25,7 +42,7 @@ DECLARE
 
    CURSOR  Update_Cursor
     IS
-      select   TER_TID from TERMINAL  where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9')
+      select   TER_TID from TERMINAL where length(TER_TID) = 8 and substr(TER_TID,1,1) in ('0','1','2','3','4','5','6','7','8','9')
       --and rownum <200
       order by TER_TID  FOR UPDATE;
   --CURSOR Update_Cursor RETURN TermId_Prm%ROWTYPE;
@@ -84,7 +101,7 @@ OPEN Update_Cursor;
 
    --DBMS_OUTPUT.put_line(TmpBaseTime);
    --DBMS_OUTPUT.PUT_LINE(TmpBaseTime_tm);
-     UPDATE  TERMINAL  set TER_DL_TIME = BaseTime
+     UPDATE  TERMINAL set TER_DL_TIME = BaseTime
       WHERE CURRENT OF Update_Cursor;
 
      IF Modem = Modems
@@ -127,4 +144,4 @@ CLOSE Update_Cursor;
 
 END;
 
-COMMIT
+-------------------   **********************    ------------
