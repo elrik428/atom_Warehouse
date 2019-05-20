@@ -1,3 +1,5 @@
+
+print '***  START   ***';
 Print 'Clear File';
 delete from [abc096].[LM_Transactions_Month];
 

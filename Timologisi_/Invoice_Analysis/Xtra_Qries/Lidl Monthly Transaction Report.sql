@@ -1,6 +1,8 @@
 --------------------------
 --      START           --
 --------------------------
+print '***  START   ***';
+print 'Clear file';
 delete from [abc096].[Lidl_Transactions_Month]
 ;
 --insert data

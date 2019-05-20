@@ -1,3 +1,4 @@
+
 select a.mid,
 --a.dmid, a.DTID,
 b.Merchant,

@@ -1,4 +1,5 @@
---START
+
+print '***  START   ***';
 -- Steps for report creation
 --1.
 Print 'Delete temp table'
@@ -116,7 +117,7 @@ where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 -- END
 
 
--- Summary SHEET 
+-- Summary SHEET
 select
 Merchant_DESCR,
 --substring(cashierinfo,2,4),
