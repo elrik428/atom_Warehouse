@@ -18,3 +18,4 @@ update vc30.PARAMETER set value = '' where partid in
 (select termid from vc30.relation where clusterid = 'EPOS_LEROY_MERLIN')
 and parnameloc = 'INSSCM7' and value = '0002:000000100001:1:01:2:24:8'
 --and partid = '73002563'
+   
