@@ -7,6 +7,9 @@
 
     select * from [dbo].[binbase_forTransfer] a
     where not exists (select bin from abc096.Products b where a.bin = b.bin );
+-- and vice versa
+    select * from abc096.Products b
+	where not exists (select bin from [dbo].[binbase_forTransfer] a where a.bin = b.bin )
 
 --3. Delete table dbo.products_cpyofabc and then Insert sql
 
