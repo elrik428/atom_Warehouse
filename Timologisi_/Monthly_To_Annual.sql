@@ -2,7 +2,7 @@
 
 --Annually files
 select 'IMP_TRANSACT 2019', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019]
-select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
+--select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
 
 select 'LIFECARD 2019',max(DTSTAMP) from [abc096].[LIFECARD_2019]
 
@@ -21,7 +21,7 @@ select 'EASYPAY', max(TrxDate) from [dbo].[EasyPayAgent]
 
 -- Alternate View - yearly / temp
 select 'IMP_TRANSACT 2019', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019]
-select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
+--select 'IMP_TRANSACT 2019 #2', max(DTSTAMP) from [abc096].[IMP_TRANSACT_D_2019_B]
 select 'IMP_TRANSACT', max(DTSTAMP) from [abc096].IMP_TRANSACT_D_monthly
 
 select 'LIFECARD 2019',max(DTSTAMP) from [abc096].[LIFECARD_2019]
