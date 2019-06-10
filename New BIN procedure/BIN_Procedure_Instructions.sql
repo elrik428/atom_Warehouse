@@ -40,6 +40,8 @@
       FROM [ZacReporting].[abc096].[Products]
 
 --4. Delete [dbo].[binbase#2] and Insert not exist BINs of new file to BINBASE#2
+  DELETE from [dbo].[binbase#2]
+
   INSERT INTO [ZacReporting].[dbo].[binbase#2]
        ([id]
        ,[bin]
@@ -134,3 +136,9 @@ INSERT INTO [ZacReporting].[dbo].[products]
 select bin, bin, 0, 0, cast(0 as bit) ,substring(brand,1,40)+ ' ' + substring(levelb,1,40), cast(0 as bit), 0, substring(brand,1,20)   from dbo.binbase#2
 
 --7. Run BIN_Procedure#4 so to update banks in new products table
+
+-- Xtra query so to check detail of BINs inserted
+--2. Run sql statement so find which BINs doesn't exist in Products from new file
+
+ 	  select * from [dbo].[binbase_forTransfer] a
+    where not exists (select bin from dbo.products_cpyofabc b where a.bin = b.bin );
