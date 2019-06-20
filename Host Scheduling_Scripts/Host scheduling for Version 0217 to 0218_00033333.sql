@@ -23,10 +23,10 @@ declare @ToAppnm1 varchar(10)
 SET @FromModel='Vx-520'
 SET @ToModel='Vx-520'
 ----**
-SET @FromAppnm='EPOS0215P'
-SET @ToAppnm='EPOS0217P'
-SET @FromAppnm1='EPOS0215'
-SET @ToAppnm1='EPOS0217'
+SET @FromAppnm='EPOS0217P'
+SET @ToAppnm='EPOS0218P'
+SET @FromAppnm1='EPOS0217'
+SET @ToAppnm1='EPOS0218'
 --
 -- -------- version 2.0
  --SET @FromCLA='CLA013646'
@@ -105,7 +105,7 @@ and TERMID in
 
 --
 Print 'Update USES'
-update vc30.PARAMETER set value = 'TEPOS0217P' where parnameloc = 'USES' and partid in
+update vc30.PARAMETER set value = 'TEPOS0218P' where parnameloc = 'USES' and partid in
 ('00033333')
 
 
