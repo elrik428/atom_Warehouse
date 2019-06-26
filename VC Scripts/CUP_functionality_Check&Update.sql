@@ -25,7 +25,7 @@ and SERFILENM like'%P.ZIP%'
 
 
 ---- Enable Disable CUP
-select *, substring([value],10,1), substring([value],1,9) + '0' + substring([value],11,50)  -- Disable
+select substring([value],10,1), *,  substring([value],1,9) + '0' + substring([value],11,50)  -- Disable
 --substring([value],1,9) + '1' + substring([value],11,50)  -- Enable
 from vc30.PARAMETER
 where PARTID in
