@@ -202,6 +202,7 @@ where PARNAMELOC = 'AUTO_HOSTSCH' and PARTID in
 select PARNAMELOC, [value], count(*) from vc30.PARAMETER
 where PARNAMELOC = 'AUTO_HOSTSCH'
 group by PARNAMELOC, [value]
+order by PARNAMELOC, [value]
 
 
 select * from vc30.PARAMETER where PARTID in

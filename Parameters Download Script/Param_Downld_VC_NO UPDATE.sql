@@ -16,7 +16,7 @@ DECLARE @Slice  as numeric(3,0)
 DECLARE @ElapsedTime  as numeric(2,0)
 DECLARE @StartingDate as char (10)
 
-SET  @Modems   = 1               /*concarent connections*/
+SET  @Modems   = 150               /*concarent connections*/
 SET         @From     = '23:00'           /*start time*/
 SET         @To       = '07:00'           /*end time*/
 --SET      @Days     = 4
