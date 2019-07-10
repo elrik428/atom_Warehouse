@@ -123,7 +123,8 @@
 
 --6.  Insert new BINs to products tables, abc096 & dbo,
 
-INSERT INTO [ZacReporting].[dbo].[products]
+--INSERT INTO [ZacReporting].[dbo].[products]
+INSERT INTO [ZacReporting].[abc096].[products]
            ([BIN]
            ,[BINU]
            ,[BANKID]
