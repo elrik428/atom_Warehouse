@@ -143,3 +143,12 @@ select bin, bin, 0, 0, cast(0 as bit) ,substring(brand,1,40)+ ' ' + substring(le
 
  	  select * from [dbo].[binbase_forTransfer] a
     where not exists (select bin from dbo.products_cpyofabc b where a.bin = b.bin );
+
+
+-- XTRA SQLs
+-- 1. Insert data to table with unique ID
+  SET IDENTITY_INSERT DBO.PRODUCTS ON
+  GO
+  DELETE from dbo.Products
+  INSERT into dbo.Products ([ID],[BIN],[BINU],[BANKID],[ExBankID],[Proprietary],[Product],[Exclude],[CARDID],[Brand])
+  SELECT * from abc096.Products

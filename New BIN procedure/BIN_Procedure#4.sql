@@ -12,8 +12,8 @@ with trxbins as (
   select   substring(mask,1,6) binsix  from zacreporting.abc096.IMP_TRANSACT_D_monthly
   group by substring(mask,1,6)
   having count(*) > 50
-)
-  insert into zacreporting.dbo.banknbins
+  )
+insert into zacreporting.dbo.banknbins
     select (cast(Rank() OVER( ORDER BY bank ) AS int)) + 41 'rownumber' ,bank, bin  from  zacreporting.dbo.binbase a
     inner join trxbins on binsix = a.bin
     where a.isocountry <> 'greece' and bank <> ' '
@@ -29,7 +29,7 @@ insert into zacreporting.abc096.banks_new
   group by bankid, bankdescr;
 
 
---//     4 Update products file with bankid for existing BINs
+--//     4 Update products file with bankid for existing BINS in both abc096, dbo tables
 
   update  a
   set a.bankid = b.bankid
