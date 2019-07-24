@@ -152,3 +152,16 @@ select bin, bin, 0, 0, cast(0 as bit) ,substring(brand,1,40)+ ' ' + substring(le
   DELETE from dbo.Products
   INSERT into dbo.Products ([ID],[BIN],[BINU],[BANKID],[ExBankID],[Proprietary],[Product],[Exclude],[CARDID],[Brand])
   SELECT * from abc096.Products
+
+
+-- 2. Revert BANKS to original form
+delete from abc096.Banks 
+where ID >=42
+
+insert into abc096.Banks
+select * from abc096.banks_new a
+where not  exists(select b.ID from abc096.Banks b where a.ID=b.ID)
+
+UPDATE ABC096.Banks_new
+SET DESTCOMID = NULL,BID = NULL
+WHERE ID > 42
