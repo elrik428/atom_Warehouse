@@ -74,7 +74,7 @@ print '--Update Issuer id - 1';
 update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from dbo.IMP_TRANSACT_D_month as a
-  inner join zacreporting.dbo.products b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
+  inner join zacreporting.abc096.products b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -83,7 +83,7 @@ print '--Update Issuer id - 2';
   update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from dbo.IMP_TRANSACT_D_month as a
-  inner join zacreporting.dbo.products b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -92,7 +92,7 @@ print '--Update Issuer id - 3';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from dbo.IMP_TRANSACT_D_month as a
-  inner join zacreporting.dbo.products b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -101,7 +101,7 @@ print '--Update Issuer id - 4';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from dbo.IMP_TRANSACT_D_month as a
-  inner join zacreporting.dbo.products b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -113,7 +113,7 @@ update  dbo.IMP_TRANSACT_D_month set  [ISSUER_BANK_ID]=0 where [ISSUER_BANK_ID] 
 --Update ISSUING BANK
 print '--Update ISSUING BANK';
 update dbo.IMP_TRANSACT_D_month
-set ISSUING_BANK = (select substring(bank,1,50) from abc096.banks_new where  ISSUER_BANK_ID=abc096.banks_new.id)
+set ISSUING_BANK = (select substring(bank,1,50) from abc096.banks where  ISSUER_BANK_ID=abc096.banks.id)
 where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 -- END

@@ -84,7 +84,7 @@ print '--Update Issuer id - 1';
 update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[VER_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
+  inner join zacreporting.abc096.products b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -93,7 +93,7 @@ print '--Update Issuer id - 2';
   update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[VER_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -102,7 +102,7 @@ print '--Update Issuer id - 3';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[VER_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -111,7 +111,7 @@ print '--Update Issuer id - 4';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[VER_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 -- New code for replacement    LN 20171003 Finish
@@ -154,29 +154,29 @@ where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 
 print '--Update Product - 1';
 update [abc096].[VER_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,6) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,6) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
+ [BRAND] = (select BRAND from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
+ [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
 where BRAND IS NULL AND CARD_TYPE IS NULL
 ;
 --Update Product - 2 20150629
 print '--Update Product - 2';
 update [abc096].[VER_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,5) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,5) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
+ [BRAND] = (select BRAND from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
+ [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
 where BRAND IS NULL AND CARD_TYPE IS NULL
 ;
 --Update Product - 3 20150629
 print '--Update Product - 3';
 update [abc096].[VER_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,4) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,4) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
+ [BRAND] = (select BRAND from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
+ [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
 where BRAND IS NULL AND CARD_TYPE IS NULL
 ;
 --Update Product - 4 20150629
 print '--Update Product - 4';
 update [abc096].[VER_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,3) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products_old where substring([abc096].[VER_Transactions_Month].mask,1,3) between abc096.products_old.BIN and abc096.products_old.BINU and bankid <>0)
+ [BRAND] = (select BRAND from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
+ [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[VER_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
 where BRAND IS NULL AND CARD_TYPE IS NULL
 ;
 --Update Card Type

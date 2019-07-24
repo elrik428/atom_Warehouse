@@ -114,7 +114,7 @@ print '--Update Issuer id - 1';
 update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[KOTS_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
+  inner join zacreporting.abc096.products b on substring(a.mask,1,6) = b.BIN /*and b.BANKID <>0*/
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -123,7 +123,7 @@ print '--Update Issuer id - 2';
   update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[KOTS_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,5) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -132,7 +132,7 @@ print '--Update Issuer id - 3';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[KOTS_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,4) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 
@@ -141,7 +141,7 @@ print '--Update Issuer id - 4';
     update  a
   set a.[ISSUER_BANK_ID] = b.bankid
   from [abc096].[KOTS_Transactions_Month] as a
-  inner join zacreporting.abc096.products_old b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
+  inner join zacreporting.abc096.products b on substring(a.mask,1,3) = b.BIN and b.BANKID <>0
   where [ISSUER_BANK_ID]= 0  or  [ISSUER_BANK_ID] is null
 ;
 -- New code for replacement    LN 20171003 Finish
