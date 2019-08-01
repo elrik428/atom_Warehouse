@@ -33,7 +33,11 @@ select 'TRANSLOG', max(DTSTAMP) from [dbo].[TRANSLOG_TRANSACT]
 select 'EASYPAY 2019', max(TrxDate) from [dbo].[EasyPayAgent_2019]
 select 'EASYPAY', max(TrxDate) from [dbo].[EasyPayAgent]
 
-
+-- Massive deletion
+truncate table abc096.IMP_TRANSACT_D_monthly
+delete from abc096.LIFECARD
+truncate table dbo.TRANSLOG_TRANSACT
+delete from dbo.EasyPayAgent
 
 
 --2. Insert monthly records to annual files
