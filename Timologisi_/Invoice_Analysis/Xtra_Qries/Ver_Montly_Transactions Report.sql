@@ -150,7 +150,7 @@ update [abc096].[VER_Transactions_Month] set
 --Update ISSUING BANK
 print '--Update ISSUING BANK';
 update [abc096].[VER_Transactions_Month] set
- [ISSUING_BANK] = (select bank from abc096.banks where [abc096].[VER_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id)
+ [ISSUING_BANK] = (select substring(bank,1,50)  from abc096.banks where [abc096].[VER_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id)
 where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 

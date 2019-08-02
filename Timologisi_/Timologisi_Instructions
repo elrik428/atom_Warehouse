@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-NEW LEORY MERLIN MAIL Recipients!!!!!
-=======
-CHECK mail for LEROY MERLIN new recipients!!!!!
-
->>>>>>> 1a15e56b4e42a6c82e12fa09ef42ca47170a8468
 
 CHANGE COLUMN TCODE + BTCODE
 ALTER TABLE [abc096].[IMP_TRANSACT_D_monthly]
@@ -144,36 +138,7 @@ INSERT INTO [abc096].[LIFECARD]
   ii)  GEORGEBYBANK (query name) used for NOTOSInvoiceDetails pdf
   iii) NOTOSNETMONTH (query name) used for NOTOSNETMONTH pdf
 
-9. From UPDATE PPC  +   COSMOTE invoice
-    UPDATE
-    [ZacReporting].[dbo].[TRANSLOG_TRANSACT] SET MID=LEFT(MID,12)+'PPC'
-    where left(mid,8)='00000017' and right(mid,4)<>'0000'
-    and dtid not in (
-    '79300010',
-    '07778608',
-    '70006135',
-    '79300011',
-    '07778614',
-    '70006136',
-    '79300012',
-    '07778609',
-    '70006137'
-    )
-
-    update [ZacReporting].[dbo].[TRANSLOG_TRANSACT]  SET MID=
-    (select left(mid,12)+ right(left([CASHIERINFO],4),3)
-    from [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly]
-    where [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly].tcode=dbo.TRANSLOG_TRANSACT.tcode and right(left([CASHIERINFO],4),3) in ('PPC','SRS'))
-    where dbo.TRANSLOG_TRANSACT.mid in ('000000170000000','000000170010000','000000170020000')
-    and dbo.TRANSLOG_TRANSACT.destcomid not in ('NET_EBLY1','NET_NTBNLTY','NET_PBGLTY')
-
-
-    update [ZacReporting].[dbo].[TRANSLOG_TRANSACT]  SET MID=
-    (select left(mid,12)+ 'SRS'
-    from [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly]
-    where [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly].tcode=dbo.TRANSLOG_TRANSACT.tcode)
-    where dbo.TRANSLOG_TRANSACT.mid in ('000000170000000','000000170010000','000000170020000')
-    and dbo.TRANSLOG_TRANSACT.destcomid  in ('NET_EBLY1','NET_NTBNLTY','NET_PBGLTY')
+9.  UPDATE PPC  +   COSMOTE invoice
 
 10. Run whole USINGTEMP.SQL(AP1T\INVOICE QUERIES)
 
