@@ -30,8 +30,9 @@ TERMID in
 group by CLUSTERID,famnm,appnm
 ORDER BY CLUSTERID,famnm,appnm
 
--- Most common case is that CTLS library might be missing. 
+-- There might be a case that CTLS library will be missing. 
 -- In that case it shoukd be used the scripts that insert the CTLS library too
+ -- e.g  SCA_0206-07-08 to 09 + CTLS library.sql
 
 -- 4.
 -- Basic SQL script for Appl Update

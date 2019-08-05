@@ -1,6 +1,4 @@
 
------- ADD CTLS LIBRARY CARFOTIC
-
 declare @FromModel varchar(20)
 declare @ToModel varchar(20)
 declare @FromAppnm varchar(10)
@@ -19,26 +17,24 @@ declare @ToAppnm1 varchar(10)
 -- -------- version 2.0
 
 --**
-SET @FromModel='Vx-675'
-SET @ToModel='Vx-675'
+SET @FromModel='Vx-520'
+SET @ToModel='Vx-520'
 ----**
 SET @FromAppnm='PIRA01A9P'
-SET @ToAppnm='PIRA0204P'
+SET @ToAppnm='PIRA0209P'
 SET @FromAppnm1='PIRA01A9'
-SET @ToAppnm1='PIRA0204'
+SET @ToAppnm1='PIRA0209'
 --
 -- -------- version 2.0
-SET @FromCLA='CLA013645'
-SET @ToCLA='CLA013646'
+ SET @FromCLA='CLA013645'
+ SET @ToCLA='CLA013646'
+ 
+ SET @FromEOS='EOS011103'
+ SET @ToEOS='EOS020816B'
 
-SET @FromCTLS='CTLS11114'
-SET @ToCTLS='CTLS20116'
+ SET @FromOS='QT520240'
+ SET @ToOS='0QT000530'
 
-SET @FromEOS='EOS011103'
-SET @ToEOS='EOS020816B'
-
-SET @FromOS='QT650240'
-SET @ToOS='0QT000530'
 --
 -- -------- version 2.0 EMV
  insert into vc30.RELATION
@@ -51,7 +47,7 @@ SET @ToOS='0QT000530'
  where famnm = @FromModel and appnm = @FromOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 -- -------- version 2.0 CMA
  insert into vc30.RELATION
@@ -64,7 +60,7 @@ SET @ToOS='0QT000530'
  where famnm = @FromModel and appnm = @FromOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 -- -------- version 2.0 CTLS
  insert into vc30.RELATION
@@ -79,7 +75,6 @@ SET @ToOS='0QT000530'
  and TERMID in
 ('01300110')
 
-
  -------- version 2.0 EOS
  insert into vc30.RELATION
  (FAMNM,APPNM,TERMID,CLUSTERID,ACCCNT,LASTFULL,LASTPAR,ACCCODE,VIOLATIONCOUNT,LOCKED,MODON,MODBY,LOCKTIMESTAMP,EPROMID,DESCRIPTION,DLD_STATUS,
@@ -91,7 +86,7 @@ SET @ToOS='0QT000530'
  where famnm = @FromModel and appnm = @FromEOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
  --------
   -------- version 2.0 OS
@@ -105,7 +100,7 @@ SET @ToOS='0QT000530'
  where famnm = @FromModel and appnm = @FromOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 -- --------
 --
@@ -120,7 +115,7 @@ SET @ToOS='0QT000530'
  where famnm = @FromModel and appnm = @FromCLA
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 -- --------
 --
 
@@ -134,7 +129,7 @@ from vc30.relation
 where famnm = @FromModel and appnm = @FromAppnm
 -- for specific terminal
 and TERMID in
-('01300110')
+(@tid)
 
 
 -- 4 Create new parameters app on all TIDs in the target model based on the TIDs found in the source model and app name combination.
@@ -149,7 +144,7 @@ from vc30.relation
 where famnm = @FromModel and appnm = @FromAppnm1
 -- for specific terminal
 and TERMID in
-('01300110')
+(@tid)
 
 
 
@@ -160,7 +155,7 @@ from vc30.parameter
 where famnm = @FromModel and appnm in (@FromAppnm, @FromAppnm1)
 -- for specific terminal
 and PARTID in
-('01300110')
+(@tid)
 
 
 --
@@ -169,7 +164,7 @@ update vc30.term_dld_files
 set appnm = @ToAppnm
 where famnm = @FromModel and appnm = @FromAppnm
 AND termid in
-('01300110')
+(@tid)
 
 --------------------------------------------------
 
@@ -178,7 +173,7 @@ delete from vc30.RELATION
 where famnm = @FromModel and appnm = @FromAppnm
 -- for specific terminal
 and TERMID in
-('01300110')
+(@tid)
 
 ---
 -- 6.2 Delete old parameters
@@ -186,7 +181,7 @@ delete from vc30.RELATION
 where famnm = @FromModel and appnm = @FromAppnm1
 -- for specific terminal
 and TERMID in
-('01300110')
+(@tid)
 
 --
 -- -------- version 2.0 EOS
@@ -195,7 +190,7 @@ and TERMID in
  where famnm = @FromModel and appnm = @FromEOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 --
 -- -------- version 2.0 OS
@@ -204,7 +199,7 @@ and TERMID in
  where famnm = @FromModel and appnm = @FromOS
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 --
 -- -------- version 2.0 CLA
@@ -213,46 +208,21 @@ and TERMID in
  where famnm = @FromModel and appnm = @FromCLA
  -- for specific terminal
  and TERMID in
-('01300110')
+(@tid)
 
 --
 Print 'Update USES'
-update vc30.PARAMETER set value = 'TPIRA0204P' where parnameloc = 'USES' and partid in
-('01300110')
+update vc30.PARAMETER set value = 'TPIRA0209P' where parnameloc = 'USES' and partid in
+(@tid)
 
 Print'Delete UNZIP'
 delete from vc30.PARAMETER where parnameloc = '*unzip' and partid in
-('01300110')
+(@tid)
 
 Print'Update LOGO_DISP_EN'
 update vc30.PARAMETER
 set [value] = 'F:KATASTASHA_D.VFT'
 where PARNAMELOC = 'LOGO_DISP_EN' and partid in
-('01300110')
+(@tid)
 
 GO
-
-
-
-
-
-
-
------- USES
---select value,count(*) from vc30.PARAMETER where parnameloc = 'USES' and partid in
---('01779300','01908691')
---group by value
-
---Print 'Update USES'
---update vc30.PARAMETER set value = 'TPIRA0200P' where parnameloc = 'USES' and partid in
---('01779300','01908691')
-
-
---------- UNZIP
---select value,count(*) from vc30.PARAMETER where parnameloc = '*unzip' and partid in
---('01779300','01908691')
---group by value
-
---Print'Delete UNZIP'
---delete from vc30.PARAMETER where parnameloc = '*unzip' and partid in
---('01779300','01908691')
