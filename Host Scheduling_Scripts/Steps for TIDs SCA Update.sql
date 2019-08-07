@@ -1,18 +1,24 @@
--- 1.
--- Script for TID choice per Application and type
-select distinct CLUSTERID,termid, appnm, famnm   from vc30.relation where
-substring(appnm,1,4) = ('PIRA')
-and substring(appnm,9,1) = ('P')
-AND acccnt = -1
-and appnm  in ('PIRA0201P')
-and substring(TERMID,1,5) <> 'TPIRA'
-and famnm = 'Vx-675WiFi'
+-- 1. Script for TID choice per Application and type 
+-- A. EPOS terminals
+select distinct CLUSTERID,termid, appnm   from vc30.relation where
+CLUSTERID = 'EPOS_ALOUETTE'
+AND substring(appnm,1,4) = ('EPOS')and
+substring(appnm,9,1) = ('P') and
+acccnt = -1
+--and appnm  in ('EPOS01C6P')
+--and appnm   in ('EPOS0201P')X
+--and appnm = 'EOS011103' and
+--and appnm = 'EOS010802'
 --and famnm = 'Vx-675'
---and famnm = 'Vx-520'
-order by famnm,appnm
+order by appnm
+
+-- B. PBG terminals
+-- IN order to choose PBG terminals for update you should get weekly file from \\10.7.17.11\PDS_TMS_Reports\Archive and pick file 8-4-19-VERICENTRE.xlsx
+-- From there you can filter by type of Connections, e.g ETH, WIFI, GPRS etc and you can create the file so to upload it to DB as mentioned in step 2.
 
 -- 2.
 -- Save tids from above query to csv file and import to temp table in DB
+-- Keep in mind to remove any template terminals along with any test terminals
 
 -- 3. 
 -- Check total of TIDs of temp table
@@ -21,6 +27,7 @@ Select count(*) from vc30.temp_tids
 
 --4. 
 -- Check that all TIDs have the same libraries and have all libraries
+-- Below script the sme for EPOS + PIR
 
 select CLUSTERID,famnm,appnm,count(*) from vc30.relation where
 TERMID in
@@ -30,8 +37,8 @@ TERMID in
 group by CLUSTERID,famnm,appnm
 ORDER BY CLUSTERID,famnm,appnm
 
--- There might be a case that CTLS library will be missing. 
--- In that case it shoukd be used the scripts that insert the CTLS library too
+-- There might be a case that CTLS library will be missing for PIR TIDs. 
+-- In that case, the scripts that must be used are the ones that insert the CTLS library too
  -- e.g  SCA_0206-07-08 to 09 + CTLS library.sql
 
 -- 4.
@@ -61,11 +68,14 @@ into @tid
 while @@FETCH_STATUS = 0
 begin
 
---- Apply script for multiple insert + deletes + updates
+
+--- COPY SCRIPT FROM FILE HERE for multiple insert + deletes + updates
 -- START
-	select * 
-	from vc30.parameter 
-	where PARTID = @tid
+
+	-- select * 
+	-- from vc30.parameter 
+	-- where PARTID = @tid
+
 -- END			
 	
 fetch next from merch_cursor
