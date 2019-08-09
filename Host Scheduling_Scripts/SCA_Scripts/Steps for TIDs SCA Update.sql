@@ -1,3 +1,9 @@
+-- !!!!!!!!
+-- For the production terminals that merchants have sent us to update so to check the new application, YOU RUN THE SCRIPTS AS THEY ARE IGNORE BELOW INSTRUCTIONS
+-- Just replace (@tid) with TIDs and find corresponding script for the version that TIDs are right now
+-- e.g for TID 73000822(NOTOS) as it is in version 0217 you 'll choose 'SCA EPOS_0214, 15, 17, 18 to 0219_Template.sql' as the corresponding script to run
+
+
 -- 1. Script for TID choice per Application and type 
 -- A. EPOS terminals
 select distinct CLUSTERID,termid, appnm   from vc30.relation where
