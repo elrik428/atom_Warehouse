@@ -304,7 +304,8 @@ group by value
  and SERFILENM = 'ParamFiles\_CUP_NoNCVM_AllCVMs\P.zip'
 
 --2.
- update vc30.term_dld_files set serfilenm = 'ParamFiles\_CUP_NoNCVM_AllCVMs\P.zip'
+ update vc30.term_dld_files 
+ set serfilenm = 'ParamFiles\_CUP_NoNCVM_AllCVMs\P.zip'
  where serfilenm = 'ParamFiles\NoNCVM_AllCVMs\P.zip'
  and termid in ('33333333','520INTER','675INTER','73000850','73000851')
 
@@ -346,6 +347,7 @@ where
 PARTID in
  ('01036650','01036730','01037150')
  and [value] like '%UNION%'
+
 
 
 -- Update HOST_IP,SERVICE_IP, BONUS_IP etc.
