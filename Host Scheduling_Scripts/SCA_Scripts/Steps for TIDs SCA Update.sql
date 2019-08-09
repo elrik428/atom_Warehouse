@@ -41,7 +41,9 @@ ORDER BY CLUSTERID,famnm,appnm
 -- In that case, the scripts that must be used are the ones that insert the CTLS library too
  -- e.g  SCA_0206-07-08 to 09 + CTLS library.sql
 
--- 4.
+-- 5.
+-- In order to run scripts for update you can also check  'RTR_EPOS_0201 to 0219.sql'  as basic template or  'Template for Basic SQL script.sql'
+
 -- Basic SQL script for Appl Update
  
 declare @tid varchar(15)
