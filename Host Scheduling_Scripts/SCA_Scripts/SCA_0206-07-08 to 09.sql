@@ -23,7 +23,6 @@ SET @ToAppnm='PIRA0209P'
 SET @FromAppnm1='PIRA0207'
 SET @ToAppnm1='PIRA0209'
 --
-
 -- --------
 --
 -- --------

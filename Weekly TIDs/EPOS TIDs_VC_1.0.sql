@@ -23,6 +23,7 @@ case (q.[value]) when '99:99' then 'NO' else q.[value] end  as [ΑΥΤΟΜΑΤΗ
 case (r.[value]) when 'TRUE' then 'YES' when 'FALSE' then 'NO' else 'N/A' end  as [CONTACTLESS],
 case (s.[value]) when 'TRUE' then 'YES' when 'FALSE' then 'NO' else 'N/A' end  as [ΦΟΡΟΚΑΡΤΑ],
 x.evdate as [LAST PARAMETER CALL],                                                                             -- vc30.relation.LASTPARAM_DLD_DATE as [LAST PARAMETER CALL]
+xx.evdate as [LAST FAILED CALL],
 case (t.[value]) when '1' then 'RS232' when '2' then 'TCP' when '3' then 'TCP+RS232' when '4' then 'USB' when '6' then 'TCP+USB' else 'NO CONNECTION' end  as [ΣΥΝΔΕΣΗ ΤΑΜΕΙΑΚΗΣ],
 case (u.[value]) when 'TRUE' then 'YES' when 'FALSE' then 'NO' else 'N/A' end  as [TIP],
 case (v.[value]) when 'TRUE' then 'YES' when 'FALSE' then 'NO' else 'N/A' end  as [ΣΥΝΔΕΣΗ PINPAD],
@@ -60,22 +61,43 @@ from (vc30.relation
       left join vc30.PARAMETER u on vc30.relation.TERMID=u.PARTID and u.PARNAMELOC = 'TIP_ENABLED'
       left join vc30.PARAMETER v on vc30.relation.TERMID=v.PARTID and v.PARNAMELOC = 'EXTPINPAD'
       left join vc30.PARAMETER w on vc30.relation.TERMID=w.PARTID and w.PARNAMELOC = 'LOYALTY_PBG'
-	    left join vc30.PARAMETER y on vc30.relation.TERMID=w.PARTID and y.PARNAMELOC = 'MCC'
-	    left join vc30.PARAMETER z on vc30.relation.TERMID=w.PARTID and z.PARNAMELOC = 'ETH.DHCP'
-	    left join vc30.PARAMETER aa on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD01'
-	    left join vc30.PARAMETER ab on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD03'
-	    left join vc30.PARAMETER ac on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD04'
+	left join vc30.PARAMETER y on vc30.relation.TERMID=w.PARTID and y.PARNAMELOC = 'MCC'
+	left join vc30.PARAMETER z on vc30.relation.TERMID=w.PARTID and z.PARNAMELOC = 'ETH.DHCP'
+	left join vc30.PARAMETER aa on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD01'
+	left join vc30.PARAMETER ab on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD03'
+	left join vc30.PARAMETER ac on vc30.relation.TERMID=m.PARTID and m.PARNAMELOC = 'CARD04'
       left join vc30.TERMINFO    on vc30.relation.TERMID=termid_term
-      join  (select e.*,
-case (substring(e.vers_pir,9,1)) when ',' then substring(e.vers_pir,1,8) + 'P' when 'P' then (e.vers_pir) end as late_versio
- from
- (select a.evdate, a.termid, a.appnm , substring(a.appnm,charindex('PIRA', a.appnm),9) vers_pir
- from vc30.termlog a,(select  max(evdate) date_max, termid  from vc30.termlog where
- RIGHT(vc30.termlog.TERMID,1) = @lstDigiTID
-and message = 'Download Successful' and status = 'S'
- group by termid) q
- where  a.evdate = q.date_max and a.termid = q.termid and appnm like '%PIRA%')e) x on vc30.relation.TERMID=x.termid
+      join  (select e.*, case (substring(e.vers_epos,9,1)) when ',' then substring(e.vers_epos,1,8) + 'P' when 'P' then (e.vers_epos) end as late_versio
+		 from
+		  (select a.evdate, a.termid, a.appnm , substring(a.appnm,charindex('EPOS', a.appnm),9) vers_epos
+		   from vc30.termlog a,(select  max(evdate) date_max, termid  
+						from vc30.termlog 
+		                        where substring(vc30.termlog.termid,1,4) = '7300' 
+		 				-- and  RIGHT(vc30.termlog.TERMID,1) = @lstDigiTID
+						 and message = 'Download Successful' 
+						 and status = 'S'
+		          		      group by termid) q
+               where  a.evdate = q.date_max 
+		    and a.termid = q.termid 
+		    and appnm like '%EPOS%' )e
+	      ) x on vc30.relation.TERMID=x.termid
+      join  (select e.*, case (substring(e.vers_epos,9,1)) when ',' then substring(e.vers_epos,1,8) + 'P' when 'P' then (e.vers_epos) end as late_versio
+	       from
+              (select a.evdate, a.termid, a.appnm , substring(a.appnm,charindex('EPOS', a.appnm),9) vers_epos
+               from vc30.termlog a,(select  max(evdate) date_max, termid  
+		      			from vc30.termlog 
+						where substring(vc30.termlog.termid,1,4) = '7300' 
+						-- and  RIGHT(vc30.termlog.TERMID,1) = @lstDigiTID
+						 and message <> 'Download Successful' 
+						 and status <> 'S'
+						group by termid) q
+               where  a.evdate = q.date_max 
+		    and a.termid = q.termid 
+		    and appnm like '%EPOS%' )e
+		) xx on vc30.relation.TERMID=xx.termid
                )
 where substring(cast(vc30.relation.appnm as char(10)),9,1) = ('P')
-and  vc30.relation.CLUSTERID in ('EPOS_PIRAEUS','EPOS_PIRAEUS_EPP','PIRAEUS')
+--and  vc30.relation.CLUSTERID not in ('EPOS_PIRAEUS','EPOS_PIRAEUS_EPP','PIRAEUS','DEFAULT','TIRANA','E360F_UK','E360F_IT','E360F_AU') 
+AND  vc30.relation.CLUSTERID  in ('EPOS_ATTICA','EPOS_DUTYFREE','EPOS_KOTSOVOLOS','EPOS_CHALKIADAKIS','EPOS_VEROPOULOS','EPOS_VERTICE','EPOS_AB_FRANCHISE','EPOS_LEROY_MERLIN','EPOS_SEVEN','EPOS_NAVY_GREEN','EPOS_ALOUETTE','EPOS_TRADESTATUS','EPOS_POLO_R._LAUREN','EPOS_RL_HELLAS_RESOR','EPOS_RAXEVSKY','EPOS_TSAKIRIS_MALLAS','EPOS_MOTHERCARE','EPOS_AEGEAN','EPOS_AUTOTECHNICA','EPOS_COSMOTE','EPOS_COSMOTE_KIOSK','EPOS_G_TACHIDROMIKI','EPOS_COSMOS_SPORT','EPOS_HERTZ','EPOS_METRO','EPOS_REGENCY','EPOS_FLEXUS','EPOS_PUBLIC','EPOS_FUNKY BUDDHA','EPOS_RVU','EPOS_THANOPOULOS','EPOS_AB_VASILOPOULOS','EPOS_NOTOS','EPOS_FOLLI_FOLLIE','EPOS_INTERSPORT','EPOS_ORIFLAME','EPOS_IKEA','EPOS_LIDL','EPOS_ELL.DIANOMES')
+AND substring(vc30.termlog.termid,1,4) = '7300'  
 AND RIGHT(vc30.relation.TERMID,1) = @lstDigiTID ;
