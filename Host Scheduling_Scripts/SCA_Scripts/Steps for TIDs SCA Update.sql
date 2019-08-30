@@ -1,5 +1,5 @@
 -- !!!!!!!!
--- For the production terminals that merchants have sent us to update so to check the new application, YOU RUN THE SCRIPTS AS THEY ARE IGNORE BELOW INSTRUCTIONS
+-- For the EPOS terminals to check the new application, YOU RUN THE SCRIPTS AS THEY ARE AND IGNORE BELOW INSTRUCTIONS
 -- Just replace (@tid) with TIDs and find corresponding script for the version that TIDs are right now
 -- e.g for TID 73000822(NOTOS) as it is in version 0217 you 'll choose 'SCA EPOS_0214, 15, 17, 18 to 0219_Template.sql' as the corresponding script to run
 
@@ -18,7 +18,7 @@ acccnt = -1
 --and famnm = 'Vx-675'
 order by appnm
 
--- B. PBG terminals
+-- B. PBG terminals    --- NO NEED TO CHECK
 -- IN order to choose PBG terminals for update you should get weekly file from \\10.7.17.11\PDS_TMS_Reports\Archive and pick file 8-4-19-VERICENTRE.xlsx
 -- From there you can filter by type of Connections, e.g ETH, WIFI, GPRS etc and you can create the file so to upload it to DB as mentioned in step 2.
 
