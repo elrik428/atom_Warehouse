@@ -297,6 +297,46 @@ Year(dtstamp),
 [GREEK_ISSUER],
 [ISSUING_BANK]
 
+-- Split in 3 xls so to be able to send them
+-- 1. 
+select
+DTSTAMP as Transaction_Date,
+TID,
+TAMOUNT as AMOUNT,
+TAUTHCODE as AUTH_CODE,
+INST AS Installment_Number,
+MASK as MASKED_PAN,
+USERDATA as Card_Type,
+CARD_TYPE As Card_Brand,
+ISSUING_BANK,
+GREEK_ISSUER,
+ACQUIRING_BANK,
+ON_US
+from
+ [abc096].[KOTS_Transactions_Month] a
+ where dtstamp <= '2019-08-10 23:59:59.999'
+ order by dtstamp,TID
+
+-- 2.
+select
+DTSTAMP as Transaction_Date,
+TID,
+TAMOUNT as AMOUNT,
+TAUTHCODE as AUTH_CODE,
+INST AS Installment_Number,
+MASK as MASKED_PAN,
+USERDATA as Card_Type,
+CARD_TYPE As Card_Brand,
+ISSUING_BANK,
+GREEK_ISSUER,
+ACQUIRING_BANK,
+ON_US
+from
+ [abc096].[KOTS_Transactions_Month] a
+ where dtstamp >= '2019-08-11 00:00:00.001' and dtstamp <= '2019-08-20 23:59:59.999'
+ order by dtstamp,TID
+
+-- 3.
 
 --Detail SHEET
 select
