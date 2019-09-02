@@ -6,7 +6,7 @@ and RESPKIND = 'OK'
 --and REVERSED not in('F', 'A')
 AND LEFT(PROCCODE,2) = '20'
 ORDER BY DTSTAMP
-m
+
 
 select dtstamp,bdtstamp,*
 from [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly]

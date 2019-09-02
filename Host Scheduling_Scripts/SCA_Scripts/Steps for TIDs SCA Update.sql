@@ -98,6 +98,6 @@ deallocate merch_cursor
 
 
 -- Xtra queries
--- Create temp table for import TIDs
-create table vc30.temp_tids
-(temptid varchar(15))
+-- Create temp table for import TIDs control file
+create table vc30.tmp_tidsControl
+(temptid varchar(15), compleFlag varchar(15))

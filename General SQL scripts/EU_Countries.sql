@@ -29,7 +29,7 @@ SELECT [id]
 'LU',
 'MT',
 'NL',
-'PT',8
+'PT',
 'SK',
 'SI',
 'ES'

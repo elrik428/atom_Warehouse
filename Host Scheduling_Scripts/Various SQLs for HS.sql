@@ -211,6 +211,22 @@ select * from vc30.PARAMETER where PARTID in
 and PARNAMELOC = 'LOTTERYMC'
 
 
+-- Group by TID  + Total nbr of libs
+
+select * from 
+(
+select a.TERMID, sum(a.tot_al) as 'Count_lib' from
+(
+select TERMID,famnm,appnm,count(*) as 'tot_al' from vc30.relation where
+TERMID in
+--('01043470')
+(select [column 0] from vc30.tmp_TIDs)
+group by TERMID,famnm,appnm
+--ORDER BY CLUSTERID,famnm,appnm
+) a
+group by a.TERMID
+) r
+where r.Count_lib >10
 
 
 -- Find TIDs with RESTAURANT and LOCK_TRX_TIME <> 06:00 from InstantPOS procedure
