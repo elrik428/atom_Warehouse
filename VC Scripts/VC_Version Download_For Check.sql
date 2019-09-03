@@ -1,61 +1,3 @@
-------   To check versions for tid list PIRAEUS
-select appnm, famnm, count(*)   from vc30.relation where
-TERMID IN
-('00001548','00007005','00014113','00015208','00017872')
-AND substring(appnm,1,4) = ('PIRA')
- and substring(appnm,9,1) = ('P')
-AND acccnt = -1
---and appnm  in ('EPOS01C6P')
---and famnm = 'Vx-520'
---and famnm = 'Vx-675'
---and famnm = 'Vx-675WiFi'
-group by appnm, famnm
-order by  famnm  ,appnm
-
-
-
-
-
-
-
---- Check version for every TID for specific TIDs
-select distinct CLUSTERID,termid, appnm, famnm   from vc30.relation where
-TERMID IN
- ('01320840','01320841','01557520','01100352')
-AND substring(appnm,1,4) = ('PIRA')
- and substring(appnm,9,1) = ('P')
-AND acccnt = -1
-and appnm  in ('EPOS01C6P')
-and famnm = 'Vx-675'
-order by famnm,appnm
-
-
- --- EPOS, same as above
-select distinct CLUSTERID,termid, appnm   from vc30.relation where
-CLUSTERID = 'EPOS_VEROPOULOS'
-AND substring(appnm,1,4) = ('EPOS')and
-substring(appnm,9,1) = ('P') and
-acccnt = -1
---and appnm  in ('EPOS01C6P')
---and appnm   in ('EPOS0201P')X
---and appnm = 'EOS011103' and
---and appnm = 'EOS010802'
---and famnm = 'Vx-675'
-order by appnm
-
-
-
--- Check version and libraries for all selected TIDs   -- Run before update and after update to check 
-select CLUSTERID,famnm,appnm,count(*) from vc30.relation where
-TERMID in
-('73001095','73001097','73001098','73001099','73001100','73001101','73000718','73002971','73001071','73003491','73005397','73001073','73001076','73002970','73004807','73001078','73001072','73005393','73005391','73001070','73001068','73001075','73002972','73001069','73001066')
-group by CLUSTERID,famnm,appnm
-ORDER BY CLUSTERID,famnm,appnm
-
-
-
---- Process check report if updated or not
-
 select  distinct  cast(vc30.relation.TERMID as varchar(30)) as TID,
 cast(a.[value] as varchar(30)) as MID,
 b.[value] as [ΔΙΑΚΡΙΤΙΚΟΣ ΤΙΤΛΟΣ],
@@ -93,5 +35,3 @@ vc30.relation.TERMID in
 and substring(cast(vc30.relation.appnm as char(10)),9,1) = ('P')
 and  vc30.relation.CLUSTERID in ('EPOS_PIRAEUS','EPOS_PIRAEUS_EPP','PIRAEUS')
 --AND RIGHT(vc30.relation.TERMID,1) = @lstDigiTID ;
-
-

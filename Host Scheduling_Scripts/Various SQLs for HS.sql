@@ -144,7 +144,7 @@ TERMID in
 and not  exists (select termid from vc30.RELATION b where termid in ('675CTLSCAR','675CTLSCAR-CO','675CTLSHOT','675CTLSHOT-CO','675CTLSINS','675CTLSINS-CO','675CTLSRES','675CTLSRES-CO','675CTLSSAL','675CTLSSAL-CO','675CTLSSUP','675CTLSSUP-CO','675CTLSTRA','675CTLSTRA-CO','675INSTANT') and a.TERMID = b.TERMID)
 
 
-------- Piraeus MAsks
+------- Piraeus Matrixes
 select distinct CLUSTERID,termid, appnm, famnm   from vc30.relation where
 --termid like 'COMBO%'
 (TERMID like '675%' or termid like '520G%' or termid like 'COMBO%' or termid like '520INSTA%' or termid like '690%' )
