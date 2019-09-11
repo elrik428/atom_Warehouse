@@ -1,11 +1,19 @@
---//    1  Delete and then Insert banks into Banks_new
+-- Backup BANKS table
+
+delete from abc096.banks_bup;
+
+insert into zacreporting.abc096.banks_bup
+select * from zacreporting.abc096.banks;
+
+
+--// 1.  Delete and then Insert banks into Banks_new
 delete from abc096.banks_new;
 
 insert into zacreporting.abc096.banks_new
 select * from zacreporting.abc096.banks;
 
 
---//    2  Delete and then insert records of BINs,Ranking, bankdescr to temp file(zacreporting.dbo.banknbins)
+--// 2.  Delete and then insert records of BINs,Ranking, bankdescr to temp file(zacreporting.dbo.banknbins)
 delete from zacreporting.dbo.banknbins;
 
 with trxbins as (
@@ -21,7 +29,7 @@ insert into zacreporting.dbo.banknbins
   --order by a.isocountry     (only for select!!)
 
 
---//    3   Insert banks from Temp file into  banks_new
+--// 3. Insert banks from Temp file into  banks_new
 
 insert into zacreporting.abc096.banks_new
   select bankid, bankdescr  , ' ',  ' ', bankdescr
@@ -29,7 +37,7 @@ insert into zacreporting.abc096.banks_new
   group by bankid, bankdescr;
 
 
---//     4 Update products file with bankid for existing BINS in both abc096, dbo tables
+--// 4. Update products file with bankid for existing BINS in both abc096, dbo tables
 
   update  a
   set a.bankid = b.bankid
