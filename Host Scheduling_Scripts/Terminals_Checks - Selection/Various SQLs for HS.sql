@@ -85,6 +85,17 @@ group by CLUSTERID, appnm
 order by CLUSTERID, appnm
 
 
+----  EPOS Matrixes current appnm version
+select  distinct  CLUSTERID,termid, appnm   from vc30.relation where
+CLUSTERID not in ('EPOS_PIRAEUS','EPOS_PIRAEUS_EPP','PIRAEUS','DEFAULT','TIRANA','E360F_UK','E360F_IT','E360F_AU','EPOS') and
+substring(appnm,1,4) = ('EPOS')and
+substring(appnm,9,1) = ('P') and
+acccnt = -1
+and appnm  in ('EPOS0219P')
+--and substring(TERMID,1,4) ='7300' 
+and substring(TERMID,1,4) <>'7300' 
+order by appnm
+
 
 select CLUSTERID,famnm,appnm,count(*) from vc30.relation where
 substring(appnm,1,4) = ('EPOS') and substring(appnm,9,1) = 'P' and
