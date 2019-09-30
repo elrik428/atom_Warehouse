@@ -1,18 +1,26 @@
--- Backup BANKS table
-
+--// 1. Backup BANKS table
 delete from abc096.banks_bup;
 
 insert into zacreporting.abc096.banks_bup
 select * from zacreporting.abc096.banks;
 
+--// 2. Insert Bank & BINs to file 
+delete from zacreporting.dbo.banknbins;
 
---// 1.  Delete and then Insert banks into Banks_new
-delete from abc096.banks_new;
+-- Keep in mind to change increment number
+-- To do so run below sql stmnt and add 1 
+select top 1 * from abc096.Banks a
+order by a.ID desc
 
-insert into zacreporting.abc096.banks_new
-select * from zacreporting.abc096.banks;
+with trxbins as (
+  select  bin binsix  from dbo.binbase#2 
+    )
+insert into zacreporting.dbo.banknbins
+    select (cast(Rank() OVER( ORDER BY bank ) AS int)) + 176019 'rownumber' ,bank, bin  from  dbo.binbase#2 a
+     group  by bank, bin;
 
-
+-- XTRA 
+-- In the case to refill abc096.BANKS from begin
 --// 2.  Delete and then insert records of BINs,Ranking, bankdescr to temp file(zacreporting.dbo.banknbins)
 delete from zacreporting.dbo.banknbins;
 
@@ -29,9 +37,9 @@ insert into zacreporting.dbo.banknbins
   --order by a.isocountry     (only for select!!)
 
 
---// 3. Insert banks from Temp file into  banks_new
+--// 3. Insert banks from Temp file into  banks 
 
-insert into zacreporting.abc096.banks_new
+insert into zacreporting.abc096.banks
   select bankid, bankdescr  , ' ',  ' ', bankdescr
   from zacreporting.dbo.banknbins
   group by bankid, bankdescr;
@@ -41,5 +49,5 @@ insert into zacreporting.abc096.banks_new
 
   update  a
   set a.bankid = b.bankid
-  from zacreporting.dbo.products as a
+  from zacreporting.abc096.products as a
   inner join zacreporting.dbo.banknbins b on b.binnumber = a.bin;
