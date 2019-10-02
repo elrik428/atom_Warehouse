@@ -106,7 +106,7 @@ print '--Update Acquirer id';
 update a
 set  [ACQUIRER_BANK_ID] = id
  from [abc096].[KOTS_Transactions_Month] as a
-  inner join abc096.banks b on a.destcomid=b.destcomid
+  inner join abc096.banks_old b on a.destcomid=b.destcomid
   ;
 
 --Update Issuer id - 1
@@ -171,7 +171,7 @@ update [abc096].[KOTS_Transactions_Month] set
 
 --Update ISSUING BANK
 update [abc096].[KOTS_Transactions_Month] set
- [ISSUING_BANK] = cast((select bank from abc096.banks where [abc096].[KOTS_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks.id) as nvarchar(50))
+ [ISSUING_BANK] = cast((select bank from abc096.banks_old where [abc096].[KOTS_Transactions_Month].[ISSUER_BANK_ID]=abc096.banks_old.id) as nvarchar(50))
 where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 
