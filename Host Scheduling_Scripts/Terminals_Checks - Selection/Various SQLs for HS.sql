@@ -275,6 +275,24 @@ where PARNAMELOC = 'LOCK_TRX_TIME' and PARTID in
 ('00079963')
 
 
+--- Check for specific Cluster value of parms group by value
+select PARNAMELOC, VALUE, count(*)
+from
+(
+select distinct termid from vc30.relation where
+CLUSTERID in ('EPOS_PIRAEUS','EPOS_PIRAEUS_EPP')
+AND substring(appnm,1,4) = ('EPOS')
+ and substring(appnm,9,1) = ('P')
+AND acccnt = -1
+) a
+ join vc30.PARAMETER b on a.TERMID = b.PARTID
+where 
+--PARTID = '02053730'
+ PARNAMELOC like '%CARD%'
+group  by PARNAMELOC, VALUE
+order  by PARNAMELOC, VALUE
+
+
    -----   Check PIRAEUS for version < 0200
 
 select   distinct   cast(vc30.relation.TERMID as varchar(30)) as TID,
