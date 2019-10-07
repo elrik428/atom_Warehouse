@@ -14,7 +14,9 @@ from
 dbo.TRANSLOG_TRANSACT_2018 a
 --dbo.TRANSLOG_TRANSACT_2013 a
 WHERE
-MID IN ('000000120002700')
+MID IN ('000000120002700') 
+--and RESPKIND = 'OK' 
+--and month(dtstamp) = '1'
 --and PROCCODE<>'5W0000'
 --and dtstamp>='2013-01-01 00:00:00.001' and
 --dtstamp<='2013-12-31 23:59:59.999'
@@ -148,33 +150,6 @@ update [abc096].[THAN_Transactions_Month] set
 where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 
-print '--Update Product - 1';
-update [abc096].[THAN_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,6) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where BRAND IS NULL AND CARD_TYPE IS NULL
-;
---Update Product - 2 20150629
-print '--Update Product - 2';
-update [abc096].[THAN_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,5) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where BRAND IS NULL AND CARD_TYPE IS NULL
-;
---Update Product - 3 20150629
-print '--Update Product - 3';
-update [abc096].[THAN_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,4) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where BRAND IS NULL AND CARD_TYPE IS NULL
-;
---Update Product - 4 20150629
-print '--Update Product - 4';
-update [abc096].[THAN_Transactions_Month] set
- [BRAND] = (select BRAND from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0),
- [CARD_TYPE] = (select [PRODUCT] from abc096.products where substring([abc096].[THAN_Transactions_Month].mask,1,3) between abc096.products.BIN and abc096.products.BINU and bankid <>0)
-where BRAND IS NULL AND CARD_TYPE IS NULL
-;
 --Update Card Type
 print '--Update Card Type';
 update [abc096].[THAN_Transactions_Month] set
@@ -217,36 +192,10 @@ WHEN '36' THEN 'Diners'
 WHEN '38' THEN 'Diners'
 ELSE 'UNKNOWN TYPE'
 END)
-;
-update [abc096].[THAN_Transactions_Month] set
-CARD_TYPE=
-(CASE SUBSTRING(MASK,1,4)
-WHEN '6011' THEN 'Discover'
-END)
-WHERE SUBSTRING(MASK,1,4)='6011'
-;
-update [abc096].[THAN_Transactions_Month] set
-[BRAND]= [CARD_TYPE],
-[ISSUING_BANK]='UNKNOWN'
-where [ISSUER_BANK_ID]= 0  OR  [ISSUER_BANK_ID] is null
-;
-
-update [abc096].[THAN_Transactions_Month] set
-[BRAND]='MASTER'
-where [BRAND]='MasterCard'
-;
-update [abc096].[THAN_Transactions_Month] set
-[BRAND]='MAESTRO'
-where [BRAND]='Maestro'
-;
 
 
--- Select data to display
 SELECT
-MERCHANT_NAME,
-MID,
-[DTSTAMP],
-[Store_Code],
+MERCHANT_NAME, MID, TID, [DTSTAMP], MASK, RESPKIND,
 TRN_TYPE =
 case left(PROCCODE,2)--Account selection changes 3rd byte. 2 first bytes are transaction type 150813
 when '00' then 'SALE'
@@ -262,9 +211,11 @@ when '2U' then 'LOYALTY VOID-REDEMPTION'
 when '1S' then 'LOYALTY REFUND'
 else PROCCODE
 end,
-ACQUIRING_BANK,
-Cast(TAMOUNT as dec(15,2)) as Transaction_Amount,
-BRAND,
-[ISSUING_BANK]--+'/'+[CARD_TYPE] 150813
+Cast(TAMOUNT as dec(15,2)) as Transaction_Amount, CARD_TYPE, ACQUIRING_BANK, [ISSUING_BANK]
 from [abc096].[THAN_Transactions_Month]
-order by MERCHANT_NAME,[Store_Code],[DTSTAMP]
+order by [DTSTAMP]
+
+
+
+--567302
+--66042
