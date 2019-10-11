@@ -1,25 +1,25 @@
-1.
+--1.
 -- delete [dbo].[MERCHBINS_bup3]
 -- -------------------------------------------------------------------
 
-2.
+--2.
 -- insert into [dbo].[MERCHBINS_bup3] (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)
 --   (select TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from merchbins)
 -- check the insertion
 
-3.
+--3.
 -- select count(*) from merchbins
 -- select count (*) from merchbins_bup3
 
-4.
+--4.
 --select * from merchbins where tid in (select tid from merchants where mid = '000000120005107') /*and binlower = '549804'*/
 --select * from merchbins where tid = '73005513' order by destport,binlower --- Use as reference for check
 
-5.
+--5.
 --delete from merchbins where tid in (select tid from merchants where mid = '000000120005107')
 ----select * from merchbins where tid = '1111    ' and destport = 'NET_NTBN' order by destport,binlower
 
-6.  ---Check Banks
+--6.  ---Check Banks
 select distinct mid,tid,merchtitle,merchaddress from merchants where mid = '000000120005107' and tid not in
 (select tid from merchants where mid = '000000120005107' and uploadhostid = 202)
 
