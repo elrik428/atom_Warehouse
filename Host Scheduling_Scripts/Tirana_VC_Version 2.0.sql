@@ -24,12 +24,10 @@ declare @ToAppnm1 varchar(10)
   SET @ToModel='Vx-690'
   
 --
-SET @FromAppnm='TIRA0200'
-SET @ToAppnm='TIRA0201'
-SET @FromAppnm1='TIRA0200P'
-SET @ToAppnm1='TIRA0201P'
-
-
+SET @FromAppnm='TIRA0200P'
+SET @ToAppnm='TIRA0201P'
+SET @FromAppnm1='TIRA0200'
+SET @ToAppnm1='TIRA0201'
 
 
 -- SET @FromAppnm='EPOS01C3P'

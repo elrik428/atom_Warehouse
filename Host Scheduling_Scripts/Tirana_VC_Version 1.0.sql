@@ -20,17 +20,13 @@ declare @ToAppnm1 varchar(10)
 -- 2 Modify the 4 variables below accordingly
 
 --
-  SET @FromModel='Vx-520'
-  SET @ToModel='Vx-520'
-  --SET @FromModel='Vx-675'
-  --SET @ToModel='Vx-675'
-  --SET @FromModel='Vx-820'
-  --SET @ToModel='Vx-820'
+SET @FromModel='Vx-520'
+SET @ToModel='Vx-520'
 --
-SET @FromAppnm='TIRA01A1'
-SET @ToAppnm='TIRA0101'
-SET @FromAppnm1='TIRA01A1P'
-SET @ToAppnm1='TIRA0101P'
+SET @FromAppnm='TIRA01A1P'
+SET @ToAppnm='TIRA0101P'
+SET @FromAppnm1='TIRA01A1'
+SET @ToAppnm1='TIRA0101'
 
 -- SET @FromAppnm='EPOS01C3P'
 -- SET @ToAppnm='EPOS0200P'
