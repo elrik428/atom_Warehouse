@@ -1,0 +1,24 @@
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\Debug\DCC_Import_MailExcel.pdb
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\Debug\DCC_Import_MailExcel.pdb
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.pdb
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.pdb
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.csproj.ResolveComReference.cache
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.pdb
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.csproj.ResolveComReference.cache
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.exe
+C:\Users\epos_support\Documents\Visual Studio 2005\Projects\DCC_Import_MailExcel - test\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.pdb
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.exe
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.pdb
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.csproj.ResolveComReference.cache
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.exe
+D:\Reporting\DCC_Import_MailExcel\DCC_Import_MailExcel\bin\x86\Debug\DCC_Import_MailExcel.pdb

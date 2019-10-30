@@ -1,0 +1,6 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\bin\Debug\PinExceptionCons.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\obj\Debug\PinExceptionCons.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\bin\Debug\PinExceptionCons.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\bin\Debug\PinExceptionCons.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\obj\Debug\PinExceptionCons.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\PinExceptionCons\PinExceptionCons\obj\Debug\PinExceptionCons.pdb

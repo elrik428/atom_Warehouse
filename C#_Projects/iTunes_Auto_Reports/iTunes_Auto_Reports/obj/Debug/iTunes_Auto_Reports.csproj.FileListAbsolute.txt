@@ -1,0 +1,2 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.pdb

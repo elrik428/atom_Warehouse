@@ -1,0 +1,2 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.pdb

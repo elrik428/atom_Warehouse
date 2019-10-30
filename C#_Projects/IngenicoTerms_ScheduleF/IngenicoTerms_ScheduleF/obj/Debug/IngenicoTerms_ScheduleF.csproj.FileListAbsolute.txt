@@ -1,0 +1,7 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\bin\Debug\IngenicoTerms_ScheduleF.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\bin\Debug\IngenicoTerms_ScheduleF.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\bin\Debug\IngenicoTerms_ScheduleF.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\obj\Debug\IngenicoTerms_ScheduleF.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\obj\Debug\IngenicoTerms_ScheduleF.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\IngenicoTerms_ScheduleF\IngenicoTerms_ScheduleF\obj\Debug\IngenicoTerms_ScheduleF.pdb

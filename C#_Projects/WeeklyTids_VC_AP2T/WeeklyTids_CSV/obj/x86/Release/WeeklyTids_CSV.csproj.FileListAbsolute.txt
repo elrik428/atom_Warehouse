@@ -1,0 +1,6 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Release\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Release\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Release\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Release\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Release\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Release\WeeklyTids_CSV.csprojResolveAssemblyReference.cache

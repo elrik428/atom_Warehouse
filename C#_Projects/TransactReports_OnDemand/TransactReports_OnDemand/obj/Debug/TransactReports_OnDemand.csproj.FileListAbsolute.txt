@@ -1,0 +1,9 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\bin\Debug\TransactReports_OnDemand.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\bin\Debug\TransactReports_OnDemand.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\bin\Debug\TransactReports_OnDemand.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.Form1.resources
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.Properties.Resources.resources
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.csproj.GenerateResource.Cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\TransactReports_OnDemand\TransactReports_OnDemand\obj\Debug\TransactReports_OnDemand.pdb

@@ -1,0 +1,3 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.csproj.ResolveComReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\DCC_Import_MailExcel\DCC_Import_MailExcel\obj\x86\Debug\DCC_Import_MailExcel.pdb

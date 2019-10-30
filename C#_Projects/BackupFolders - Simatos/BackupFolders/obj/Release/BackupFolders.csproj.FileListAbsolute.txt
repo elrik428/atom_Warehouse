@@ -1,0 +1,11 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Release\BackupFolders.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Release\BackupFolders.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Release\BackupFolders.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\obj\Release\BackupFolders.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\obj\Release\BackupFolders.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\bin\Release\BackupFolders.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\obj\Release\BackupFolders.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\obj\Release\BackupFolders.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\bin\Release\BackupFolders.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\bin\Release\BackupFolders.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\BackupFolders - Simatos\BackupFolders\obj\Release\BackupFolders.csprojResolveAssemblyReference.cache

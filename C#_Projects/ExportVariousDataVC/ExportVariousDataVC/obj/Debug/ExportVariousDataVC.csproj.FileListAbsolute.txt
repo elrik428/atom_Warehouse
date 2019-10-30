@@ -1,0 +1,10 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\bin\Debug\ExportVariousDataVC.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\bin\Debug\ExportVariousDataVC.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\bin\Debug\ExportVariousDataVC.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.Form1.resources
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.Properties.Resources.resources
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.csproj.GenerateResource.Cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\ExportVariousDataVC\ExportVariousDataVC\obj\Debug\ExportVariousDataVC.csproj.ResolveComReference.cache

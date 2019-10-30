@@ -1,0 +1,13 @@
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\ResolveAssemblyReference.cache
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\bin\Debug\iTunes_Auto_Reports.exe
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\bin\Debug\iTunes_Auto_Reports.pdb
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.exe
+D:\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.pdb
+D:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.exe
+D:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.pdb
+D:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\ResolveAssemblyReference.cache
+D:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\bin\Debug\iTunes_Auto_Reports.exe
+D:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\bin\Debug\iTunes_Auto_Reports.pdb
+Z:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.exe
+Z:\Reporting\iTunes\iTunes_Auto_Reports\iTunes_Auto_Reports\obj\Debug\iTunes_Auto_Reports.pdb

@@ -1,0 +1,9 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\bin\Debug\routingrules_loadbalances.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\bin\Debug\routingrules_loadbalances.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\bin\Debug\routingrules_loadbalances.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.Form1.resources
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.Properties.Resources.resources
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.csproj.GenerateResource.Cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\routingrules_loadbalances\routingrules_loadbalances\obj\Debug\routingrules_loadbalances.pdb

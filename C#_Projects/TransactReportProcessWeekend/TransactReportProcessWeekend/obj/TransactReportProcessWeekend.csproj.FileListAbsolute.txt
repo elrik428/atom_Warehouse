@@ -1,0 +1,14 @@
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.exe
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.pdb
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\ResolveAssemblyReference.cache
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\TransactReportImport.exe
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\TransactReportImport.pdb
+D:\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.exe
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.pdb
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\TransactReportImport.exe
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\TransactReportImport.pdb
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+D:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\ResolveAssemblyReference.cache
+Z:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.exe
+Z:\Reporting\Scheduled Tasks Applications\TransactReportProcessWeekend\TransactReportProcessWeekend\obj\Debug\TransactReportImport.pdb

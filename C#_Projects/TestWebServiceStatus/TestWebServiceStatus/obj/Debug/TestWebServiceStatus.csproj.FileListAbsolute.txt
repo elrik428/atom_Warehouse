@@ -1,0 +1,6 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\bin\Debug\TestWebServiceStatus.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\bin\Debug\TestWebServiceStatus.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\bin\Debug\TestWebServiceStatus.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\obj\Debug\TestWebServiceStatus.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\obj\Debug\TestWebServiceStatus.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\TestWebServiceStatus\TestWebServiceStatus\obj\Debug\TestWebServiceStatus.pdb

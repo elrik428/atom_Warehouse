@@ -1,0 +1,11 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\bin\Debug\VeriCentre_Requested Data Export.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\bin\Debug\VeriCentre_Requested Data Export.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\bin\Debug\VeriCentre_Requested Data Export.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\bin\Debug\MetroFramework.dll
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested Data Export.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested_Data_Export.Form1.resources
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested_Data_Export.Properties.Resources.resources
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested Data Export.csproj.GenerateResource.Cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested Data Export.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\obj\Debug\VeriCentre_Requested Data Export.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\VeriCentre_Requested Data Export\VeriCentre_Requested Data Export\bin\Debug\MetroFramework.Fonts.dll

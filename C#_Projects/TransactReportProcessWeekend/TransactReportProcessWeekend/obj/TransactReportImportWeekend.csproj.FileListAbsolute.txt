@@ -1,0 +1,6 @@
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\obj\Debug\TransactReportImport.exe
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\obj\Debug\TransactReportImport.pdb
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\bin\Debug\TransactReportImport.exe
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\bin\Debug\TransactReportImport.pdb
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+D:\Scheduled Tasks Applications\TransactReportImportWeekend\TransactReportImportWeekend\obj\Debug\ResolveAssemblyReference.cache

@@ -1,0 +1,364 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace Import_csv_to_IMP_TRANSACT_D
+{
+ 
+    class Program
+    {
+       static void Main(string[] args)
+        {
+            string date="";//Fix Aegean report 20170206
+            bool selectedday=false;
+
+            if (args.Length == 1)//Fix Aegean report 20170206
+            {   date=args[0];//ex 2017-02-06
+                selectedday=true;
+            }
+
+            try
+            {
+                System.IO.File.Move(@"\\grat1-dev-ap2t\D$\Reporting\Import\report.csv", @"\\grat1-dev-ap2t\D$\Reporting\report.csv");
+            }
+            catch
+            {
+                Console.WriteLine(@"\\grat1-dev-ap2t\D$\Reporting\Import\report.csv does not exist.\r\n");
+
+            }
+
+            SqlConnectionStringBuilder sqConTransactB = new SqlConnectionStringBuilder();
+            sqConTransactB.DataSource = @"grat1-dev-ap2t"; //Production
+           sqConTransactB.IntegratedSecurity = true;
+            sqConTransactB.InitialCatalog = "ZacReporting";
+            sqConTransactB.ConnectTimeout = 60;
+
+            SqlConnection transactConn = new SqlConnection(sqConTransactB.ConnectionString);
+            transactConn.Open();
+
+            SqlCommand transactEmpty = new SqlCommand();
+            transactEmpty.Connection = transactConn;
+            transactEmpty.CommandTimeout = 0;
+            transactEmpty.CommandText = "Delete from [abc096].[IMP_TRANSACT_D]";
+            transactEmpty.ExecuteNonQuery();
+            MessageBox.Show("Delete completed");
+
+            SqlCommand transactInsert = new SqlCommand();
+            transactInsert.Connection = transactConn;
+            transactInsert.CommandTimeout = 0;
+            transactInsert.CommandText = "BULK INSERT  [abc096].[IMP_TRANSACT_D] " +
+                                          "FROM '"+ @"\\grat1-dev-ap2t\d$\Reporting\report.csv" +"' " +
+                                          "WITH " +
+                                            "( " +
+                                             "FIRSTROW = 2, "+
+                                             "FIELDTERMINATOR = ';', " +
+                                             "ROWTERMINATOR = '\n', " +
+                                             "ERRORFILE = '" + @"\\grat1-dev-ap2t\d$\Reporting\reportErrorRows.csv" +"', "+
+                                             "TABLOCK " +
+                                             ")"; 
+            transactInsert.ExecuteNonQuery();
+           
+            transactConn.Close();
+
+            SqlConnectionStringBuilder sqConTransactB1 = new SqlConnectionStringBuilder();
+            sqConTransactB1.DataSource = @"grat1-dev-ap2t"; //Production
+
+            sqConTransactB1.IntegratedSecurity = true;
+            sqConTransactB1.InitialCatalog = "ZacReporting";
+            sqConTransactB1.ConnectTimeout = 0;
+
+            SqlConnection transactConn1 = new SqlConnection(sqConTransactB1.ConnectionString);
+            transactConn1.Open();
+
+            SqlCommand transactUpd = new SqlCommand();
+            transactUpd.Connection = transactConn1;
+            transactUpd.CommandTimeout = 0;
+            transactUpd.CommandText = "update [ZacReporting].[abc096].[IMP_TRANSACT_D] " +
+                                       "set amount =0 where msgid='0200'  " +
+                                       "and REVERSED='F' " +
+                                       "and exists " +
+                                       "(select * from [ZacReporting].[abc096].[IMP_TRANSACT_D]  B where b.msgid='0400' and amount=b.amount and " +
+                                       "mask=b.mask and mid=b.mid and tid=b.tid and DESTCOMID=B.DESTCOMID AND B.REVERSED='A') ";
+            transactUpd.ExecuteNonQuery();
+
+
+            SqlCommand transactDel = new SqlCommand();
+            transactDel.Connection = transactConn1;
+            transactDel.CommandTimeout = 0;
+            transactDel.CommandText = "delete from [ZacReporting].[abc096].[IMP_TRANSACT_D]  where msgid='0400'  " +
+                                      "and exists " +
+                                      "(select * from [ZacReporting].[abc096].[IMP_TRANSACT_D]  B where b.msgid<>'0400' " +
+                                      "and mask=b.mask and mid=b.mid and tid=b.tid and DESTCOMID=B.DESTCOMID AND B.REVERSED='F') ";
+
+            transactDel.ExecuteNonQuery();
+
+
+
+
+            Console.WriteLine("Updated reversed and deleted reversals from IMP_TRANSACT_D. \r\n");
+
+
+            transactDel.CommandText = "UPDATE [ZacReporting].[abc096].[IMP_TRANSACT_D] SET [DESTCOMID]='NET_ALPHA' where [DESTCOMID]='NET_CLBICALPHA'";
+            transactDel.ExecuteNonQuery();
+ 
+            transactDel.CommandText = "UPDATE [ZacReporting].[abc096].[IMP_TRANSACT_D] SET [DESTCOMID]='NET_EBNK' where [DESTCOMID]='NET_CLBICEBNK'";
+            transactDel.ExecuteNonQuery();
+   
+            Console.WriteLine("Update BIC ports.\r\n");
+
+
+            transactDel.CommandText = "delete from [ZacReporting].[abc096].[IMP_TRANSACT_D] where msgid='0100' and proccode ='080000'";
+            transactDel.ExecuteNonQuery();
+                
+            Console.WriteLine("Delete inquiries.\r\n");
+
+            transactDel.CommandText = "delete from [ZacReporting].[abc096].[IMP_TRANSACT_D] where msgid='0200' and proccode ='890000'";
+            transactDel.ExecuteNonQuery();
+                
+            Console.WriteLine("Delete DCC inquiries.\r\n");
+
+             
+            transactDel.CommandText = "update [ZacReporting].[abc096].[IMP_TRANSACT_D] set msgid='0200',proccode ='000001' "+
+                "where (destcomid='NET_NTBNLTY' or destcomid='NET_PBGLTY') and msgid='0100' and proccode ='000000'";
+            transactDel.ExecuteNonQuery();
+              
+            transactDel.CommandText = "update [ZacReporting].[abc096].[IMP_TRANSACT_D] set msgid='0200',proccode ='020001' "+
+                "where (destcomid='NET_NTBNLTY' or destcomid='NET_PBGLTY') and msgid='0100' and proccode ='020000'";
+            transactDel.ExecuteNonQuery();
+              
+            Console.WriteLine("Update Go4More and Yellow.\r\n");
+             
+
+
+            SqlCommand transactDelnul = new SqlCommand();
+            transactDelnul.Connection = transactConn1;
+            transactDelnul.CommandTimeout = 0;
+            transactDelnul.CommandText = "delete from [ZacReporting].[abc096].[IMP_TRANSACT_D]  where mask is null or mask='' ";
+
+            transactDelnul.ExecuteNonQuery();
+
+            transactDelnul.CommandText = "update [ZacReporting].[abc096].[IMP_TRANSACT_D]  set mask='000000' where productid is null ";
+            transactDelnul.ExecuteNonQuery();
+
+            Console.WriteLine("delete null pan \r\n");
+
+            if(selectedday==true)
+            {
+                    SqlCommand UpdateUPD1 = new SqlCommand();//Fix Aegean report 20170206
+                    UpdateUPD1.Connection = transactConn1;
+                    UpdateUPD1.CommandTimeout = 0;
+                    UpdateUPD1.CommandText = "delete FROM [ZacReporting].[abc096].[IMP_TRANSACT_D]where mid='000000120004600' and bdtstamp>'"+date+" 23:59:59.000'";
+                    UpdateUPD1.ExecuteNonQuery();
+                    Console.WriteLine("remove AEGEAN current day \r\n");
+            }
+
+            // ln 20170922      ----------    start    ---------
+            SqlCommand UpdateUPD3 = new SqlCommand();
+            UpdateUPD3.Connection = transactConn1;
+            UpdateUPD3.CommandTimeout = 0;
+            UpdateUPD3.CommandText = "update [ZacReporting].[abc096].[IMP_TRANSACT_D] set productid = 0 ";
+            UpdateUPD3.ExecuteNonQuery();
+            Console.WriteLine("Update productid = 0 \r\n");
+            // ln 20170922      ----------    end    ---------
+
+
+            SqlCommand transactproduct = new SqlCommand();
+            transactproduct.Connection = transactConn1;
+            transactproduct.CommandTimeout = 0;
+
+            // ln 20170922      ----------    start    ---------
+            transactproduct.CommandText = "update zacreporting.[abc096].[imp_TRansact_D] " +
+                                            "set productid = ( select   top 1 b.id " +
+                                            "from  zacreporting.abc096.Products b   " +
+                                            "where substring(mask,1,6) = b.bin ); ";
+            // ln 20170922      ----------    end    ---------
+
+            //     LN 20170922 Commented     ----------    start    ---------
+             //transactproduct.CommandText = "update [abc096].[imp_TRansact_D] " +
+            //    " set productid= " +
+            //    " case " +
+            //    " when " +
+            //    " exists " +
+            //       " (select * from abc096.products b " +
+            //        " where " +
+            //        " (substring(mask,1,6)=cast((substring(b.bin,1,6 )) as dec(22,0)) or" +
+            //        " substring(mask,1,6)=cast((substring(b.binu,1,6)) as dec(22,0)) or" +
+            //        " substring(mask,1,6) between cast((substring(b.bin,1,6 )) as dec(22,0)) and" +
+            //             " cast((substring(b.binu,1,6)) as dec(22,0)) ) )" +
+            //    " then " +
+            //        "(select min(b.id) from abc096.products b" +
+            //        " where " +
+            //        " productid=cast((substring(b.bin,1,6 )) as dec(22,0)) or" +
+            //        " productid=cast((substring(b.binu,1,6)) as dec(22,0)) or" +
+            //        " productid between cast((substring(b.bin,1,6 )) as dec(22,0)) and" +
+            //             " cast((substring(b.binu,1,6)) as dec(22,0)) )" +
+            //        " when " +
+            //        " exists " +
+            //            " (select * from abc096.products b" +
+            //            " where" +
+            //            " (substring(mask,1,5)=cast((substring(b.bin,1,5 )) as dec(22,0)) or" +
+            //            " substring(mask,1,5)=cast((substring(b.binu,1,5)) as dec(22,0)) or" +
+            //            " substring(mask,1,5) between cast((substring(b.bin,1,5)) as dec(22,0)) and" +
+            //                " cast((substring(b.binu,1,5)) as dec(22,0))) and len(b.bin)=5)" +
+            //        " then " +
+            //            " (select min(b.id) from abc096.products b" +
+            //            " where " +
+            //            " (substring(mask,1,5)=cast((substring(b.bin,1,5 )) as dec(22,0)) or" +
+            //            " substring(mask,1,5)=cast((substring(b.binu,1,5)) as dec(22,0)) or" +
+            //            " substring(mask,1,5) between cast((substring(b.bin,1,5)) as dec(22,0)) and" +
+            //                 " cast((substring(b.binu,1,5)) as dec(22,0))) and len(b.bin)=5)" +
+            //            " when " +
+            //            " exists " +
+            //                " (select * from abc096.products b" +
+            //                " where" +
+            //                " (substring(mask,1,4)=cast((substring(b.bin,1,4 )) as dec(22,0)) or" +
+            //                " substring(mask,1,4)=cast((substring(b.binu,1,4)) as dec(22,0)) or" +
+            //                " substring(mask,1,4) between cast((substring(b.bin,1,4)) as dec(22,0)) and" +
+            //                    " cast((substring(b.binu,1,4)) as dec(22,0))) and len(b.bin)=4)" +
+            //            " then " +
+            //                " (select min(b.id) from abc096.products b" +
+            //                " where" +
+            //                " (substring(mask,1,4)=cast((substring(b.bin,1,4 )) as dec(22,0)) or" +
+            //                " substring(mask,1,4)=cast((substring(b.binu,1,4)) as dec(22,0)) or" +
+            //                " substring(mask,1,4) between cast((substring(b.bin,1,4)) as dec(22,0)) and" +
+            //                    " cast((substring(b.binu,1,4)) as dec(22,0))) and len(b.bin)=4)" +
+            //                " when" +
+            //                " exists" +
+            //                    " (select * from abc096.products b" +
+            //                    " where" +
+            //                    " (substring(mask,1,3)=cast((substring(b.bin,1,3 )) as dec(22,0)) or" +
+            //                    " substring(mask,1,3)=cast((substring(b.binu,1,3)) as dec(22,0)) or" +
+            //                    " substring(mask,1,3) between cast((substring(b.bin,1,3)) as dec(22,0)) and" +
+            //                        " cast((substring(b.binu,1,3)) as dec(22,0))) and len(b.bin)=3)" +
+            //                " then" +
+            //                    " (select min(b.id) from abc096.products b" +
+            //                    " where" +
+            //                    " (substring(mask,1,3)=cast((substring(b.bin,1,3 )) as dec(22,0)) or" +
+            //                    " substring(mask,1,3)=cast((substring(b.binu,1,3)) as dec(22,0)) or" +
+            //                    " substring(mask,1,3) between cast((substring(b.bin,1,3)) as dec(22,0)) and" +
+            //                        " cast((substring(b.binu,1,3)) as dec(22,0))) and len(b.bin)=3)" +
+            //                    " when" +
+            //                    " exists" +
+            //                         " (select * from abc096.products b" +
+            //                         " where" +
+            //                         " (substring(mask,1,2)=cast((substring(b.bin,1,2 )) as dec(22,0)) or" +
+            //                         " substring(mask,1,2)=cast((substring(b.binu,1,2)) as dec(22,0)) or" +
+            //                         " substring(mask,1,2) between cast((substring(b.bin,1,2)) as dec(22,0)) and" +
+            //                            " cast((substring(b.binu,1,2)) as dec(22,0))) and len(b.bin)=2)" +
+            //                    " then" +
+            //                         " (select min(b.id) from abc096.products b" +
+            //                         " where" +
+            //                         " (substring(mask,1,2)=cast((substring(b.bin,1,2 )) as dec(22,0)) or" +
+            //                         " substring(mask,1,2)=cast((substring(b.binu,1,2)) as dec(22,0)) or" +
+            //                         " substring(mask,1,2) between cast((substring(b.bin,1,2)) as dec(22,0)) and" +
+            //                             " cast((substring(b.binu,1,2)) as dec(22,0))) and len(b.bin)=2)" +
+            //                         " when" +
+            //                         " exists" +
+            //                              " (select * from abc096.products b" +
+            //                              " where" +
+            //                              " (substring(mask,1,1)=cast((substring(b.bin,1,1 )) as dec(22,0)) or" +
+            //                              " substring(mask,1,1)=cast((substring(b.binu,1,1)) as dec(22,0)) or" +
+            //                              " substring(mask,1,1) between cast((substring(b.bin,1,1)) as dec(22,0)) and" +
+            //                                   " cast((substring(b.binu,1,1)) as dec(22,0))) and len(b.bin)=1)" +
+            //                         " then " +
+            //                              " (select min(b.id) from abc096.products b" +
+            //                              " where" +
+            //                              " (substring(mask,1,1)=cast((substring(b.bin,1,1 )) as dec(22,0)) or" +
+            //                              " substring(mask,1,1)=cast((substring(b.binu,1,1)) as dec(22,0)) or" +
+            //                              " substring(mask,1,1) between cast((substring(b.bin,1,1)) as dec(22,0)) and" +
+            //                              " cast((substring(b.binu,1,1)) as dec(22,0))) and len(b.bin)=1)" +
+            //         " end";
+            transactproduct.ExecuteNonQuery();
+
+            // ln 20170922      ----------    start    ---------
+            SqlCommand UpdZeroPrdctID = new SqlCommand();
+            UpdZeroPrdctID.Connection = transactConn1;
+            UpdZeroPrdctID.CommandTimeout = 0;
+            UpdZeroPrdctID.CommandText = "update zacreporting.[abc096].[imp_TRansact_D] " +
+            "set productid =  " +
+            "case " +
+                "when substring(mask,1,2) >= '40' and substring(mask,1,2) <= '49' then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                                    "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                                    "group by b.id,b.bin) " +
+                "when substring(mask,1,2) >= '60' and substring(mask,1,2) <= '69' then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                                    "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                                    "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '23'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '24'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '25'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '26'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '30'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            " group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '34'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '35'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '36'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '37'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '38'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '50'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '51'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '52'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '53'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '54'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '55'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '56'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '57'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "when substring(mask,1,2) = '58'	 then  (select b.id from zacreporting.[abc096].[imp_TRansact_D] c " +
+                                                            "inner join zacreporting.dbo.Products b on substring(c.mask,1,2) = b.bin " +
+                                                            "group by b.id,b.bin) " +
+                "end " +
+            "where productid = '0' ";
+            UpdZeroPrdctID.ExecuteNonQuery();
+            Console.WriteLine("Update productid for '0' \r\n");
+            // ln 20170922      ----------    end    ---------
+
+            transactConn1.Close();
+            Console.WriteLine("Fixed product in IMP_TRANSACT_D. \r\n");
+            System.IO.File.Move(@"\\grat1-dev-ap2t\D$\Reporting\report.csv", @"\\grat1-dev-ap2t\D$\Reporting\Import\report.csv");
+            System.IO.File.Delete(@"\\grat1-dev-ap2t\D$\Reporting\Import\report.csv");
+           
+ 
+
+        }
+    }
+}

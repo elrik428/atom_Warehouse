@@ -1,0 +1,12 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\WeeklyTids_CSV\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache

@@ -1,0 +1,6 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\bin\Debug\Test_API.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\bin\Debug\Test_API.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\bin\Debug\Test_API.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\obj\Debug\Test_API.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\obj\Debug\Test_API.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Test_API\Test_API\obj\Debug\Test_API.pdb

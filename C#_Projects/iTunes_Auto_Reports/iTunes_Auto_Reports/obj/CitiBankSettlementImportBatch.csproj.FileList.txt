@@ -1,0 +1,5 @@
+bin\Debug\CitiBankSettlementImportBatch.exe
+bin\Debug\CitiBankSettlementImportBatch.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\CitiBankSettlementImportBatch.exe
+obj\Debug\CitiBankSettlementImportBatch.pdb

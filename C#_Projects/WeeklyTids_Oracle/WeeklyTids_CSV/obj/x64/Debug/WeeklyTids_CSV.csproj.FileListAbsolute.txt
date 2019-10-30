@@ -1,0 +1,14 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\bin\x64\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\bin\x64\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\bin\x64\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_Oracle\WeeklyTids_CSV\obj\x64\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache

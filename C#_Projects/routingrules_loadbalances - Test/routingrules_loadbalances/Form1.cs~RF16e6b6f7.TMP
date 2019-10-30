@@ -1,0 +1,1041 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.Odbc;
+//using System.Windows.Controls;
+using System.Data.SqlClient;
+
+
+namespace routingrules_loadbalances
+{
+    public partial class Form1 : Form
+    {
+        string[,] loadBalArr = new string[4, 3];
+        string totals_CntAmnt = " ";
+
+        public Form1()
+        {
+              
+             conn = new OdbcConnection("DSN=" + ConnectionString);
+                         
+            try
+            {
+                conn.Open();
+            }
+            catch
+            {
+                MessageBox.Show("Cannot connect to ODBC " + ConnectionString);
+                exit = true;
+                // return;
+            }
+
+            if (exit == true)
+            return;
+
+            InitializeComponent();
+
+            listView_MIDs.Columns.Add("MID");
+                                  
+            listView1.Columns.Add("Originator");
+            listView1.Columns.Add("Route");
+            listView1.Columns.Add("Instal-From");
+            listView1.Columns.Add("Instal-To");
+
+            listView2.Columns.Add("Bank");
+            listView2.Columns.Add("Load Balance");
+            listView2.Columns.Add("Totals By");
+
+            listView_BINChk.Columns.Add("Destport");
+            listView_BINChk.Columns.Add("BIN");
+            listView_BINChk.Visible = false;
+
+            textBoxHidden_Route.Visible = false;
+            textBoxFr.Text = " ";
+            textBoxTo.Text = " ";
+
+            int[] arrBal =new int[4];
+            arrBal[0] = 0;
+            arrBal[1] = 1;
+            arrBal[2] = 50;
+            arrBal[3] = 1000000;
+
+            radioButton_Cnt.Checked = true;
+                         
+
+             //string[,] loadBalArr = new string[4, 2];
+            //Array.Clear(loadBalArr, 4, 2);
+
+
+            //comboMID
+            OdbcCommand comboFillMids = new OdbcCommand(
+               "SELECT MID FROM dbo.MERCHANTS_test " +
+               "where mid like '00%' and substring(mid,1,8) = '00000012' " +
+               "group by [MID]", conn);
+            OdbcDataReader reader = comboFillMids.ExecuteReader();
+            while (reader.Read())
+            {
+                string word = reader.GetString(0);
+
+                this.comboGroup.Items.Add(word);
+
+            }
+            reader.Close();
+
+            //comboBnkRoute
+            OdbcCommand comboFillBnks = new OdbcCommand(
+                 "SELECT BANKDEscr FROM dbo.ROUTEBANK where uploadhostid <> ' '",
+                 conn);
+            OdbcDataReader reader2 = comboFillBnks.ExecuteReader();
+            while (reader2.Read())
+            {
+                string BankRout = reader2.GetString(0);
+
+                this.comboBnkRoute.Items.Add(BankRout);
+                this.comboBoxLD.Items.Add(BankRout);
+            }
+            reader2.Close();
+
+            // Combo Box for installemnts
+            for (int i = 0; i<100; i++)
+            {
+                comboBox_InstalFr.Items.Add(i);
+                comboBox_InstalTo.Items.Add(i);
+            }
+            
+            //Combo box for Load balance Percentage 
+            
+            for (int i = 0; i < 4; i++)
+            {
+                comboBoxPrcntge.Items.Add(arrBal[i]);
+           }
+            
+
+
+            // List Box Originator
+            OdbcCommand listBoxOrigin = new OdbcCommand(
+                 "Select bankdescr_short From dbo.ROUTEBANK",
+                 conn);
+            OdbcDataReader reader3 = listBoxOrigin.ExecuteReader();
+            while (reader3.Read())
+            {
+                string originDescr = reader3.GetString(0);
+
+                this.listBoxOrigin.Items.Add(originDescr);
+
+            }
+            reader3.Close();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)   {}
+
+        //Insert records to backup file
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int countMER = 0;
+            int countBUP = 0;
+            string seleMID;
+            seleMID = midDescr.Text;
+
+            // Delete from Backup file
+            OdbcCommand delRecsBup = new OdbcCommand("Delete from dbo.MERCHBINS_bu_ln", conn);
+            OdbcDataReader reader = delRecsBup.ExecuteReader();
+            reader.Close();
+
+           // Inesrt to backup file
+           OdbcCommand comIns = new OdbcCommand(
+                 "insert into dbo.MERCHBINS_bu_ln (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)" +
+                 "(select TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from dbo.MERCHBINS_TEST)", conn);
+           OdbcDataReader readerIns = comIns.ExecuteReader();
+           readerIns.Close();
+
+            // Check records in backup file and original the same
+           OdbcCommand comCount_1 = new OdbcCommand("select count(*) from dbo.MERCHBINS_TEST", conn);
+            countMER = Convert.ToInt32(comCount_1.ExecuteScalar());
+
+            OdbcCommand comCount_2 = new OdbcCommand("select count(*) from dbo.MERCHBINS_bu_ln", conn);
+            countBUP = Convert.ToInt32(comCount_2.ExecuteScalar());
+               
+          
+            if (countMER != countBUP)
+               MessageBox.Show("Backup records not equal with initial records");
+
+            label7.ForeColor = System.Drawing.Color.Red;
+            label7.Text = "DONE";
+
+            seleMID = midDescr.Text;
+        }
+        
+        private void label4_Click(object sender, EventArgs e) {}
+
+        // MIDs combobox 
+        private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox cmb = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = cmb.SelectedIndex;
+            Object selectedItem = cmb.SelectedItem;
+
+            //MessageBox.Show("Selected Item Text: " + selectedItem.ToString() + "\n" +
+            //                "Index: " + selectedIndex.ToString());
+            midDescr.Text = selectedItem.ToString();
+            label8.ForeColor = System.Drawing.Color.Red;
+            label8.Text = "DONE";
+
+            listView_MIDs.Items.Add(new ListViewItem(new string[] {cmb.SelectedItem.ToString()}));
+
+         }
+        
+        private void midDescr_TextChanged(object sender, EventArgs e) {}
+
+        // Delete TIDs for selected MID
+        private void button3_Click(object sender, EventArgs e)
+        {
+          //foreach (ListViewItem item in listView_MIDs.Items)
+          //{
+              //midDescr.Text = item.SubItems[0].Text.ToString();
+              //OdbcCommand com = new OdbcCommand("delete from dbo.MERCHBINS_TEST where tid in (select tid from dbo.merchants_test where mid =" + comboGroup.SelectedItem + ")", conn);
+              OdbcCommand com = new OdbcCommand("delete from dbo.MERCHBINS_TEST where tid in (select tid from dbo.merchants_test where mid =" + midDescr.Text + ")", conn);
+              OdbcDataReader readerIns = com.ExecuteReader();
+              readerIns.Close();
+            label5.ForeColor = System.Drawing.Color.Red;
+            label5.Text = "DONE";
+          //}
+        }
+        
+        private void radioButton6_CheckedChanged(object sender, EventArgs e) {}
+        private void Form1_Load(object sender, EventArgs e) {}
+        private void button8_Click(object sender, EventArgs e) {}
+
+        //Verify button so to add in listView
+        private void button4_Click(object sender, EventArgs e) 
+        {
+            int[] cntBnkTid = new int[5];
+            //Check if installs are selected so to proceed
+            if ((textBoxFr.Text.Equals(" ")) || (textBoxTo.Text.Equals(" ")))
+            {
+                MessageBox.Show("Installments are not chosen!");
+                return;
+            }
+            TID_BankConn.TID_Check(midDescr.Text.ToString(), cntBnkTid);
+            int countCHK_1 = cntBnkTid[0];
+            int countCHK_6 = cntBnkTid[1];
+            int countCHK_202 = cntBnkTid[2];
+            int countCHK_205 = cntBnkTid[3];
+            int countCHK_7 = cntBnkTid[4];
+
+         
+            if (listBoxOrigin.SelectedItem.ToString() == "KOYBAS" && countCHK_1 >0)
+            {
+                string BankDescr = "PIREOS";
+                MessageBox.Show("You cannot choose " + BankDescr + "as bucket as it's not connected to all TIDs. " + "\n" + "Please choose another!");
+                return;
+            };
+
+            if (listBoxOrigin.SelectedItem.ToString() == "KOYBAS" && countCHK_6 > 0)
+            {
+                string BankDescr = "ETHNIKI";
+                MessageBox.Show("You cannot choose " + BankDescr + "as bucket as it's not connected to all TIDs. " + "\n" + "Please choose another!");
+                return;
+            };
+
+            if (listBoxOrigin.SelectedItem.ToString() == "KOYBAS" && countCHK_202 > 0)
+            {
+                string BankDescr = "ALPHA";
+                MessageBox.Show("You cannot choose " + BankDescr + "as bucket as it's not connected to all TIDs. " + "\n" + "Please choose another!");
+                return;
+            };
+
+            if (listBoxOrigin.SelectedItem.ToString() == "KOYBAS" && countCHK_205 > 0)
+            {
+                string BankDescr = "EUROBANK";
+                MessageBox.Show("You cannot choose " + BankDescr + "as bucket as it's not connected to all TIDs. " + "\n" + "Please choose another!");
+                return;
+            };
+
+            if (listBoxOrigin.SelectedItem.ToString() == "KOYBAS" && countCHK_7 > 0)
+            {
+                string BankDescr = "ATTIKA";
+                MessageBox.Show("You cannot choose " + BankDescr + " as bucket as it's not connected to all TIDs. " + "\n" + "Please choose another!");
+                return;
+            };
+
+
+          // Add to listView so to keep track of what it is done
+            listView1.Items.Add(new ListViewItem(new string[] { listBoxOrigin.SelectedItem.ToString(), textBoxHidden_Route.Text,textBoxFr.Text,textBoxTo.Text}));
+        }
+
+        private void ntbnTo_ntbn_CheckedChanged(object sender, EventArgs e) {}
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //ListViewItem item1 = new ListViewItem("Originator", 0);
+            //item1.SubItems.Add("1");
+            //item1.SubItems.Add("2");
+            //item1.SubItems.Add("3");
+            //ListViewItem item2 = new ListViewItem("Route", 1);
+            //item2.SubItems.Add("1");
+            //item2.SubItems.Add("2");
+            //item2.SubItems.Add("3");
+            //listView1.Items.AddRange(new ListViewItem[] { item1, item2 });
+            
+        }
+        
+        // Choose from ListBox 
+        private void listBoxOrigin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          string cur_Item = listBoxOrigin.SelectedItem.ToString();
+        }
+
+        //Select route from Combo box
+        private void comboBnkRoute_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBnkRoute = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = comboBnkRoute.SelectedIndex;
+            Object selectedItem = comboBnkRoute.SelectedItem;
+
+            //MessageBox.Show("Selected Item Text: " + selectedItem.ToString() + "\n" +
+            //                "Index: " + selectedIndex.ToString());
+            textBoxHidden_Route.Text = selectedItem.ToString();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            listView1.Clear();
+            listView1.Columns.Add("Originator");
+            listView1.Columns.Add("Route");
+            listView1.Columns.Add("Instal-From");
+            listView1.Columns.Add("Instal-To");
+        }
+
+        // Proceed to insert of TIDs to MERCHBIN file
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+            button2_Click(button2, EventArgs.Empty);
+
+            string sublstItm1;
+            string sublstItm2;
+            string chkOriginID= " ";
+            string route_hostID = " ";
+            string chkOriginID2 = " ";
+            string route_hostID2 = " ";
+            string templKarf = "1111    ";
+            string destChk= " ";
+            string binLoChk= " ";
+            
+            OdbcCommand comCursor = conn.CreateCommand();
+            OdbcCommand comCursorKoyvas = conn.CreateCommand();
+            OdbcCommand comCursorTic_MMore = conn.CreateCommand();
+            OdbcCommand comCursorAMEX_DINERS = conn.CreateCommand();
+            OdbcCommand comCursor_NewBIN = conn.CreateCommand();
+            OdbcCommand comCursor_NewBIN_Chk = conn.CreateCommand();
+
+            //OdbcDataReader readerCursor = new OdbcDataReader();
+
+            foreach (ListViewItem itemMID in listView_MIDs.Items)
+            {
+                midDescr.Text = itemMID.SubItems[0].Text.ToString();
+                //Delete all records for specific MID
+                button3_Click(button3, EventArgs.Empty);
+
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    //for (int i = 0; i < item.SubItems.Count; i++)
+                    // {
+                    chkOriginID = "0";
+                    chkOriginID2 = "0";
+                    sublstItm1 = item.SubItems[0].Text.ToString();
+                    sublstItm2 = item.SubItems[1].Text.ToString();
+                    textBox1.Text = item.SubItems[0].Text.ToString();
+                    textBox2.Text = item.SubItems[1].Text.ToString();
+
+                    //Transform Bank into HostID
+                    string chkOrigin = textBox1.Text;
+                    switch (chkOrigin)
+                    {
+                        case "PIRAEUS":
+                            chkOriginID = "1";
+                            route_hostID = "NET_ABC";
+                            break;
+                        case "ETHNIKI":
+                            chkOriginID = "6";
+                            route_hostID = "NET_NTBN";
+                            break;
+                        case "ALPHABANK":
+                            chkOriginID = "202";
+                            route_hostID = "NET_CLBICALPHA";
+                            break;
+                        case "EUROBANK":
+                            chkOriginID = "205";
+                            route_hostID = "NET_CLBICEBNK";
+                            break;
+                        case "ATTIKA":
+                            chkOriginID = "7";
+                            route_hostID = "NET_ATTIKA";
+                            break;
+                    }
+
+                    //Transform Bank into DEST
+                    string chkOrigin2 = textBox2.Text;
+                    switch (chkOrigin2)
+                    {
+                        case "PIRAEUS":
+                            chkOriginID2 = "1";
+                            route_hostID2 = "NET_ABC";
+                            break;
+                        case "ETHNIKI":
+                            chkOriginID2 = "6";
+                            route_hostID2 = "NET_NTBN";
+                            break;
+                        case "ALPHABANK":
+                            chkOriginID2 = "202";
+                            route_hostID2 = "NET_CLBICALPHA";
+                            break;
+                        case "EUROBANK":
+                            chkOriginID2 = "205";
+                            route_hostID2 = "NET_CLBICEBNK";
+                            break;
+                        case "ATTIKA":
+                            chkOriginID2 = "7";
+                            route_hostID2 = "NET_ATTIKA";
+                            break;
+                    }
+
+                    textBoxFr.Text.ToString();
+                    textBoxTo.Text.ToString();
+
+                    //OdbcCommand comCursor = conn.CreateCommand();
+
+                    if (chkOriginID == "1" || chkOriginID == "6" || chkOriginID == "202" || chkOriginID == "205" || chkOriginID == "7")
+                    {
+                        // Check if trxs will routed to same bank id so to change DESTPORT
+                        if (chkOriginID == chkOriginID2)
+                        {
+                                if (chkOriginID == "202")  // Only for Alpha
+                                {
+                                    comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                    " (select mid,TID, uploadhostname " +
+                                                    "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                    "  where mid = ? and " +
+                                                    "  a.uploadhostid = ? " +
+                                                    "  and a.uploadhostid = b.uploadhostid), " +
+                                                    "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                    " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX  " +
+                                                    " from dbo.MERCHBINS_TEST  " +
+                                                    " where TID = '1111    ' and DESTPORT = ? and " +
+                                                    " binlower not in ('30','36','38','34','37','6011','644','645','646','647','648','649','650','651','652','653','654','655','656','657','658','659')) " +
+                                                    "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER,INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                    " (select #tid, #name,  #BINLOWER, #BINUPPER," +
+                                                        textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                    "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                    "   from  merchtid,merchInfo ) ";
+                                }
+                                else if (chkOriginID == "6")  // Only for Ethniki
+                                {
+                                    comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                    " (select mid,TID, uploadhostname " +
+                                                    "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                    "  where mid = ? and " +
+                                                    "  a.uploadhostid = ? " +
+                                                    "  and a.uploadhostid = b.uploadhostid), " +
+                                                    "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                    " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX  " +
+                                                    " from dbo.MERCHBINS_TEST  " +
+                                                    " where TID = '1111    ' and DESTPORT = ? and " +
+                                                    " binlower not in ('549804')) " +
+                                                    "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER,INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                    " (select #tid, #name,  #BINLOWER, #BINUPPER," +
+                                                        textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                    "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                    "   from  merchtid,merchInfo ) ";
+                                }
+                                else if (chkOriginID!="6" && chkOriginID!="202")
+                                {
+                                    comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                        " (select mid,TID, uploadhostname " +
+                                                        "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                        "  where mid = ? and " +
+                                                        "  a.uploadhostid = ? " +
+                                                        "  and a.uploadhostid = b.uploadhostid), " +
+                                                        "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                        " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX  " +
+                                                        " from dbo.MERCHBINS_TEST  " +
+                                                        " where TID = '1111    ' and DESTPORT = ?)  " +
+                                                        "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER,INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                        " (select #tid, #name,  #BINLOWER, #BINUPPER," +
+                                                            textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                        "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                        "   from  merchtid,merchInfo ) ";
+                                }
+                            //"   order by #TID) ";
+                        }
+                        else
+                        {
+                            if (chkOriginID == "202")  // Only for Alpha
+                            {
+                                comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                      " (select mid,TID, uploadhostname " +
+                                                      "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                      "  where mid = " + midDescr.Text +
+                                                      "   and a.uploadhostid = " + chkOriginID +
+                                                      "  and a.uploadhostid = b.uploadhostid), " +
+                                                      "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                      " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX " +
+                                                      "  from dbo.MERCHBINS_TEST  " +
+                                                      "  where TID = '1111    ' and DESTPORT = '" + route_hostID + "' and " +
+                                                      " binlower not in ('30','36','38','34','37','6011','644','645','646','647','648','649','650','651','652','653','654','655','656','657','658','659')) " +
+                                                      "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                      "   select #TID, '" +
+                                                          route_hostID2 +
+                                                      "', #BINLOWER, #BINUPPER, " +
+                                                      textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                      "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                      "   from  merchtid,merchInfo " +
+                                                      "   order by #TID ";
+                            }
+                            else if (chkOriginID == "6")  // Only for Ethniki
+                            {
+                                comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                      " (select mid,TID, uploadhostname " +
+                                                      "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                      "  where mid = " + midDescr.Text +
+                                                      "   and a.uploadhostid = " + chkOriginID +
+                                                      "  and a.uploadhostid = b.uploadhostid), " +
+                                                      "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                      " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX " +
+                                                      "  from dbo.MERCHBINS_TEST  " +
+                                                      "  where TID = '1111    ' and DESTPORT = '" + route_hostID + "' and " +
+                                                      " binlower not in ('549804')) " +
+                                                      "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                      "   select #TID, '" +
+                                                          route_hostID2 +
+                                                      "', #BINLOWER, #BINUPPER, " +
+                                                      textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                      "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                      "   from  merchtid,merchInfo " +
+                                                      "   order by #TID ";
+                            }
+                            else if (chkOriginID != "6" && chkOriginID != "202")
+                            {
+                                comCursor.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                        " (select mid,TID, uploadhostname " +
+                                                        "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                        "  where mid = " + midDescr.Text +
+                                                        "   and a.uploadhostid = " + chkOriginID +
+                                                        "  and a.uploadhostid = b.uploadhostid), " +
+                                                        "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                        " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX " +
+                                                        "  from dbo.MERCHBINS_TEST  " +
+                                                        "  where TID = '1111    ' and DESTPORT = '" + route_hostID + "') " +
+                                                        "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                        "   select #TID, '" +
+                                                            route_hostID2 +
+                                                        "', #BINLOWER, #BINUPPER, " +
+                                                        textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                        "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                        "   from  merchtid,merchInfo " +
+                                                        "   order by #TID ";
+                            }
+                        }
+
+                        comCursor.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursor.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID;
+                        comCursor.Parameters.Add("@DESTPORT", OdbcType.VarChar, 20).Value = route_hostID;
+                        comCursor.Connection = conn;
+                        OdbcDataReader readerCursor1 = comCursor.ExecuteReader();
+                        readerCursor1.Dispose();
+                        readerCursor1.Close();
+
+                    }
+                    else if (chkOrigin == "KOYBAS")
+                    {
+                        comCursorKoyvas.CommandText =
+                                        "with merchtid(#mid,#tid,#name) as  " +
+                                        " (select mid,TID, uploadhostname " +
+                                        "  from dbo.MERCHANTS_test a, dbo.uploadhosts b " +
+                                        "  where mid = ? and a.uploadhostid = ? " +
+                                        "  and a.uploadhostid = b.uploadhostid) " +
+                                        "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                        " select #TID, #name, '4', '6', 0, 1, 0, 99, 'Y', 0 , 999999999 " +
+                                        " from  merchtid; " +
+                                        "with merchtid(#mid,#tid,#name) as " +
+                                        " (select mid,TID, uploadhostname " +
+                                        "  from dbo.MERCHANTS_test a, dbo.uploadhosts b " +
+                                        "  where mid = ? and a.uploadhostid = ? " +
+                                        "  and a.uploadhostid = b.uploadhostid) " +
+                                        "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                        " select #TID, #name, '9', '9', 0, 1, 0, 99, 'Y', 0 , 999999999 " +
+                                        " from  merchtid; " +
+                                        "with merchtid(#mid,#tid,#name) as " +
+                                        " (select mid,TID, uploadhostname " +
+                                        "  from dbo.MERCHANTS_test a, dbo.uploadhosts b " +
+                                        "  where mid = ? and a.uploadhostid = ? " +
+                                        "  and a.uploadhostid = b.uploadhostid) " +
+                                        "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                        " select #TID, #name, '222100', '272099', 0, 1, 0, 99, 'Y', 0 , 999999999 " +
+                                        " from  merchtid; ";
+
+                        comCursorKoyvas.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorKoyvas.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                        comCursorKoyvas.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorKoyvas.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                        comCursorKoyvas.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorKoyvas.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                        comCursorKoyvas.Connection = conn;
+                        OdbcDataReader readerCursor2 = comCursorKoyvas.ExecuteReader();
+                        comCursorKoyvas.Dispose();
+                        readerCursor2.Close();
+
+                    }
+                    else if (chkOrigin == "MEALSANDMORE")
+                    {
+                        comCursorTic_MMore.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                " (select mid,TID, uploadhostname " +
+                                                "  from dbo.MERCHANTS_test a, dbo.uploadhosts b " +
+                                                "  where mid = ? and a.uploadhostid = ? " +
+                                                "  and a.uploadhostid = b.uploadhostid) " +
+                                                "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                                " select #TID, #name, '502259', '502259', 0, 1, 0, 99, 'Y', 0 , 999999999 " +
+                                                " from  merchtid ; ";
+                        comCursorTic_MMore.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorTic_MMore.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                        comCursorTic_MMore.Connection = conn;
+                        OdbcDataReader readerCursor3 = comCursorTic_MMore.ExecuteReader();
+                        comCursorTic_MMore.Dispose();
+                        readerCursor3.Close();
+
+                    }
+                    else if (chkOrigin == "TICKETRESTAURANT")
+                    {
+                        comCursorTic_MMore.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                " (select mid,TID, uploadhostname " +
+                                                "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                "  where mid = ? and a.uploadhostid = ? " +
+                                                "  and a.uploadhostid = b.uploadhostid) " +
+                                                "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                                " select #TID, #name, '534228', '534228', 0, 1, 0, 99, 'Y', 0 , 999999999 " +
+                                                " from  merchtid ; ";
+
+                        comCursorTic_MMore.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorTic_MMore.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                        comCursorTic_MMore.Connection = conn;
+                        OdbcDataReader readerCursor4 = comCursorTic_MMore.ExecuteReader();
+                        comCursorTic_MMore.Dispose();
+                        readerCursor4.Close();
+
+                    }
+                    else if (chkOrigin == "AMEXDINERS")
+                    {
+                        comCursorAMEX_DINERS.CommandText = "with merchtid(#mid,#tid,#name) as " +
+                                                    " (select mid,TID, uploadhostname " +
+                                                    "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                    "  where mid = ? and " +
+                                                    "  a.uploadhostid = '202' " +
+                                                    "  and a.uploadhostid = b.uploadhostid), " +
+                                                    "merchInfo(#DESTPORT, #BINLOWER, #BINUPPER, #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX ) as  " +
+                                                    " (select DESTPORT, BINLOWER, BINUPPER, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX  " +
+                                                    " from dbo.MERCHBINS_TEST  " +
+                                                    " where TID = '1111    ' and DESTPORT = 'NET_CLBICALPHA' and " +
+                                                    " binlower in ('30','36','38','34','37','6011','644','645','646','647','648','649','650','651','652','653','654','655','656','657','658','659')) " +
+                                                    "insert into  dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER,INSTMIN, INSTMAX, GRACEMIN, GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX) " +
+                                                    " (select #tid, #name,  #BINLOWER, #BINUPPER," +
+                                                        textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString() + "," +
+                                                    "   #GRACEMIN, #GRACEMAX, #ALLOWED, #AMOUNTMIN, #AMOUNTMAX " +
+                                                    "   from  merchtid,merchInfo ) ";
+
+
+                        comCursorAMEX_DINERS.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        comCursorAMEX_DINERS.Connection = conn;
+                        OdbcDataReader readerCursor5 = comCursorAMEX_DINERS.ExecuteReader();
+                        comCursorAMEX_DINERS.Dispose();
+                        readerCursor5.Close();
+                    }
+                    else if (chkOriginID != "1" && chkOriginID != "6" && chkOriginID != "202" && chkOriginID != "205" && chkOriginID != "7" &&
+                        chkOrigin != "KOYBAS" && chkOrigin != "MEALSANDMORE" && chkOrigin != "TICKETRESTAURANT" && chkOrigin != "AMEXDINERS")
+                    {
+                        comCursor_NewBIN_Chk.CommandText = "select top(1) TID,DESTPORT,BINLOWER from dbo.MERCHBINS_TEST where tid in (select tid from dbo.MERCHANTS_test where mid = ?) and binlower = '" + chkOrigin + "'";
+                        comCursor_NewBIN_Chk.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                        OdbcDataReader readerCursor6 = comCursor_NewBIN_Chk.ExecuteReader();
+                        while (readerCursor6.Read())
+                        {
+                             destChk = readerCursor6["DESTPORT"].ToString();
+                             binLoChk = readerCursor6["BINLOWER"].ToString();
+                        }
+                        DialogResult dialogResNewBin = MessageBox.Show("Ruling for BIN : " + binLoChk + " is applied to Destination Port : " + destChk + " ." + "\n" + 
+                            "Should we proceed to DELETE/INSERT of  ruling ?" , "New BIN Check", MessageBoxButtons.YesNo);
+                        //MessageBox.Show("Ruling for BIN " + readerCursor6["BINLOWER"].ToString() + " is applied to Destination Port " + readerCursor6["DESPORT"].ToString() +" .","",MessageBoxButtons.YesNo);
+                        readerCursor6.Close();
+
+                        if (dialogResNewBin == DialogResult.Yes)
+                        {
+                            comCursor_NewBIN.CommandText = "delete from dbo.MERCHBINS_TEST where tid in (select tid from dbo.MERCHANTS_test  where mid = ?) and binlower = '" + chkOrigin + "';" +
+                                                           "with merchtid(#mid,#tid,#name) as " +
+                                                " (select mid,TID, uploadhostname " +
+                                                "  from dbo.MERCHANTS_test a, dbo.uploadhosts b  " +
+                                                "  where mid = ? and a.uploadhostid = ? " +
+                                                "  and a.uploadhostid = b.uploadhostid) " +
+                                                "insert into dbo.MERCHBINS_TEST (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) " +
+                                                " select #TID, #name, '" + chkOrigin + "', '" + chkOrigin + "',"+
+                                                textBoxFr.Text.ToString() + "," + textBoxTo.Text.ToString()  +", 0, 99, 'Y', 0 , 999999999 " +
+                                                " from  merchtid ; ";
+
+                            comCursor_NewBIN.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                            comCursor_NewBIN.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = midDescr.Text;
+                            comCursor_NewBIN.Parameters.Add("@uploadhost", OdbcType.Int).Value = chkOriginID2;
+                            comCursor_NewBIN.Connection = conn;
+                            OdbcDataReader readerCursor7 = comCursor_NewBIN.ExecuteReader();
+                            comCursor_NewBIN.Dispose();
+                            readerCursor7.Close();
+                        }
+                    }
+
+                }
+
+                MessageBox.Show("Insert completed for MID: " + midDescr.Text);
+            }
+
+            textBox_NEWBIN.Enabled = true;
+            button11.Enabled = true;
+
+            listView_MIDs.Clear();
+            listView_MIDs.Columns.Add("MID");
+
+            listView1.Clear();
+            listView1.Columns.Add("Originator");
+            listView1.Columns.Add("Route");
+            listView1.Columns.Add("Instal-From");
+            listView1.Columns.Add("Instal-To");
+
+            label7.ForeColor = System.Drawing.Color.Black;
+            label7.Text = "FOR PROCESS";
+            label5.ForeColor = System.Drawing.Color.Black;
+            label5.ResetText();
+            label8.ForeColor = System.Drawing.Color.Black;
+            label8.Text = "READY";
+
+            return;
+        }
+
+        private void comboBox_InstalFr_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox cmb = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = cmb.SelectedIndex;
+            Object selectedItem = cmb.SelectedItem;
+            textBoxFr.Text = selectedItem.ToString();
+        }
+
+        private void comboBox_InstalTo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox cmb = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = cmb.SelectedIndex;
+            Object selectedItem = cmb.SelectedItem;
+            textBoxTo.Text = selectedItem.ToString();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (listView1.Items.Count > 0)
+                listView1.Items.RemoveAt(listView1.Items.Count - 1);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+         listView2.Clear();
+         listView2.Columns.Add("Bank");
+         listView2.Columns.Add("Load Balance");
+         listView2.Columns.Add("Totals By");
+         }
+
+        private void button8_Click_1(object sender, EventArgs e)
+        {
+            if ((comboBoxLD.Text.Equals("")) || (textBox_lbNbr.Text.Equals("")))
+           {
+                MessageBox.Show("Please choose Bank or Load Balance % ");
+                return;
+            }
+
+        if(radioButton_Amnt.Checked == true)
+        {
+            totals_CntAmnt = "T";
+        }
+        if (radioButton_Cnt.Checked == true)
+        {
+            totals_CntAmnt = "C";
+        }
+
+        if (!listView2.Items.Cast<ListViewItem>().Any(item => item.Text == comboBoxLD.Text))
+            {
+                MessageBox.Show("Chosen bank is already added in list!");
+            } 
+        else
+        {
+            listView2.Items.Add(new ListViewItem(new string[] { comboBoxLD.Text, textBox_lbNbr.Text, totals_CntAmnt }));
+        }
+             // Add to listView so to keep track of what it is done
+            //listView2.Items.Add(new ListViewItem(new string[] { comboBoxLD.Text, comboBoxPrcntge.Text, totals_CntAmnt }));
+        //listView2.Items.Add(new ListViewItem(new string[] { comboBoxLD.Text, textBox_lbNbr.Text, totals_CntAmnt }));
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Array.Clear(loadBalArr, 5, 3);
+            //int i = 0;
+
+            foreach (ListViewItem itemMID2 in listView_MIDs.Items)
+            {
+              midDescr.Text = itemMID2.SubItems[0].Text.ToString();
+              int i = 0;
+               foreach (ListViewItem item in listView2.Items)
+                {
+                    string tmpLD_Descr = item.SubItems[0].Text.ToString();
+                    switch (tmpLD_Descr)
+                    {
+                        case "PIRAEUS":
+                            loadBalArr[i, 0] = "NET_ABC";
+                            break;
+                        case "ETHNIKI":
+                            loadBalArr[i, 0] = "NET_NTBN";
+                            break;
+                        case "ALPHABANK":
+                            loadBalArr[i, 0] = "NET_CLBICALPHA";
+                            break;
+                        case "EUROBANK":
+                            loadBalArr[i, 0] = "NET_CLBICEBNK";
+                            break;
+                        case "ATTIKA":
+                            loadBalArr[i, 0] = "NET_ATTIKA";
+                            break;
+                    }
+
+                    loadBalArr[i, 1] = item.SubItems[1].Text.ToString();
+                    loadBalArr[i, 2] = item.SubItems[2].Text.ToString();
+                    i++;
+                }
+
+                OdbcCommand comLdBal_Del = conn.CreateCommand();
+                OdbcCommand comLdBal_Cursor = conn.CreateCommand();
+
+                // Delete LB from LoadBal file so to insert new selections
+                comLdBal_Del.CommandText = "delete dbo.LOADBALANCE_test where balancegroup in (select 'M'+tid from dbo.MERCHANTS_test where mid = ?)";
+                comLdBal_Del.Parameters.Add("mid", OdbcType.Char).Value = midDescr.Text;
+                OdbcDataReader readerCursor5 = comLdBal_Del.ExecuteReader();
+                readerCursor5.Close();
+
+                string ldBl0_0 = loadBalArr[0, 0].ToString();
+                string ldBl0_1 = loadBalArr[0, 1].ToString();
+                string ldBl0_2 = loadBalArr[0, 2].ToString();
+                string ldBl1_0 = loadBalArr[1, 0].ToString();
+                string ldBl1_1 = loadBalArr[1, 1].ToString();
+                string ldBl1_2 = loadBalArr[1, 2].ToString();
+                string ldBl2_0 = loadBalArr[2, 0].ToString();
+                string ldBl2_1 = loadBalArr[2, 1].ToString();
+                string ldBl2_2 = loadBalArr[2, 2].ToString();
+                string ldBl3_0 = loadBalArr[3, 0].ToString();
+                string ldBl3_1 = loadBalArr[3, 1].ToString();
+                string ldBl3_2 = loadBalArr[3, 2].ToString();
+                string ldBl4_0 = loadBalArr[4, 0].ToString();
+                string ldBl4_1 = loadBalArr[4, 1].ToString();
+                string ldBl4_2 = loadBalArr[4, 2].ToString();
+
+
+                comLdBal_Cursor.CommandText =
+                                        "drop TABLE [zacrpt_test].[dbo].[tmp_LB]; " +
+                                        "CREATE TABLE [zacrpt_test].[dbo].[tmp_LB] " +
+                                        "(ID int IDENTITY(1,1) PRIMARY KEY, TID nvarchar(16)); " +
+                                        "declare @NumberRecords int, @RowCount int " +
+                                        "declare @TID varchar(16) " +
+                                        "declare @BALGROUP varchar(16) " +
+                                            "Insert into [zacrpt_test].[dbo].[tmp_LB](tid) " +
+                                              "Select distinct('M'+TID) FROM dbo.MERCHANTS_test WHERE mid = ? " +
+                                        "set @NumberRecords = (select count(*) from [zacrpt_test].[dbo].[tmp_LB]) " +
+                                        "set @RowCount = 1 " +
+                                        "While @RowCount <= @NumberRecords " +
+                                            "Begin " +
+                                                "select distinct @tid=tid " +
+                                                "from [zacrpt_test].[dbo].[tmp_LB] " +
+                                                "where id = @RowCount " +
+                                                  "set @BALGROUP = @tid " +
+                                                  " INSERT INTO [zacrpt_test].[dbo].[LOADBALANCE_test] (BALANCEGROUP, DESTPORT, LOADTYPE, LOADVALUE) " +
+                                                  " VALUES (@BALGROUP, '" +
+                                                   ldBl0_0 + "' , '" + ldBl0_2 + "','" + ldBl0_1 + "') " +
+                                                  " INSERT INTO [zacrpt_test].[dbo].[LOADBALANCE_test] (BALANCEGROUP, DESTPORT, LOADTYPE, LOADVALUE) " +
+                                                  " VALUES (@BALGROUP, '" +
+                                                    ldBl1_0 + "','" + ldBl1_2 + "','" + ldBl1_1 + "') " +
+                                                  " INSERT INTO [zacrpt_test].[dbo].[LOADBALANCE_test] (BALANCEGROUP, DESTPORT, LOADTYPE, LOADVALUE) " +
+                                                  " VALUES (@BALGROUP, '" +
+                                                   ldBl2_0 + "','" + ldBl2_2 + "','" + ldBl2_1 + "') " +
+                                                  " INSERT INTO [zacrpt_test].[dbo].[LOADBALANCE_test] (BALANCEGROUP, DESTPORT, LOADTYPE, LOADVALUE) " +
+                                                  " VALUES (@BALGROUP, '" +
+                                                    ldBl3_0 + "','" + ldBl3_2 + "','" + ldBl3_1 + "') " +
+                                                  " INSERT INTO [zacrpt_test].[dbo].[LOADBALANCE_test] (BALANCEGROUP, DESTPORT, LOADTYPE, LOADVALUE) " +
+                                                  " VALUES (@BALGROUP, '" +
+                                                    ldBl4_0 + "','" + ldBl4_2 + "','" + ldBl4_1 + "') " +
+                                                  "set @rowcount = @rowcount + 1  " +
+                                                  "end";
+
+                comLdBal_Cursor.Parameters.Add("mid", OdbcType.Char).Value = midDescr.Text;
+                comLdBal_Cursor.Connection = conn;
+                OdbcDataReader readerCursor6 = comLdBal_Cursor.ExecuteReader();
+                comLdBal_Cursor.Dispose();
+                readerCursor6.Close();
+
+                MessageBox.Show("Load Balance Completed for MID: " + midDescr.Text);
+            }
+            listView2.Clear();
+            listView2.Columns.Add("Bank");
+            listView2.Columns.Add("Load Balance");
+            listView2.Columns.Add("Totals By");
+
+            return;
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in listView_MIDs.Items)
+            {
+                int countCHK_1 = 0;
+                int countCHK_6 = 0;
+                int countCHK_202 = 0;
+                int countCHK_205 = 0;
+                int countCHK_7 = 0;
+
+                // Check records in backup file and original the same
+                OdbcCommand comCount_1 = new OdbcCommand("select count(*) from MERCHANTS_test where mid = ? and tid not in " +
+                                                          "(select tid from MERCHANTS_test where mid = ? and uploadhostid = 1)", conn);
+                comCount_1.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                comCount_1.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                countCHK_1 = Convert.ToInt32(comCount_1.ExecuteScalar());
+                if (countCHK_1 > 0)
+                {
+                    textBoxABC.BackColor = System.Drawing.Color.Red;
+                    textBoxABC.Text = countCHK_1.ToString();
+                }
+                else
+                {
+                    textBoxABC.Text = countCHK_1.ToString();
+                }
+
+
+                OdbcCommand comCount_6 = new OdbcCommand("select count(*) from MERCHANTS_test where mid = ? and tid not in " +
+                                                           "(select tid from MERCHANTS_test where mid = ? and uploadhostid = 6)", conn);
+                comCount_6.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                comCount_6.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                countCHK_6 = Convert.ToInt32(comCount_6.ExecuteScalar());
+                if (countCHK_6 > 0)
+                {
+                    textBoxNTBN.BackColor = System.Drawing.Color.Red;
+                    textBoxNTBN.Text = countCHK_6.ToString();
+                }
+                else
+                {
+                    textBoxNTBN.Text = countCHK_6.ToString();
+                }
+
+
+                OdbcCommand comCount_202 = new OdbcCommand("select count(*) from MERCHANTS_test where mid = ? and tid not in " +
+                                               "(select tid from MERCHANTS_test where mid = ? and uploadhostid = 202)", conn);
+                comCount_202.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                comCount_202.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                countCHK_202 = Convert.ToInt32(comCount_202.ExecuteScalar());
+
+                if (countCHK_202 > 0)
+                {
+                    textBoxALPHA.BackColor = System.Drawing.Color.Red;
+                    textBoxALPHA.Text = countCHK_202.ToString();
+                }
+                else
+                {
+                    textBoxALPHA.Text = countCHK_202.ToString();
+                }
+
+
+                OdbcCommand comCount_205 = new OdbcCommand("select count(*) from MERCHANTS_test where mid = ? and tid not in " +
+                                               "(select tid from MERCHANTS_test where mid = ? and uploadhostid = 205)", conn);
+                comCount_205.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                comCount_205.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                countCHK_205 = Convert.ToInt32(comCount_205.ExecuteScalar());
+                if (countCHK_205 > 0)
+                {
+                    textBoxEBNK.BackColor = System.Drawing.Color.Red;
+                    textBoxEBNK.Text = countCHK_205.ToString();
+                }
+                else
+                {
+                    textBoxEBNK.Text = countCHK_205.ToString();
+                }
+
+                OdbcCommand comCount_7 = new OdbcCommand("select count(*) from MERCHANTS_test where mid = ? and tid not in " +
+                                               "(select tid from MERCHANTS_test where mid = ? and uploadhostid = 7)", conn);
+                comCount_7.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                comCount_7.Parameters.Add("@mid", OdbcType.VarChar, 16).Value = item.SubItems[0].Text.ToString();
+                countCHK_7 = Convert.ToInt32(comCount_7.ExecuteScalar());
+                if (countCHK_7 > 0)
+                {
+                    textBoxEBNK.BackColor = System.Drawing.Color.Red;
+                    textBoxEBNK.Text = countCHK_7.ToString();
+                }
+                else
+                {
+                    textBoxEBNK.Text = countCHK_205.ToString();
+                }
+
+                if (countCHK_1 > 0 || countCHK_6 > 0 || countCHK_202 > 0 || countCHK_205 > 0 || countCHK_7 > 0)
+                {
+                    MessageBox.Show("If bank is not Kouvas it's ok. Otherwise call Support Dept");
+                }
+            }
+        }   
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            listView_MIDs.Clear();
+            listView_MIDs.Columns.Add("MID");
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            OdbcCommand comdBin_Chk = conn.CreateCommand();
+            listBoxOrigin.Items.Add(textBox_NEWBIN.Text);
+            MessageBox.Show("New bin added");
+            
+            //Check for New BIN connection with Bank
+            comdBin_Chk.CommandText = "select DESTPORT, BINLOWER "+
+                                      "from MERCHBINS_test " +
+                                      "where TID = '1111    '  and binlower = ?";
+            comdBin_Chk.Parameters.Add("@binlower", OdbcType.VarChar, 22).Value = textBox_NEWBIN.Text;
+            OdbcDataReader readerBIN = comdBin_Chk.ExecuteReader();
+            while(readerBIN.Read())
+            {
+                 listView_BINChk.Items.Add(new ListViewItem(new string[] {readerBIN["DESTPORT"].ToString(), readerBIN["BINLOWER"].ToString()}));
+            }
+            readerBIN.Close();
+            textBox_NEWBIN.Clear();
+            listView_BINChk.Visible = true;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (textBox_MultMid.Text.Length > 0 && !listView_MIDs.Items.Cast<ListViewItem>().Any(item=>item.Text ==textBox_MultMid.Text))
+            {
+                char[] separator = { '\n', '\r', ' ' };
+                String[] word = textBox_MultMid.Text.Split(separator);
+                for (int i = 0; i < word.Length; i++)
+                    if (!String.IsNullOrEmpty(word[i]) && !listView_MIDs.Items.Cast<ListViewItem>().Any(item => item.Text == word[i]))
+                        listView_MIDs.Items.Add(word[i]);
+            }
+            textBox_MultMid.Text = "";
+        }
+
+
+    }
+}

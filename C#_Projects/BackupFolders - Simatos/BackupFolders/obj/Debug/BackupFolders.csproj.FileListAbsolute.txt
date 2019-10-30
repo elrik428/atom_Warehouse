@@ -1,0 +1,5 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Debug\BackupFolders.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Debug\BackupFolders.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\bin\Debug\BackupFolders.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\obj\Debug\BackupFolders.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\BackupFolders\BackupFolders\obj\Debug\BackupFolders.pdb

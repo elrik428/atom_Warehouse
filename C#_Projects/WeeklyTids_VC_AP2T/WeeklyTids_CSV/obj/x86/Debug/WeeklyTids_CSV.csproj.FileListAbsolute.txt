@@ -1,0 +1,18 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_CSV - Copy\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.pdb
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe.config
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.exe
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.pdb
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.pdb
+\\grat1-dev-ap2t\d$\Reporting\WeeklyTids_VC\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe.config
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\bin\x86\Debug\WeeklyTids_CSV.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\WeeklyTids_VC_AP2T\WeeklyTids_CSV\obj\x86\Debug\WeeklyTids_CSV.csprojResolveAssemblyReference.cache

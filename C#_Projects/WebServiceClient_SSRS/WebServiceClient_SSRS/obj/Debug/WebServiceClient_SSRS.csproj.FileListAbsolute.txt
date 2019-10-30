@@ -1,0 +1,6 @@
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\bin\Debug\WebServiceClient_SSRS.exe.config
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\bin\Debug\WebServiceClient_SSRS.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\bin\Debug\WebServiceClient_SSRS.pdb
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\obj\Debug\WebServiceClient_SSRS.csprojResolveAssemblyReference.cache
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\obj\Debug\WebServiceClient_SSRS.exe
+c:\users\lnestoras\documents\visual studio 2013\Projects\WebServiceClient_SSRS\WebServiceClient_SSRS\obj\Debug\WebServiceClient_SSRS.pdb

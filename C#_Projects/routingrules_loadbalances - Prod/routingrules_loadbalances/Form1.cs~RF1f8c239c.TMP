@@ -1,0 +1,216 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.Odbc;
+//using System.Windows.Controls;
+using System.Data.SqlClient;
+
+
+namespace routingrules_loadbalances
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            textBoxHidden_Route.Visible = false;   
+            conn = new OdbcConnection("DSN=" + ConnectionString);
+                         
+            try
+            {
+                conn.Open();
+            }
+            catch
+            {
+                MessageBox.Show("Cannot connect to ODBC " + ConnectionString);
+                exit = true;
+                // return;
+            }
+
+            if (exit == true)
+            return;
+
+            InitializeComponent();
+
+            //comboMID
+            OdbcCommand comboFillMids = new OdbcCommand(
+               "SELECT [MID] FROM [ZACRPT_Test].[dbo].[MERCHANTS] " +
+                "where mid like '00%' group by [MID]", conn);
+            OdbcDataReader reader = comboFillMids.ExecuteReader();
+            while (reader.Read())
+            {
+                string word = reader.GetString(0);
+
+                this.comboGroup.Items.Add(word);
+
+            }
+            reader.Close();
+
+            //comboBnkRoute
+            OdbcCommand comboFillBnks = new OdbcCommand(
+                 "SELECT [BANKDEscr] FROM [dbo].[ROUTEBANK] where uploadhostid <> ' '",
+                 conn);
+            OdbcDataReader reader2 = comboFillBnks.ExecuteReader();
+            while (reader2.Read())
+            {
+                string BankRout = reader2.GetString(0);
+
+                this.comboBnkRoute.Items.Add(BankRout);
+
+            }
+            reader2.Close();
+
+            // List Box Originator
+            OdbcCommand listBoxOrigin = new OdbcCommand(
+                 "SELECT [BANKDEscr] FROM [dbo].[ROUTEBANK]",
+                 conn);
+            OdbcDataReader reader3 = listBoxOrigin.ExecuteReader();
+            while (reader3.Read())
+            {
+                string originDescr = reader3.GetString(0);
+
+                this.listBoxOrigin.Items.Add(originDescr);
+
+            }
+            reader3.Close();
+
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)   {}
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int countMER = 0;
+            int countBUP = 0;
+            string seleMID;
+            seleMID = midDescr.Text;
+
+            // Delete from Backup file
+            OdbcCommand delRecsBup = new OdbcCommand("Delete from dbo.MERCHBINS_bu_ln", conn);
+            OdbcDataReader reader = delRecsBup.ExecuteReader();
+
+           // Inesrt to backup file
+           OdbcCommand comIns = new OdbcCommand(
+                 "insert into dbo.MERCHBINS_bu_ln (TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX)" +
+                 "(select TID, DESTPORT, BINLOWER, BINUPPER, INSTMIN, INSTMAX, GRACEMIN,GRACEMAX, ALLOWED, AMOUNTMIN, AMOUNTMAX from merchbins)", conn);
+           OdbcDataReader readerIns = comIns.ExecuteReader();
+
+            // Check records in backup file and original the same
+            OdbcCommand comCount_1 = new OdbcCommand("select count(*) from dbo.merchbins", conn);
+            countMER = Convert.ToInt32(comCount_1.ExecuteScalar());
+
+            OdbcCommand comCount_2 = new OdbcCommand("select count(*) from dbo.MERCHBINS_bu_ln", conn);
+            countBUP = Convert.ToInt32(comCount_2.ExecuteScalar());
+               
+          
+            if (countMER != countBUP)
+               MessageBox.Show("Backup records not equal with initial records");
+
+            label7.ForeColor = System.Drawing.Color.Red;
+            label7.Text = "DONE";
+
+            seleMID = midDescr.Text;
+        }
+
+
+        private void label4_Click(object sender, EventArgs e) {}
+
+
+        private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox cmb = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = cmb.SelectedIndex;
+            Object selectedItem = cmb.SelectedItem;
+
+            MessageBox.Show("Selected Item Text: " + selectedItem.ToString() + "\n" +
+                            "Index: " + selectedIndex.ToString());
+            midDescr.Text = selectedItem.ToString();
+            label8.ForeColor = System.Drawing.Color.Red;
+            label8.Text = "DONE";
+         }
+
+
+        private void midDescr_TextChanged(object sender, EventArgs e) {}
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SqlConnectionStringBuilder sqConTransact = new SqlConnectionStringBuilder();
+            sqConTransact.DataSource = @"grat1-dev-ap2t"; //Production
+
+            sqConTransact.IntegratedSecurity = true;
+            sqConTransact.InitialCatalog = "ZacReporting";
+            sqConTransact.ConnectTimeout = 0;
+
+            SqlConnection transactConn = new SqlConnection(sqConTransact.ConnectionString);
+            transactConn.Open();
+
+            SqlCommand delMIDrecs = new SqlCommand();
+            delMIDrecs.Connection = transactConn;
+            delMIDrecs.CommandTimeout = 0;
+            delMIDrecs.CommandText = "delete from dbo.merchbins where tid in (select tid from merchants where mid =" + comboGroup.SelectedItem + ")";
+            delMIDrecs.ExecuteNonQuery();
+
+            transactConn.Close();
+
+            Console.WriteLine("Records for selected MID deleted from DBO.MERCHBINS");
+            label5.ForeColor = System.Drawing.Color.Red;
+            label5.Text = "DONE";
+        }
+
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e) {}
+
+        private void Form1_Load(object sender, EventArgs e) {}
+
+        private void button8_Click(object sender, EventArgs e) {}
+
+        private void button4_Click(object sender, EventArgs e) 
+        {
+            //ListViewItem item1 = new ListViewItem("Originator", 0);
+            //item1.SubItems.Add(listBoxOrigin.SelectedItem.ToString());
+            //listView1.Items.Add(new ListViewItem(new string[] { listBoxOrigin.SelectedItem.ToString(),"1" }));
+            listView1.Items.Add(new ListViewItem(new string[] { listBoxOrigin.SelectedItem.ToString(), textBoxHidden_Route.Text}));
+        }
+
+        private void ntbnTo_ntbn_CheckedChanged(object sender, EventArgs e) {}
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //ListViewItem item1 = new ListViewItem("Originator", 0);
+            //item1.SubItems.Add("1");
+            //item1.SubItems.Add("2");
+            //item1.SubItems.Add("3");
+            //ListViewItem item2 = new ListViewItem("Route", 1);
+            //item2.SubItems.Add("1");
+            //item2.SubItems.Add("2");
+            //item2.SubItems.Add("3");
+            //listView1.Items.AddRange(new ListViewItem[] { item1, item2 });
+            
+        }
+
+        private void listBoxOrigin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          string cur_Item = listBoxOrigin.SelectedItem.ToString();
+        }
+
+        private void comboBnkRoute_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBnkRoute = (System.Windows.Forms.ComboBox)sender;
+            int selectedIndex = comboBnkRoute.SelectedIndex;
+            Object selectedItem = comboBnkRoute.SelectedItem;
+
+            //MessageBox.Show("Selected Item Text: " + selectedItem.ToString() + "\n" +
+            //                "Index: " + selectedIndex.ToString());
+            textBoxHidden_Route.Text = selectedItem.ToString();
+        }
+
+    }
+}

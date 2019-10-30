@@ -1,0 +1,6 @@
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\bin\Debug\TransactReportImport.exe
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\bin\Debug\TransactReportImport.pdb
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\obj\Debug\TransactReportImport.exe
+C:\Documents and Settings\ePOS_Support\Desktop\TransactReportImport\TransactReportImport\obj\Debug\TransactReportImport.pdb

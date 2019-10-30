@@ -1,0 +1,5 @@
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Import_csv_to_IMP_TRANSACT_D_OnDemand\bin\Release\Import_csv_to_IMP_TRANSACT_D.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Import_csv_to_IMP_TRANSACT_D_OnDemand\bin\Release\Import_csv_to_IMP_TRANSACT_D.pdb
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Import_csv_to_IMP_TRANSACT_D_OnDemand\obj\Release\Import_csv_to_IMP_TRANSACT_D.csprojResolveAssemblyReference.cache
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Import_csv_to_IMP_TRANSACT_D_OnDemand\obj\Release\Import_csv_to_IMP_TRANSACT_D.exe
+C:\Users\lnestoras\Documents\Visual Studio 2013\Projects\Import_csv_to_IMP_TRANSACT_D_OnDemand\obj\Release\Import_csv_to_IMP_TRANSACT_D.pdb
