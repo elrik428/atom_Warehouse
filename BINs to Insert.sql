@@ -35,5 +35,4 @@ insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,g
 insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460301971'  ,'460301999',0,99,0,99,'Y', 0, 999999999);
 insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460302001'  ,'460302015',0,99,0,99,'Y', 0, 999999999);
 insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460302017'  ,'460302999',0,99,0,99,'Y', 0, 999999999);
-insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460303001'  ,'460303216',0,99,0,99,'Y', 0, 999999999);
-insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460303217'  ,'460303219',0,99,0,99,'Y', 0, 999999999);
+insert into merchbins (tid,destport,binlower,binupper,instmin,instmax,gracemin,gracemax,allowed, AMOUNTMIN, AMOUNTMAX) values ('1111','NET_BICALPHA','460303001'  ,'460303219',0,99,0,99,'Y', 0, 999999999);
