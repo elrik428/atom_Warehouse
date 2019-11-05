@@ -114,7 +114,7 @@ update  dbo.IMP_TRANSACT_D_month set  [ISSUER_BANK_ID]=0 where [ISSUER_BANK_ID] 
 --Update ISSUING BANK
 print '--Update ISSUING BANK';
 update dbo.IMP_TRANSACT_D_month
-set ISSUING_BANK = (select substring(bank,1,50) from abc096.banks_old where  ISSUER_BANK_ID=abc096.banks_old.id)
+set ISSUING_BANK = (select substring(bank,1,50) from abc096.banks_Original where  ISSUER_BANK_ID=abc096.banks_Original.id)
 where [ISSUER_BANK_ID]<> 0  and  [ISSUER_BANK_ID] is not null
 ;
 -- END

@@ -4,7 +4,7 @@ ALTER TABLE [abc096].[IMP_TRANSACT_D_monthly]
 ALTER COLUMN btcode bigint;
 
 1. Upload TIDs / MIDs, if there are any
-2. Delete TIDs, if there are any
+2. Delete TIDs, if there are any in ZACREPORTING.abc096.tids
 2.i) Run SQLs for TID comparison between 10.7.17.11 & ZACREPORTING
 
 ZACRPT
