@@ -3,7 +3,9 @@
 DELETE FROM [ZacReporting].[abc096].[IMP_TRANSACT_D]
 
 INSERT INTO [ZacReporting].[abc096].[IMP_TRANSACT_D]
- SELECT * FROM [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly] WHERE MID='000000120002800'
+SELECT * FROM [ZacReporting].[abc096].[IMP_TRANSACT_D_monthly] WHERE MID='000000120002800'
+
+UPDATE [ZacReporting].[abc096].[IMP_TRANSACT_D] set DESTCOMID = NULL where DESTCOMID in ('',' ')
 
 --FFGROUP
 DELETE FROM [ZacReporting].[abc096].[IMP_TRANSACT_D]
