@@ -27,6 +27,9 @@ declare @date_chk#2 as varchar(50)
 -- Counter of days for PIR date
 declare @ebnkcnt as int
 
+-- Temp holiday counter
+declare @cnt_Holidays as numeric(2,0)
+
 
 -----  *    SCRIPTs
 
@@ -69,6 +72,11 @@ set @date_chk = DATENAME(DW,cast(year(@date_tmp) as varchar)+'/' + cast(month(@d
 END
 set @date_EBNK =  convert(nvarchar(MAX), @date_tmp, 112)
 
+SELECT @cnt_Holidays = count(*) 
+FROM [dbo].[BankHolidays]
+WHERE @date_EBNK = [Holiday]
+
+
 
 
 -- Print variables
@@ -104,18 +112,55 @@ INSERT INTO [dbo].[TRANSACT_INST]
            ,[UNQTRX_ID]
            ,[TRXTYPE_ID])
 select DTSTAMP,
-'0000xxxx',
+'20988085',
 'E0003000001',
 '20190101',
 '00000001',
-'123456xxxxxx7890',
+MASK,
 AMOUNT,
 @instnbr, 
 @instnbr_tmp,
 amount/@instnbr,
 '001',
-'VISA',
-'0001',
+(CASE SUBSTRING(MASK,1,2)
+WHEN '40' THEN 'VISA'
+WHEN '41' THEN 'VISA'
+WHEN '42' THEN 'VISA'
+WHEN '43' THEN 'VISA'
+WHEN '44' THEN 'VISA'
+WHEN '45' THEN 'VISA'
+WHEN '46' THEN 'VISA'
+WHEN '47' THEN 'VISA'
+WHEN '48' THEN 'VISA'
+WHEN '49' THEN 'VISA'
+WHEN '50' THEN 'MasterCard'
+WHEN '51' THEN 'MasterCard'
+WHEN '52' THEN 'MasterCard'
+WHEN '53' THEN 'MasterCard'
+WHEN '54' THEN 'MasterCard'
+WHEN '55' THEN 'MasterCard'
+WHEN '56' THEN 'MasterCard'
+WHEN '57' THEN 'MasterCard'
+WHEN '58' THEN 'MasterCard'
+WHEN '59' THEN 'MasterCard'
+WHEN '60' THEN 'Maestro'
+WHEN '61' THEN 'Maestro'
+WHEN '62' THEN 'Maestro'
+WHEN '63' THEN 'Maestro'
+WHEN '64' THEN 'Maestro'
+WHEN '65' THEN 'Maestro'
+WHEN '66' THEN 'Maestro'
+WHEN '67' THEN 'Maestro'
+WHEN '68' THEN 'Maestro'
+WHEN '69' THEN 'Maestro'
+WHEN '34' THEN 'AMEX'
+WHEN '37' THEN 'AMEX'
+WHEN '30' THEN 'Diners'
+WHEN '36' THEN 'Diners'
+WHEN '38' THEN 'Diners'
+ELSE 'UNKNOWN TYPE'
+END),
+AUTHCODE,
 ORIGINATOR
 from abc096.IMP_TRANSACT_D_tempLN
 
