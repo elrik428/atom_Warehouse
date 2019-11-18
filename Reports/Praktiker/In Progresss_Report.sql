@@ -76,7 +76,7 @@ SELECT @cnt_Holidays = count(*)
 FROM [dbo].[BankHolidays]
 WHERE @date_EBNK = [Holiday]
 
-
+-- test
 
 
 -- Print variables
